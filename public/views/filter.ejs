@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>BMSTU Student Portal</title>
+    <!-- Bootstrap core CSS-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+
+    <!-- Custom fonts for this template-->
+    <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- Page level plugin CSS-->
+
+    <!-- Custom styles for this template-->
+    <link href="/css/sb-admin.css" rel="stylesheet">
+    <link href="/css/filter.css" rel="stylesheet">
+
+</head>
+
+<body class="fixed-nav sticky-footer" id="page-top">
+    <% include navbar %>
+        <div class="content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-9">
+                        <div class="card">
+                            <div class="card-header">
+                                People
+                            </div>
+                            <div class='p-1'>
+                                <i class="fa fa-search ml-3"></i>
+                                <input type="text" class="pl-1 pt-1 pb-1" id="inputSearch1" style="border: 0px;width:90%;outline: none;" placeholder="Type any name or word">
+                            </div>
+                            <ul class="list-group list-group-flush" id="listResult">
+                            </ul>
+
+                        </div>
+                        <p class='p-2 text-center text-muted' id="noResult">No result</p>
+
+                    </div>
+                    <div class="col-3">
+                        <!-- <div>
+                            <ul class="list-group" id="ulChoice">
+                                <li class="list-group-item active" id="liPeople" data-index=0>People</li>
+                                <li class="list-group-item" id="liLocation" data-index=1>Location</li>
+                            </ul>
+                        </div>
+                        </br> -->
+                        <!-- <div> -->
+                            <ul class="list-group  list-group-flush">
+                                <!-- <li class="list-group-item"></li> -->
+                                <li class="list-group-item">
+                                    <div class="dropdown show">
+                                        <a class="btn dropdown-toggle my-btn-secondary" id="dropdownMenuLinkDep" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <%=__('FACULTY')%>
+                                        </a>
+                                        <ul class="dropdown-menu scrollable-menu" role="menu" id="ddDepartment" aria-labelledby="dropdownMenuLinkDep">
+                                            <li class="dropdown-item"><%=__('FACULTY')%></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="dropdown show">
+                                        <button class="btn dropdown-toggle my-btn-secondary" id="dropdownMenuLinkChair" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="true">
+                                            <%=__('CHAIR')%>
+                                        </button>
+                                        <ul class="dropdown-menu scrollable-menu" role="menu" id="ddChair" aria-labelledby="dropdownMenuLinkChair">
+                                            <li class="dropdown-item"><%=__('CHAIR')%></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="dropdown show">
+                                        <button class="btn dropdown-toggle my-btn-secondary" id="dropdownMenuLinkLang" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="true">
+                                            <%=__('LANGUAGES')%>
+                                        </button>
+                                        <ul class="dropdown-menu scrollable-menu" role="menu" id="ddLanguage" aria-labelledby="dropdownMenuLinkLang">
+                                            <li class="dropdown-item"><%=__('LANGUAGES')%> </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="dropdown show">
+                                        <button class="btn dropdown-toggle my-btn-secondary" id="dropdownMenuLinkGender" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="true">
+                                            <%=__('GENDER')%>
+                                        </button>
+                                        <ul class="dropdown-menu scrollable-menu" role="menu" id="ddGender" aria-labelledby="dropdownMenuLinkGender">
+                                            <li class="dropdown-item"> <%=__('GENDER')%></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="dropdown show">
+                                        <button class="btn dropdown-toggle my-btn-secondary" id="dropdownMenuLinkCountry" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="true">
+                                            <%=__('COUNTRY')%>
+                                        </button>
+                                        <ul class="dropdown-menu scrollable-menu" role="menu" id="ddCountry" aria-labelledby="dropdownMenuLinkCountry">
+                                            <li class="dropdown-item"> <%=__('COUNTRY')%></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        <!-- </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-primary d-none" data-toggle="modal" data-target="#blockModal">
+            
+          </button>
+          
+          <!-- Modal -->
+          <div class="modal fade" id="blockModal" tabindex="-1" role="dialog" aria-labelledby="blockModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="blockModal">Blocking user</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                Are you sure to block this user?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                  <button type="button" class="btn btn-danger" onclick="block();">Block</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <script src="/vendor/jquery/jquery.min.js"></script>
+        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <script src="/js/sb-admin.min.js"></script>
+
+        <script>
+            var departments = []
+            var languages = []
+            var chairs = {}
+            var countries = []
+
+            var selected_department = 0,
+                selected_lang = 0,
+                selected_chair = 0,
+                selected_gender = 0,
+                selected_country = 0;
+
+            var keys = {}
+            var lang = "<%=lang%>";
+            var is_admin =  '<%=is_admin%>' == 'true'
+            var u = []
+            var i = -1
+            var btn_id = undefined
+
+            $(() => {
+                $("#noResult").hide();
+                $.get(`/api/dep/${lang}`)
+                    .done((response) => {
+                        if (response.statusCode == 200) {
+                            console.log(response)
+                            departments = response.response
+                            $.each(departments, (i, val) => {
+                                $('#ddDepartment')
+                                    .append(`<li class="dropdown-item">${val.code}</li>`)
+                            })
+                        }
+                    })
+
+                $.get(`/languages/${lang}`)
+                    .done((response) => {
+                        if (response.statusCode == 200) {
+                            languages = response.response
+                            $.each(languages, (i, val) => {
+                                $('#ddLanguage').append(
+                                    `<li class="dropdown-item">${val.name}</li>`)
+                            })
+                        }
+                    })
+                $.get(`/gender/${lang}`)
+                    .done((response) => {
+                        if (response.statusCode == 200) {
+                            genders = response.response
+                            $.each(genders, (i, val) => {
+                                $('#ddGender').append(`<li class="dropdown-item">${val.name}</li>`)
+                            })
+                        }
+                    })
+                $.get(`/country/${lang}`)
+                    .done((response) => {
+                        if (response.statusCode == 200) {
+                            countries = response.response
+                            $.each(countries, (i, val) => {
+                                $('#ddCountry').append(`<li class="dropdown-item">${val.name}</li>`)
+                            })
+                        }
+                    })
+            });
+
+            var limit = 10;
+            var skip = 0;
+            $("#inputSearch1").keypress(function (e) {
+                if (e.which == 13) {
+                    $("#listResult").empty();
+                    skip = 0;
+                    var query = $("#inputSearch1").val()
+                    setKeys()
+                    var users = getUsers(query, skip, limit, keys);
+                }
+            })
+
+            $(window).scroll(function () {
+                if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+                    var query = $("#inputSearch1").val()
+                    if (!isEmpty(query) || selected_department != 0 || selected_lang != 0 || selected_chair !=
+                        0 || selected_gender != 0 || selected_country != 0) {
+                        skip = skip + limit;
+                        setKeys()
+                        getUsers(query, skip, limit, keys);
+                    }
+                }
+            });
+            var preId = '#liPeople';
+            $("#ulChoice li").click((event) => {
+                $(`#${event.target.id}`).addClass('active');
+                $(preId).removeClass('active');
+                preId = `#${event.target.id}`;
+            })
+            $(document).on('click', "ul#ddDepartment > li", function () {
+                var index = $(this).index() - 1;
+                var query = $("#inputSearch1").val()
+                if (index != -1) {
+                    $("#dropdownMenuLinkDep").html(departments[index].name);
+                    selected_department = departments[index]['_id']
+                    setKeys()
+                    getUsers(query, skip, limit, keys);
+                    getChairs(selected_department);
+                } else {
+                    $("#dropdownMenuLinkDep").html(' department');
+                    selected_department = 0;
+                }
+                $("#listResult").empty();
+                skip = 0
+            })
+
+            $(document).on('click', "ul#ddLanguage > li", function () {
+                var index = $(this).index() - 1;
+                var query = $("#inputSearch1").val()
+                if (index != -1) {
+                    $("#dropdownMenuLinkLang").html(languages[index].name);
+                    selected_lang = languages[index]['_id']
+                    setKeys()
+                    getUsers(query, skip, limit, keys);
+                } else {
+                    $("#dropdownMenuLinkLang").html(' language');
+                    selected_lang = 0;
+                }
+                $("#listResult").empty();
+                skip = 0
+            })
+            $(document).on('click', "ul#ddChair > li", function () {
+                var index = $(this).index() - 1;
+                var query = $("#inputSearch1").val()
+                if (index != -1) {
+                    $("#dropdownMenuLinkChair").html(chairs[selected_department][index].name);
+                    selected_chair = chairs[selected_department][index]['_id']
+                    setKeys()
+                    getUsers(query, skip, limit, keys);
+                } else {
+                    $("#dropdownMenuLinkChair").html(' chair');
+                    selected_chair = 0;
+                }
+                $("#listResult").empty();
+                skip = 0
+            })
+            $(document).on('click', "ul#ddGender > li", function () {
+                var index = $(this).index() - 1;
+                var query = $("#inputSearch1").val()
+
+                if (index != -1) {
+                    $("#dropdownMenuLinkGender").html(genders[index].name);
+                    selected_gender = genders[index]['_id']
+                    setKeys()
+                    getUsers(query, skip, limit, keys);
+                } else {
+                    $("#dropdownMenuLinkGender").html(' gender');
+                    selected_gender = 0;
+                }
+
+                $("#listResult").empty();
+                skip = 0
+            })
+            $(document).on('click', "ul#ddCountry > li", function () {
+                var index = $(this).index() - 1;
+                var query = $("#inputSearch1").val()
+
+                if (index != -1) {
+                    $("#dropdownMenuLinkCountry").html(countries[index].name);
+                    selected_country = countries[index]['_id']
+                    setKeys()
+                    getUsers(query, skip, limit, keys);
+                } else {
+                    $("#dropdownMenuLinkCountry").html(' country');
+                    selected_country = 0;
+                }
+                $("#listResult").empty();
+                skip = 0
+            })
+
+            $(document).on('click', 'ul li button[id^="block_"]', function (e) {
+                i = $(this).attr('data')
+                btn_id = e.target.id
+                $('#blockModal').modal('show')
+           })
+
+            $(document).on('click', 'ul li button[id^="unblock_"]', function (e) {
+                i = $(this).attr('data')
+                btn_id = e.target.id
+                block_user(u[i]['_id'], false, ()=>{
+                    $(`#${btn_id}`).html("Block")
+                    $(`#${btn_id}`).removeClass('btn-danger')
+                    $(`#${btn_id}`).addClass('btn-outline-danger')
+                    $(`#${btn_id}`).attr('id', `block_${i}`)
+                })
+            })
+
+            function setKeys() {
+                keys["dep"] = selected_department
+                keys["lang"] = selected_lang
+                keys["chair"] = selected_chair
+                keys["gender"] = selected_gender
+                keys["country"] = selected_country
+            }
+
+            function getUsers(q, s, l, keys) {
+                $("#noResult").hide();
+                var str = ""
+
+                if ('dep' in keys && keys['dep'] != 0)
+                    str = `d=${keys['dep']}&`
+                if ('lang' in keys && keys['lang'] != 0)
+                    str += `ulang=${keys['lang']}&`
+                if ('chair' in keys && keys['chair'] != 0)
+                    str += `c=${keys['chair']}&`
+                if ('gender' in keys && keys['gender'] != 0)
+                    str += `g=${keys['gender']}&`
+                if ('country' in keys && keys['country'] != 0)
+                    str += `cn=${keys['country']}`
+                url = `/u?q=${q}&l=${l}&s=${s}&${str}`
+                console.log(url)
+                $.get(url).done((r) => {
+                    console.log(r)
+                    if (r.statusCode == 200) {
+                        if (r.response.length == 0) {
+                            $("#noResult").show()
+                        } else {
+                            var addition = ''
+                            u = r.response
+                            console.log(u)
+                            $.each(r.response, (index, val) => {
+                                var dep = ""
+                                if ('department' in val && val.department != undefined) {
+                                    dep = val.department.name;
+                                }
+                                if(is_admin){
+                                    if('blocked' in val && val.blocked){
+                                        addition = `<button class="btn btn-danger" data='${index}' id='unblock_${index}'>Unblock</button>`
+                                    }else{
+                                        addition = `<button class="btn btn-outline-danger" data='${index}' id='block_${index}'>Block</button>`
+                                    }
+                                }
+                                $("#listResult")
+                                    .append(
+                                        `<li class="list-group-item">
+                                            <img class="circle-profile" src="/images/user.png">
+                                            <div class="float-left ml-2">
+                                                <a href="/user/${val["_id"]}/<%=lang%>">${val.firstname} ${val.lastname}</a>
+                                                <div> ${dep}</div>
+                                            </div>
+                                            <div class="float-right">
+                                                ${addition}
+                                                <button class="btn btn-outline-primary">Message</button>
+                                            
+                                            </div>
+                                    </li>`
+                                    )
+                            })
+                        }
+                    }
+                })
+            
+            }
+
+            function getChairs(department_id) {
+                $('#ddChair ul li:not(:first)').empty();
+                if (department_id in chairs) {
+                    chair_list = chairs[department_id];
+                    setChairs(chair_list);
+                } else {
+                    $.get(`/api/chair/department/${department_id}/${lang}`)
+                        .done((response) => {
+                            if (response.statusCode == 200) {
+                                console.log(response)
+                                chair_list = response.response
+                                setChairs(chair_list);
+                                chairs[department_id] = chair_list
+                            }
+                        });
+                }
+            }
+
+            function setChairs(chairs) {
+                // $('#ddChair').append('<li class="dropdown-item"> language</li>');
+                $.each(chairs, (i, val) => {
+                    $('#ddChair').append(`<li class="dropdown-item">${val.name}</li>`);
+                })
+            }
+            function block_user(u_id, val, callback){
+                var m = { blocked : val} 
+                $.post(`/b/${u_id}`, m)
+                .done((r) => {
+                    if(r.statusCode==201){
+                        callback()
+                        console.log(r)
+
+                    }
+                })
+                
+            }
+            function block(){
+                block_user(u[i]['_id'], true, ()=>{
+                    $(`#${btn_id}`).html("Unblock")
+                    $(`#${btn_id}`).removeClass('btn-outline-danger')
+                    $(`#${btn_id}`).addClass('btn-danger')
+                    $(`#${btn_id}`).attr('id', `unblock_${i}`)
+                    $("#blockModal").modal('hide')
+                })
+            }
+
+            function increase_skip() {
+                skip = skip + limit
+            }
+
+            function setUsers(array) {
+                //console.log(array)
+            }
+
+            function isEmpty(str) {
+                return (!str || 0 === str.length);
+            }
+        </script>
+</body>
+</html>

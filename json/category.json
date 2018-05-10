@@ -1,0 +1,122 @@
+[
+	{
+		"_id": 1,
+		"name": "Room",
+		"translation":{
+			"language":"ru",
+			"name": "Аудитория"
+		}
+	},
+	{
+		"_id": 2,
+		"name": "Chair",
+		"translation": {
+			"language":"ru",
+			"name": "Кафедра"
+		}
+	},
+	{
+		"_id": 3,
+		"name": "Faculty",
+		"translation": {
+			"language":"ru",
+			"name": "Факультет"
+		}
+	},
+	{
+		"_id": 4,
+		"name": "Dean",
+		"translation": {
+			"language":"ru",
+			"name": "Деканат"
+		}
+	},
+	{
+		"_id": 5,
+		"name": "Canteen",
+		"translation": {
+			"language":"ru",
+			"name": "Столовая"
+		}
+	},
+	{
+		"_id": 6,
+		"name": "Buffet",
+		"translation": {
+			"language":"ru",
+			"name": "Буфет"
+		}
+	},
+	{
+		"_id": 7,
+		"name": "Library",
+		"translation": {
+			"language":"ru",
+			"name": "Библиотека"
+		}
+	},
+	{
+		"_id": 8,
+		"name": "Culture house",
+		"translation": {
+			"language":"ru",
+			"name": "Дом культуры"
+		}
+	},
+	{
+		"_id": 9,
+		"name": "Gate",
+		"translation": {
+			"language":"ru",
+			"name": "Выход"
+		}
+	},
+	{
+		"_id": 10,
+		"name": "Wardrobe",
+		"translation": {
+			"language":"ru",
+			"name": "Гардероб"
+		}
+	},
+	{
+		"_id": 11,
+		"name": "Toilet",
+		"translation": {
+			"language":"ru",
+			"name": "Туалет"
+		}
+	},
+	{
+		"_id": 12,
+		"name": "ATM",
+		"translation": {
+			"language":"ru",
+			"name": "АТМ"
+		}
+	},
+	{
+		"_id": 13,
+		"name": "Book storage",
+		"translation": {
+			"language":"ru",
+			"name": "Книжное хранилище"
+		}
+	},
+	{
+		"_id": 14,
+		"name": "Stair",
+		"translation": {
+			"language":"ru",
+			"name": "Лестница"
+		}
+	},
+	{
+		"_id": 15,
+		"name": "Lift",
+		"translation": {
+			"language":"ru",
+			"name": "Лифт"
+		}
+	}
+]

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>
+        <%= __('BMSTU_STUDENT_PORTAL')%>
+    </title>
+    <!-- Bootstrap core CSS-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+
+    <!-- Custom fonts for this template-->
+    <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- Page level plugin CSS-->
+    <link href="/css/friend.css" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/css/sb-admin.css" rel="stylesheet">
+
+</head>
+
+<body class="fixed-nav sticky-footer" id="page-top">
+    <% include navbar %>
+        <div class="content-wrapper">
+            <div class="container-fluid pl-4">
+
+                <div class="row" id="formReview">
+                    <form class="col-sm-9" id="formRating">
+                        <div class="form-group">
+                            <label for="selectType">Type</label>
+                            <select name="type" class="form-control custom-select" id="selectType">
+                                <option value="department">Department</option>
+                                <option value="chair">Chair</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="selectDepartment">Department</label>
+                            <select name="department" class="form-control custom-select" id="selectDepartment" required>
+                                <option selected value="">Choose...</option>
+                            </select>
+                        </div>
+                        <div id="chair" class="d-none">
+                            <div class="form-group">
+                                <label for="selectDepartment">Chair</label>
+                                <select name="chair" class="form-control  custom-select" id="selectChair" required>
+                                <option selected value="">Choose...</option>
+                                </select>
+                            </div>
+                            <div class="mt-2">
+                                Teachers
+                                <div id="rating-teachers" class="rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+
+                                Course
+                                <div id="rating-course" class="rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                            </div>
+
+                            <div class="mt-2">
+                                Facility
+                                <div id="rating-facility" class="rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                            </div>
+
+                            <div class="mt-2">
+                                Communication
+                                <div id="rating-communication" class="rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div id="department">
+                            Overal rating
+                            <div id="rating-overal" class="rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="exampleFormControlTextarea1">Comment</label>
+                            <textarea name="comment" class="form-control" id="exampleFormControlTextarea1" rows="5" type="text" value="" required></textarea>
+                        </div>
+   
+                        <a href="#" class="btn btn-outline-primary" id="btnSubmit">Submit</a>
+                    </form>
+                    <div class="d-none">
+                        <form id="form_department">
+                            <input name="stars" id="overal" type="number" min="1" required>
+                        </form>
+                        <form id="form_chair">
+                            <input name="communication" id="communication" type="number" value="0" min="1" required>
+                            <input name="teachers" id="teachers" type="number" value="0" min="1" required>
+                            <input name="facility" id="facility" type="number" value="0" min="1" required>
+                            <input name="course"  id="course"  type="number"value="0"  min="1"  required>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- <div class="snackbar" id="snackbarCreate">Saved! <span></span></div> -->
+                <div class="alert alert-info d-none" role="alert" id="alertReview">
+                    <strong>Your review submitted! </strong>Go check <a id="reviewLink">this</a>
+                  </div>
+            </div>
+        </div>
+        <script src="/vendor/jquery/jquery.min.js"></script>
+        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <script src="/js/sb-admin.min.js"></script>
+        <script src="/js/jquery-validate-min.js"></script>
+
+        <script src="/js/script.js"></script>
+        <script src="/js/api.js"></script>
+
+</body>
+
+<script>
+    var type = true //whether review is for department or chair
+    $(() => {
+        set_rating_hover("rating-overal")
+        set_rating_hover("rating-teachers")
+        set_rating_hover("rating-facility")
+        set_rating_hover("rating-communication")
+        set_rating_hover("rating-course")
+
+        get_department()
+
+        set_type_change()
+        set_department_change()
+
+        set_btn_handler()
+    })
+
+    function set_btn_handler() {
+        $("#btnSubmit").click(() => {
+            var form_stars;
+            if ($("#selectType :selected").index()==0){
+                form_stars = $("#form_department")
+            }else{
+                form_stars = $("#form_chair")
+            }
+            var form = $( "#formRating" );
+            form.validate();
+            form_stars.validate()
+            if(form_stars.valid() && form.valid())
+                send_review()
+            else
+                alert( "Fill all the fields!");
+        });
+    }
+
+    function send_review(){
+        items = $("#formRating").serializeArray()
+        payload = {}
+        $.each(items, (i, item) => {
+            payload[item['name']] = $.isNumeric(item['value']) ? parseInt(item['value']) : item[
+                'value']
+        })
+        payload.rating = {}
+        rating =  $(`#form_${payload.type}`).serializeArray()
+        $.each(rating, (i, item) => {
+            payload.rating[item['name']] = $.isNumeric(item['value']) ? parseInt(item['value']) : item[
+                'value']
+        })
+        payload.chair == "" ? delete payload.chair:delete payload.department      
+        $.post('/api/review',  {payload: JSON.stringify(payload)})
+        .done((r)=>{
+            if(r.statusCode == 201){
+                $("#formReview").addClass('d-none')
+                $("#alertReview a").attr('href', `/${payload.type}/${payload[payload.type]}`)
+                $("#alertReview").removeClass('d-none')
+            }
+        })
+    }
+
+    function set_rating_hover(id) {
+        $(`#${id}`).on("mouseenter", "i", function () {
+            idx = $(this).index() + 1;
+
+            for (var i = 1; i <= idx; i++)
+                $(`#${id} i:nth-child(${i})`).css('color', "#ffc107")
+
+            for (var j = idx + 1; j <= 5; j++) {
+                $(`#${id} i:nth-child(${j})`).css('color', "#aaa")
+            }
+            $(`#${id.split('-')[1]}`).val(idx)
+        });
+    }
+
+    function get_department() {
+        get_data('/api/dep/<%=lang%>', set_department, inform_error)
+    }
+
+    function set_department(items) {
+        $.each(items, (i, item) => {
+            $("#selectDepartment").append(`<option value="${item._id}">${item.code} | ${item.name}</option>`)
+        })
+        console.log(items[0]._id)
+        // get_chair(items[0]._id)
+    }
+
+    function set_department_change() {
+        $("#selectDepartment").change(() => {
+            var dep = $('#selectDepartment').find(":selected")
+            // console.log(dep.attr("id"))
+            if (!type)
+                get_chair(dep.attr("value"))
+        })
+    }
+
+    function set_chair(items) {
+        $("#selectChair").empty()
+        $("#selectChair").append( `<option value="">Choose ...</option>`);
+        $.each(items, (i, item) => {
+            $("#selectChair").append(
+                `<option value="${item._id}" class="title">${item.code} | ${item.name}</option>`)
+        })
+    }
+
+    function get_chair(id) {
+        get_data(`/api/chair/dep/${id}/<%=lang%>`, set_chair, inform_error)
+    }
+
+    function set_type_change() {
+        $("select#selectType")
+            .change(function () {
+                i = $(this).prop('selectedIndex')
+                if (i == 1) {
+                    $("#department").addClass('d-none')
+                    $("#chair").removeClass('d-none')
+                } else {
+                    $("#chair").addClass('d-none')
+                    $("#department").removeClass('d-none')
+                }
+                type = i == 0
+            })
+            .trigger("change");
+    }
+
+    function inform_error(e) {
+        console.log(e)
+    }
+</script>
+
+</html>

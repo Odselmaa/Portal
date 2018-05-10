@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title><%= __('BMSTU_STUDENT_PORTAL')%></title>
+    <!-- Bootstrap core CSS-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+
+    <!-- Custom fonts for this template-->
+    <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- Page level plugin CSS-->
+    <link href="/css/friend.css" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/css/sb-admin.css" rel="stylesheet">
+    <link href="/css/profile.css" rel="stylesheet">
+
+</head>
+
+<body class="fixed-nav sticky-footer" id="page-top">
+    <% include navbar %>
+
+
+        <div class="content-wrapper">
+            <div class="container-fluid">
+                <div class="alert alert-danger d-none" id="not_success" role="alert">
+                    This is a danger alert—check it out!
+                </div>
+                <div class="card">
+                    <div class="card-body" id="boxshadow" style="display: none">
+                        <div class='row'>
+                            <div class='col-4'>
+                                <h4 class="card-title" id="name"></h4>
+                                <h5 class="card-subtitle mb-2 text-muted" id="role"></h5>
+                                </br>
+                                <h5>
+                                    <a href="#" data-toggle="modal" data-target="#friendModal">Friends</a>
+                                    <span id="friends"></span>
+                                </h5>
+                                </br>
+                                <h5><%= __('PERSONAL_INFO')%></h5>
+                                <div id="gender"><%= __('GENDER')%>: </div>
+                                <div id="birthday"><%= __('BIRTHDAY')%>:</div>
+                                </br>
+
+                                <!-- <h5>Activity</h5>
+                        <div id="gender">Registered:</div>
+                        <div id="birthday">Last visited:</div> -->
+
+                            </div>
+                            <!-- <div class='col-1'></div> -->
+                            <div class='col-4'>
+                                <h5><%= __('CONTACTS')%></h5>
+                                <div id="contact">
+
+                                </div>
+                                </br>
+                                <h5><%= __('ACCOUNTS')%></h5>
+                                <div id="accounts">
+
+                                </div>
+                                </br>
+                                <h5><%= __('LANGUAGES')%></h5>
+                                <div id="languages">
+
+
+                                </div>
+                            </div>
+                            <div class='col-3'>
+                                <img id="profile-pic" src="/images/user.png"  class="center-cropped"/>
+                                <div class="alert alert-warning mt-1" role="alert" id="bio">
+                                </div>
+
+                                <%if (current_user_id != user_id) { %>
+                                    <div class="dropdown">
+                                        <button class="btn btn-outline-primary  btn-block dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false" id="btnFriendMode">
+                                            <%if (is_friend) { %>
+                                                <%= __('FRIENDS')%>
+                                                <% }else{ %>
+                                                    <%= __('ADD_FRIENDS')%>
+                                                    <% } %>
+
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <!-- <a class="dropdown-item" href="#">Add friend</a> -->
+                                            <%if (is_friend) { %>
+                                                <button class="dropdown-item" id="btnUnfriend"> <%= __('UNFRIEND')%></button>
+                                                <% }else{ %>
+                                                    <button class="dropdown-item" id="btnAddFriend"> <%= __('ADD_FRIENDS')%></button>
+                                                    <% } %>
+                                                        <button class="dropdown-item" data-toggle="modal" data-target="#reportModal"> <%= __('REPORT')%></buttona>
+                                                            <!-- <a class="dropdown-item" href="#">Something else here</a> -->
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-primary btn-block mt-1" data-toggle="modal" data-target="#msgModal">
+                                        Send message
+                                    </button>
+                                    <% } %>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="msgModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h6 class="modal-title" id="exampleModalLabel">New message</h6>
+                            <p class="modal-title text-right">
+                                <a href="#">Show the conversation</a>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </p>
+                        </div>
+                        <div class="modal-body">
+                            <textarea class="form-control" id="textAreaMsg" rows="3"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="btnSendMsg">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="snackbar" id="snackbarConv">Your message sent.
+                <a href="/chat">Open conversation</a>
+            </div>
+
+            <div class="snackbar" id="snackbarReport">Your report has been sent.
+            </div>
+
+            <div class="modal fade" id="friendModal" tabindex="-1" role="dialog" aria-labelledby="friendModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h6 class="modal-title" id="">Friend list</h6>
+                            <p class="modal-title text-right">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </p>
+                        </div>
+                        <div class="modal-body">
+                            <ul class="list-group borderless" id='friend-list'>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="reportModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h6 class="modal-title" id="">Please indicate the reason(s)</h6>
+                            <p class="modal-title text-right">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </p>
+                        </div>
+                        <div class="modal-body">
+                            <div class="modal-body">
+                                <textarea class="form-control" id="textAreaReport" rows="3"></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" id="btnSendReport">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="/vendor/jquery/jquery.min.js"></script>
+        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <script src="/js/sb-admin.min.js"></script>
+        <script src="/js/script.js"></script>
+        <script>
+            $(() => {
+                $.get('/u/<%=user_id%>/<%=lang%>', (response) => {
+                    if (response.statusCode == 200) {
+                        console.log(response)
+                        var info = response.response;
+
+                        var friend_count = 'friends' in info ? info.friends.length : 0
+                        //do something for successful response
+                        $("#name").html(info.firstname + " " + info.lastname);
+                        $("#role").html(info.role.name);
+                        $("#contact").html(info.email);
+                        $("#friends").html(friend_count);
+                        $("#bio").html(info.bio)
+                        console.log(info)
+           
+                        var languages = info.languages
+                        $.each(languages, (k, l) => {
+                            $("#languages").append(
+                                `<a href="/l/${l['_id']}">${l.name}</a></br>`);
+                        });
+
+                        var socials = info.socials
+                        $.each(socials, (key, social) => {
+                            $("#accounts").append(`<a href="${social}">${social}</a></br>`);
+                        });
+
+                        if ('department' in info && info.department!=undefined  && ('code' in info.department) && info.role._id != 1) 
+                            $("#role").append(
+                                ` of <a href="/department/${info.department.code}">${info.department.code}</a>`
+                            )
+                        
+
+                        if ('gender' in info && info.gender!=undefined)
+                            $("#gender").append(info.gender.name);
+
+
+                        if (!isEmpty(info.profile)) {
+                            $("#profile-pic").attr('src', info.profile);
+                        }
+                        var lang = "<%=lang%>"    
+                        var user_id = '<%=user_id%>'
+                        if (friend_count > 0) {
+                            get_friends(user_id, lang, (friends) => {
+
+                                $('#friend-list').empty()
+                                $.each(friends, function (index, item) {
+                                    var profile = '/images/user.png'
+                                    if (!isEmpty(item.profile))
+                                        profile = item.profile
+                                    var department = '';
+                                    if ('department' in item) {
+                                        department = item.department.code;
+                                    }
+                                    $('#friend-list').append(
+                                        `<li class="list-group-item">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <img class="media-object profile" src=${profile} alt="...">
+                                            </div>
+                                            <div class="media-body ml-2">
+                                                <a href="/user/${item['_id']}/<%=lang%>">${item.firstname} ${item.lastname}</a>           
+                                                <a href="/m/${item['_id']}"><i class="fa fa-comment text-secondary pull-right"></i></a>
+                                            </br>
+                                            ${department}
+
+                                                </div>
+                                            </div>
+                                                </li>
+                                            `
+                                    )
+                                })
+                            })
+                        }
+                        
+                        if(info.blocked)
+                            $("#name").append("<h5><span class='badge badge-danger'>blocked</span></h5></br>")
+
+                        $(".card-body").show();
+                        $(document).on('click', "#btnAddFriend", function () {
+                            console.log("btn clicked")
+                            $.post('/f/<%=user_id%>')
+                                .done(function (response) {
+                                    console.log(response)
+                                    if (response.statusCode == 201) {
+                                        $("#btnFriendMode").html('Friends')
+                                        $("#btnAddFriend").replaceWith(
+                                            '<button class="dropdown-item" id="btnUnfriend">Unfriend</button>'
+                                        )
+                                    } else if (response.statusCode == 200) {
+                                        $("#btnFriendMode").html('Friends')
+                                        $("#btnUnfriend").replaceWith(
+                                            '<button class="dropdown-item" id="btnAddFriend">Add friend</button>'
+                                        );
+                                    } else {
+                                        alert("Something wrong!");
+                                    }
+                                })
+                        })
+
+                        $(document).on('click', "#btnUnfriend", function () {
+                            console.log("unfriend btn clicked")
+                            $.ajax({
+                                url: '/f/<%=user_id%>',
+                                method: 'delete',
+                            }).done(function (response) {
+                                console.log(response);
+                                if (response.statusCode == 200) {
+                                    $("#btnFriendMode").html('Add friend')
+                                    $("#btnUnfriend").replaceWith(
+                                        '<button class="dropdown-item" id="btnAddFriend">Add friend</button>'
+                                    )
+                                } else {
+                                    alert("Something wrong!");
+                                }
+                            });
+                        })
+
+
+
+                    } else {
+                        $("#not_success").html(response.response)
+                        $("#not_success").removeClass('d-none')
+                        $("#not_success").removeClass('d-block')
+
+                    }
+                    console.log(response);
+                })
+
+            })
+
+            $('#msgModal').on('shown.bs.modal', function () {
+                $('#textAreaMsg').focus()
+            })
+
+            $("#btnSendReport").click(() => {
+                var desc = $("#textAreaReport").val();
+                $.post('/r', {
+                        desc: desc,
+                        user_id: "<%=user_id%>"
+                    })
+                    .done((r) => {
+                        if (r.statusCode == 200) {
+                            $('#reportModal').modal('hide');
+
+                            showSnackbar("snackbarReport")
+
+                        } else {
+                            alert("Something went wrong, try again")
+                        }
+                    })
+            })
+
+            $("#btnSendMsg").click(() => {
+                var message = $("#textAreaMsg").val();
+                $.post('/messages', {
+                        body: message,
+                        user_receiver: "<%=user_id%>"
+                    })
+                    .done(function (response) {
+                        $('#msgModal').modal('hide');
+                        showSnackbar("snackbarConv")
+                    })
+            })
+
+            function isEmpty(str) {
+                return (!str || 0 === str.length);
+            }
+
+            //getting user's friend list
+        </script>
+</body>
+
+</html>

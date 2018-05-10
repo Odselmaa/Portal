@@ -1,0 +1,88 @@
+<!doctype html>
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1 class="display-4">
+                Send Message
+            </h1>
+            <%= sender.firstname %> and
+                <%= receiver.firstname %>
+                    </br>
+                    <input id="message" class="form-control" placeholder="Message">
+                    </br>
+                    <button class="btn btn-success" id="send">Send</button>
+        </div>
+        <div>
+            <ul class="list-group list-group-flush" id="messages">
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        $(() => {
+            var socket = io()
+            socket.emit("login", { user_sender: `<%= user_sender %>` });
+            socket.on("message", addMessage)
+
+
+            var body = { user_receiver: "<%= user_receiver%>" };
+            $.get(url = "/messages", body)
+                .done(function (response) {
+                    console.log(response)
+                    if (response.statusCode == 200) {
+                        showMessages(response.body)
+                    }
+                })
+            $("#send").click(function () {
+                var body = { "user_receiver": "<%= user_receiver %>", "body": $("#message").val() }
+                addMessage(body)
+                $.post(url = "/messages", body)
+                    .done(function (response) {
+                        console.log(response)
+                    })
+            })
+        })
+
+        function addMessage(message) {
+            console.log(message)
+            if (message['user_receiver'] == "<%= user_sender%>" ) {
+                addMyMsg(message.body)
+            } else {
+                addOthersMsg(message.body)
+            }
+        }
+
+        function showMessages(msgs) {
+            $.each(msgs, function (index, msg) {
+                var user_receiver = "<%= user_receiver %>";
+                console.log(msg.author + "and" + user_receiver)
+                // msg.user_receiver
+                if (msg.author== user_receiver) {
+                    addMyMsg(msg.body)
+                } else {
+                    addOthersMsg(msg.body)
+
+                }
+            })
+        }
+        function addMyMsg(msg){
+            $("#messages").append(`<li  class="list-group-item">${msg}</li>`)
+        }
+
+        function addOthersMsg(msg){
+            $("#messages").append(`<li  class="list-group-item text-right">${msg}</li>`)
+        }
+    </script>
+</body>

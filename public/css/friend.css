@@ -1,0 +1,29 @@
+.profile{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  padding: 3px;
+  /* border: 2px solid #e74c3c; */
+  float: left;
+  cursor: pointer;
+  -moz-transition: 0.3s border ease;
+  -o-transition: 0.3s border ease;
+  -webkit-transition: 0.3s border ease;
+  transition: 0.3s border ease;
+  object-fit: cover;
+}
+.profile.online {
+    border: 2px solid #2ecc71;
+}
+.profile.away {
+  border: 2px solid #f1c40f;
+}
+.profile.busy {
+  border: 2px solid #e74c3c;
+}
+.profile.offline {
+  border: 2px solid #95a5a6;
+}
+.media-body{
+  color: #666;
+}

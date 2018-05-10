@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>
+        <%= __('BMSTU_STUDENT_PORTAL')%>
+    </title>
+    <!-- Bootstrap core CSS-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <link href="/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template-->
+    <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- Page level plugin CSS-->
+    <link href="/css/friend.css" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/css/sb-admin.css" rel="stylesheet">
+    <link href="/css/profile.css" rel="stylesheet">
+
+</head>
+
+<body class="fixed-nav sticky-footer" id="page-top">
+    <% include navbar %>
+        <div class="content-wrapper">
+            <div class="container-fluid">
+                <div id="cardList"></div>
+            </div>
+        </div>
+
+        <script src="/vendor/jquery/jquery.min.js"></script>
+        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <script src="/js/sb-admin.min.js"></script>
+        <script src="/vendor/datatables/jquery.dataTables.js"></script>
+        <script src="/vendor/datatables/dataTables.bootstrap4.js"></script>
+        <script src="/js/script.js"></script>
+
+</body>
+<script>
+    // console.log("<%=news_tags%>")
+    $.get('/api/news?tags=<%=news_tags%>', (data) => {
+        if (data.statusCode == 200) {
+            if (data.response.length > 0)
+                addCards(data.response)
+            else
+                renderNoResult()
+
+        }
+        console.log(data)
+    })
+
+    function addCards(cards) {
+        $.each(cards, (i, card) => {
+            addCard(card)
+        })
+    }
+
+    function renderNoResult() {
+        $("#cardList").html(
+            `<div class="alert alert-secondary" role="alert">
+                 No results ... :(    You need to set tags in <b>News</b> section your profile <a href="/en/settings">settings</a>
+        </div>`
+        )
+
+    }
+
+    function addCard(card) {
+        var chips = ""
+        $.each(card.tags, (i, v) => {
+            chips += `<div class="chip-flat"><a href='#'>${v}</a></div>`
+        })
+        $("#cardList").append(
+            `
+        <div class="card mb-4">
+            
+            <div class="card-body">
+                    <div class="card-title">
+                <a href="/news/${card._id}"><h5 class="royal-blue">${card.title}</h5></a>
+            </div>
+                ${card.body}
+                <div class="mt-3" royal-blue> ${chips}</div>
+            </div>
+        </div>
+        `
+        )
+
+    }
+</script>
+
+</html>

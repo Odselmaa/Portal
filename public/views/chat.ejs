@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html class=''>
+
+<head>
+    <link rel="canonical" href="https://codepen.io/emilcarlsson/pen/ZOQZaV?limit=all&page=74&q=contact+" />
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300' rel='stylesheet' type='text/css'>
+
+    <script src="https://use.typekit.net/hoy3lrg.js"></script>
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css'>
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css'>
+    <style class="cp-pen-styles"></style>
+    <link href="/css/chat.css" rel="stylesheet" type="text/css">
+    <script src="socket.io/socket.io.js"></script>
+</head>
+
+<body>
+    <div id="frame">
+        <div id="sidepanel">
+            <div id="profile">
+                <div class="wrap">
+
+                    <img id="profile-img" <%if (user_sender.profile.length> 0) { %> src=
+                    <%=user_sender.profile%>
+
+                        <% } else {%>
+                            src="/images/user.png"
+
+                            <% }%>
+
+                                class="online" alt="" />
+                                <p>
+                                    <%=user_sender.firstname%>
+                                        <%=user_sender.lastname%>
+                                </p>
+                                <!-- <div id="status-options">
+                        <ul>
+                            <li id="status-online" class="active">
+                                <span class="status-circle"></span>
+                                <p>Online</p>
+                            </li>
+                            <li id="status-away">
+                                <span class="status-circle"></span>
+                                <p>Away</p>
+                            </li>
+                            <li id="status-busy">
+                                <span class="status-circle"></span>
+                                <p>Busy</p>
+                            </li>
+                            <li id="status-offline">
+                                <span class="status-circle"></span>
+                                <p>Offline</p>
+                            </li>
+                        </ul>
+                    </div> -->
+                </div>
+            </div>
+            <div id="search">
+                <label for="">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </label>
+                <input type="text" placeholder="<%= __('SEARCH_CONTACTS')%>..." />
+            </div>
+            <div id="contacts">
+                <ul id="contact-list">
+
+                </ul>
+            </div>
+            <!-- <div id="bottom-bar">
+                <button id="addcontact">
+                    <i class="fa fa-user-plus fa-fw" aria-hidden="true"></i>
+                    <span>Add contact</span>
+                </button>
+                <button id="settings">
+                    <i class="fa fa-cog fa-fw" aria-hidden="true"></i>
+                    <span>Settings</span>
+                </button>
+            </div> -->
+        </div>
+        <div class="content">
+            <div class="contact-profile">
+                <img src="/images/user.png" alt="" />
+                <p id="sender_username"></p>
+                <div class="social-media">
+                    <i class="fa fa-facebook" aria-hidden="true"></i>
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                    <i class="fa fa-instagram" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div class="messages">
+                <ul>
+                </ul>
+            </div>
+            <div class="message-input">
+                <div class="wrap">
+                    <input type="text" placeholder="<%= __('WRITE_YOUR_MSG')%>..." />
+                    <!-- <i class="fa fa-paperclip attachment" aria-hidden="true"></i> -->
+                    <button class="submit">
+                        <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script>
+    <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+    <script>
+        $("#profile-img").click(function () {
+            $("#status-options").toggleClass("active");
+        });
+
+        $(".expand-button").click(function () {
+            $("#profile").toggleClass("expanded");
+            $("#contacts").toggleClass("expanded");
+        });
+
+        $("#status-options ul li").click(function () {
+            $("#profile-img").removeClass();
+            $("#status-online").removeClass("active");
+            $("#status-away").removeClass("active");
+            $("#status-busy").removeClass("active");
+            $("#status-offline").removeClass("active");
+            $(this).addClass("active");
+
+            if ($("#status-online").hasClass("active")) {
+                $("#profile-img").addClass("online");
+            } else if ($("#status-away").hasClass("active")) {
+                $("#profile-img").addClass("away");
+            } else if ($("#status-busy").hasClass("active")) {
+                $("#profile-img").addClass("busy");
+            } else if ($("#status-offline").hasClass("active")) {
+                $("#profile-img").addClass("offline");
+            } else {
+                $("#profile-img").removeClass();
+            };
+
+            $("#status-options").removeClass("active");
+        });
+
+
+        var chat_array = []
+        var current_chat_index = 0;
+        $(() => {
+            var socket = io()
+            var chat_index = {}
+            socket.emit("login", {
+                user_sender: `<%= user_sender._id %>`
+            });
+            socket.on("message", receiveMessage)
+            socket.on('logged_in', userLogged)
+            socket.on('logged_out', userLoggedOut)
+            $.get('/conversations', {})
+                .done(function (response) {
+                    console.log(response)
+                    if (response.statusCode == 200) {
+                        chat_array = response.response
+                        var activeness = "active"
+                        $.each(chat_array, function (index, chat) {
+                            chat_index[chat["_id"]] = index
+                            addContact(chat.participants, activeness, index)
+                            if (index >= 0) {
+                                activeness = ""
+                            }
+                            if (index == 0) {
+                                getSetMessages(index)
+                            }
+                        })
+                    } else {
+                        alert("Something went wrong!")
+                    }
+                    setUserStatus()
+                })
+
+            $("ul").on("click", "li.contact", function () {
+                $(`#${current_chat_index}`).removeClass("active")
+                $(this).addClass("active")
+                current_chat_index = $(this).attr("id")
+                getSetMessages(current_chat_index)
+            });
+
+            $('.submit').click(function () {
+                addMessage()
+
+            });
+            //serverees irsen msg iig haruulah function
+            function receiveMessage(message) {
+                // console.log(message)
+                var chat_id = message.chat_id
+                var body = message.body
+                var chat = chat_array[chat_index[chat_id]]
+                var profile = chat["participants"]["profile"]
+                var username = chat["participants"]["firstname"]
+                newMessage(body, "sent", profile)
+                scrollDown()
+                setPreview(chat_index[chat_id], body, username)
+
+                if (!("msgs" in chat)) {
+                    getSetMessages(chat_index[chat_id])
+                    chat = chat_array[chat_index[chat_id]]
+                    console.log(chat)
+                    // console.log(chat)
+
+                }
+                chat["msgs"].push({
+                    author: message.user_sender,
+                    body: body
+                })
+
+            }
+        })
+        // ooriin bichsen msgiig haruulah function
+
+        $(window).on('keydown', function (e) {
+            if (e.which == 13) {
+                addMessage()
+                return false;
+            }
+        });
+
+        function addContact(participants, activeness, index) {
+            var chat_title = ""
+            var profile = "/images/user.png"
+            var ext = 'data:image/png;base64,'
+
+            chat_title += participants.firstname + " " + participants.lastname
+            if (!isEmpty(participants.profile)) {
+                profile = participants.profile
+            } else {
+                participants.profile = profile
+            }
+            var msg = ""
+            var username = ""
+            var body = ""
+            if ('last_msg' in chat_array[index]) {
+                msg = chat_array[index]['last_msg']
+                username = msg["author"] == "<%=user_sender._id%>" ? "You" : participants.firstname
+                body = `<span>${username}: </span>${ msg.body}`
+            }
+
+            $("#contact-list").append(
+                `
+                    <li class="contact ${activeness}" id=${index}>
+                        <div class="wrap">
+                            <span class="contact-status"></span>
+                            <img src=${profile} alt="" />
+                            <div class="meta">
+                                <p class="name">
+                                    ${chat_title}
+                                    </p>
+                                <p class="preview">${body}</p>
+                            </div>
+                        </div>
+                    </li>`
+            )
+
+        }
+
+        function addMessage() {
+            var body = $(".wrap input").val()
+            var sent_or_reply = "replies"
+            var profile = "<%= user_sender.profile %>"
+            newMessage(body, sent_or_reply, profile)
+            sendMessage()
+            $('.message-input input').val(null);
+            scrollDown()
+            setPreview(current_chat_index, body, "You")
+        }
+
+        function newMessage(message, sent_or_reply, profile) {
+            $(`<li class=${sent_or_reply}><img src="${profile}" alt="" /><p> ${message}</p></li>`).appendTo($(
+                '.messages ul'));
+
+            // $(".messages").scrollTop($(".messages")[0].scrollHeight);
+            // $(".messages").scrollTop()
+        };
+
+        function setPreview(index, message, username) {
+            $(`.contact#${index} p.preview`).html(`<span>${username}: </span>${message}`);
+
+        }
+
+        function sendMessage() {
+            var d = new Date();
+            var body = {
+                "user_receiver": chat_array[current_chat_index]["participants"]["_id"],
+                "body": $(".wrap input").val(),
+                "chat_id": chat_array[current_chat_index]["_id"],
+                "created": d.getTime()
+            }
+            // receiveMessage(body)
+            $.post(url = "/messages", body)
+                .done(function (response) {
+                    console.log(response)
+                })
+        }
+
+        function getSetMessages(index) {
+            var payload = {
+                chat_id: chat_array[index]["_id"]
+            };
+            if ("msgs" in chat_array[index]) {
+                setConversation(index)
+            } else {
+                $.get(url = "/messages", payload)
+                    .done(function (response) {
+                        if (response.statusCode == 200) {
+                            chat_array[index]["msgs"] = response.body
+                            setConversation(index)
+                        }
+                    })
+            }
+        };
+
+        function setUserStatus() {
+            var user_ids = []
+            $.each(chat_array, function (i, chat) {
+                user_ids.push(chat.participants["_id"])
+            })
+            $.get('/status', {
+                    user_ids: user_ids
+                })
+                .done(function (response) {
+                    var i = 0;
+                    $.each(response, function (key, status) {
+                        i = getChatIndexByUser(key)
+                        if (status == true) {
+                            $(`li#${i} .wrap span`).removeClass('offline')
+                            $(`li#${i} .wrap span`).addClass('online')
+                        } else {
+                            $(`li#${i} .wrap span`).removeClass('online')
+
+                            $(`li#${i} .wrap span`).addClass('offline')
+                        }
+                        i++;
+                    })
+                })
+        }
+
+        function setConversation(index) {
+            var chat = chat_array[index]
+            var msgs = chat["msgs"]
+            var sent_or_reply = "sent";
+            $('.messages ul').empty();
+            console.log(chat_array)
+            var profile;
+            $('.contact-profile img').attr('src', chat.participants.profile)
+            $('#sender_username').html(chat.participants.firstname + " " + chat.participants.lastname)
+
+            $.each(msgs, function (i, msg) {
+                if (msg["author"] != "<%=user_sender._id%>") {
+                    sent_or_reply = "sent"
+                    profile = chat.participants.profile
+
+                } else {
+                    sent_or_reply = "replies"
+                    profile = "<%=user_sender.profile%>"
+                }
+                newMessage(msg.body, sent_or_reply, profile)
+            })
+            scrollDown()
+            var msg = chat.msgs[chat.msgs.length - 1]
+            var username = msg["author"] == "<%=user_sender.id%>" ? "You" : chat.participants.firstname
+
+            setPreview(index, msg.body, username)
+
+        }
+
+        function scrollDown() {
+            $(".messages").animate({
+                scrollTop: $(".messages")[0].scrollHeight
+            }, "fast");
+
+        }
+
+        function isEmpty(str) {
+            return (!str || 0 === str.length);
+        }
+
+        function getChatIndexByUser(user_id) {
+            var index = 0;
+            $.each(chat_array, function (i, chat) {
+                if (chat.participants["_id"] == user_id) {
+                    index = i
+                    console.log("breaking" + index)
+                    return false
+                }
+            })
+            return index
+        }
+
+        //Hereglegchiin online, offline baigaa esehiig haruulah function
+        function userLogged(data) {
+            var index = getChatIndexByUser(data.user_id)
+            // console.log(data)
+            $(`li#${index} .wrap span`).removeClass('offline')
+            $(`li#${index} .wrap span`).addClass('online')
+
+            console.log("data")
+            console.log(data)
+
+        }
+
+        function userLoggedOut(data) {
+            var index = getChatIndexByUser(data.user_id)
+            $(`li#${index} .wrap span`).removeClass('online')
+            $(`li#${index} .wrap span`).addClass('offline')
+
+        }
+    </script>
+</body>
+
+</html>

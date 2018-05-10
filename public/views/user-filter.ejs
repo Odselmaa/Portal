@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>BMSTU Student Portal</title>
+        <!-- Bootstrap core CSS-->
+        <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Custom fonts for this template-->
+        <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <!-- Custom styles for this template-->
+        <link href="css/sb-admin.css" rel="stylesheet">
+      </head>
+      
+<body>
+  
+<div class='container fluid'>
+  <ul class="list-group" id='friend-list'>
+  </ul>
+  </div>
+  <script src="vendor/jquery/jquery.min.js"></script>
+
+  <script>
+    $(() => {
+      $.get('/friends', (data) => {
+        $('#friend-list').empty()
+        $.each(data.response, function (index, item) {
+          $('#friend-list').append(`<li class="list-group-item"><a href="#">${item.firstname}</a>            
+            <a href="/m/${item['_id']}"><i class="fa fa-comment text-secondary pull-right"></i></a></li>`)
+        })
+      })
+    })
+  </script>
+</body>
+
+</html>

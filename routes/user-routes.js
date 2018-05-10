@@ -1,0 +1,92 @@
+var body_parser = require("body-parser");
+
+var h = require('./helper.js')
+var u = require('../controllers/user-controller.js')
+var cache = require('./cache-provider.js')
+var connection = require('./connection.js')
+var i18n = require('../i18n.js')
+
+var router = connection.router
+
+router.use(i18n.i18n.init)
+router.use(body_parser.json())
+router.use(body_parser.urlencoded({
+  extended: false
+}))
+
+
+var friend_handler = function(req, res){
+  var lang = req.params.language == undefined ? 'en' : req.params.language
+  var current_user_id = req.session.user_id
+  req.setLocale(lang)
+  res.render('friend', {
+    lang: lang,
+    current_user_id: current_user_id,
+    i18n: res
+  })
+}
+var filter_handler = function(req, res){
+  var lang = req.params.language == undefined ? 'en' : req.params.language
+  var current_user_id = req.session.user_id
+  var user = req.session[current_user_id]
+  res.setLocale(lang)
+  res.render('filter', {
+    lang: lang,
+    current_user_id: current_user_id,
+    is_admin: user.role['name'] == 'admin',
+    i18n: res
+  })
+}
+var user_handler = function(req, res){
+  var user_id = req.params.user_id
+  if (user_id != undefined) {
+    var current_user_id = req.session.user_id
+    var lang = req.params.language == undefined ? 'en' : req.params.language
+    var friends = req.session[req.session.user_id].friends;
+    var is_friend = friends.includes(user_id)
+    req.setLocale(lang)
+    res.render('profile', {
+      lang: lang,
+      user_id: user_id,
+      current_user_id: current_user_id,
+      is_friend: is_friend,
+      i18n: res
+    })
+  } else {
+    res.render('404')
+  }
+}
+var setting_handler = function(req, res){
+  var lang = req.params.language == undefined ? 'en' : req.params.language
+  var user_id = req.session.user_id
+  var user = req.session[user_id]
+  req.setLocale(lang);
+  res.render("settings", {
+    lang: req.params.language,
+    current_user_id: user_id,
+    user: user,
+    i18n: res
+  })
+}
+
+//Routes for rendering pages
+router.get('/blocked', (req, res) => {
+  res.render('blocked')
+})
+router.get(['/friend', '/friend/:language(en|ru)'], h.logMiddleware, friend_handler);
+router.get(['/f/:user_id','/f/:user_id/:language(en|ru)'], h.logMiddleware, u.friends_api)
+router.get(['/settings','/settings/:language(en|ru)'], h.logMiddleware, setting_handler)
+router.get(['/filter', '/filter/:language(en|ru)'], h.logMiddleware, filter_handler);
+router.get(['/user/:user_id', '/user/:user_id/:language(en|ru)'], h.logMiddleware, user_handler)
+
+//API Specific user profile page route.
+router.get(['/u/:user_id', '/u/:user_id/:language(en|ru)'], h.detectAjax, h.logMiddleware, u.user_api)
+router.get(['/u','/u/:language(en|ru)'], h.logMiddleware, u.filter_users_api)
+router.get(['/allu','/allu/:language(en|ru)'], h.logMiddleware, u.last_user_api)
+router.post('/b/:user_id', h.logMiddleware, u.block_user_api)
+router.post('/f/:user_id2', h.logMiddleware, u.add_friend_api)
+router.delete('/f/:user_id2', h.logMiddleware, u.unfriend_api);
+router.put('/upload', u.upload_api);
+
+//exporting our routers
+module.exports = router;

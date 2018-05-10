@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>
+        <%= __('BMSTU_STUDENT_PORTAL')%>
+    </title>
+    <!-- Bootstrap core CSS-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <link href="/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template-->
+    <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- Page level plugin CSS-->
+    <link href="/css/friend.css" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/css/sb-admin.css" rel="stylesheet">
+    <link href="/css/profile.css" rel="stylesheet">
+    <link href="/css/bootstrap-tagsinput.css" rel="stylesheet">
+
+</head>
+
+<body class="fixed-nav sticky-footer" id="page-top">
+    <% include navbar %>
+        <div class="content-wrapper">
+            <div class="container-fluid">
+                <a class='btn btn-outline-primary ml-3 mb-3' href="/create/news">
+                    <i class="fa fa-pencil"></i>  <%= __('CREATE_NEWS')%></a>
+                <table class="table table-bordered" id="dataTableNews" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>
+                                <%= __('TITLE')%>
+                            </th>
+                            <th>
+                                <%= __('BODY')%>
+                            </th>
+                            <th>
+                                <%= __('TAGS')%>
+                            </th>
+                            <th>
+                                <%= __('DATE')%>
+                            </th>
+                            <th>
+                                <%= __('ACTION')%>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tableBodyReport">
+                    </tbody>
+                </table>
+
+                <button type="button" class="btn btn-primary d-none" data-toggle="modal" data-target="#editModal">
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document" style="max-width: 800px;">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel"><%= __('EDIT')%></h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="form-group">
+                                        <label for="inputTitle"><%= __('TITLE')%></label>
+                                        <input type="text" class="form-control" id="inputTitle" placeholder="Enter title">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputBody"><%= __('BODT')%></label>
+                                        <textarea class="form-control" id="inputBody" rows="3" placeholder="Enter body"></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputTag"><%= __('TAGS')%></label>
+                                        <div>
+                                            <input type="text" class="form-control" id="inputTag" data-role="tagsinput" placeholder="Enter tags">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal"><%= __('CLOSE')%></button>
+                                <button type="button" class="btn btn-primary" id='btnSave'><%= __('SAVE_CHANGES')%></button>
+                            </div>
+                        </div>
+                        <div class="snackbar" id="snackbarUpdate"><%= __('UPDATED')%></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="/vendor/jquery/jquery.min.js"></script>
+        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <script src="/js/sb-admin.min.js"></script>
+        <script src="/vendor/datatables/jquery.dataTables.js"></script>
+        <script src="/vendor/datatables/dataTables.bootstrap4.js"></script>
+        <script src="/js/script.js"></script>
+        <script src="/js/bootstrap-tagsinput.js"></script>
+</body>
+<script>
+    var news = []
+    var index = -1
+    
+    $(() => {
+        $.get('/api/news', (response) => {
+            if (response.statusCode == 200) {
+                setDataTable(response.response)
+                news = response.response
+                console.log(response)
+            } else {
+                alert("Something went wrong!")
+                console.log(response)
+            }
+        })
+
+    })
+
+    $(document).on('click', "#btnEdit", editNews)
+    $(document).on('click', "#btnDelete", deleteNews)
+    $('#btnSave').click(saveNews)
+    $('#inputTag').keyup(handleInput)
+
+    function setDataTable(data) {
+        $('#dataTableNews').DataTable({
+            data: data,
+            columnDefs: [{
+                targets: 1,
+                render: function (data, type, row, meta) {
+                    if(row["body"].length < 100)
+                        return row["body"];
+                    else 
+                        return `${row["body"].slice(0, 200)}...`;
+                }
+            }, {
+                targets: 0,
+                render: function (data, type, row, meta) {
+                    return row["title"];
+                }
+            }, {
+                targets: 3,
+                render: function (data, type, row, meta) {
+                    return new Date(1000 * row["created_when"]);
+                }
+            }, {
+                targets: 2,
+                render: function (data, type, row, meta) {
+                    return row["tags"];
+                }
+            }, {
+                targets: 4,
+                render: function (data, type, row, meta) {
+                    return `<button class='btn btn-outline-primary' id='btnEdit' data="${meta.row}"><i class="fa fa-pencil"></i></button>
+                    <button class='btn btn-outline-danger' id='btnDelete'><i class="fa fa-trash"></i></button>`
+                }
+            }]
+        })
+
+    }
+
+    function editNews(e) {
+        index = parseInt($(e.target).attr('data'))
+        n = news[index]
+
+        $('#editModal').modal('show')
+
+        $("#inputTitle").empty()
+        $("#inputBody").empty()
+        $("#chips").empty()
+
+        $("#inputTitle").val(n['title'])
+        $("#inputBody").text(n['body'])
+        $("#inputTag").tagsinput('removeAll');
+        $.each(n.tags, (i, tag) => {
+            addChip(tag)
+        })
+        console.log(n)
+    }
+
+    function handleInput(e) {
+        if (e.which == 13) {
+            tag = $("#inputTag").val()
+            if (tag.length > 0) {
+                addChip(tag)
+                $("#inputTag").val('')
+            }
+        }
+    }
+
+    function addChip(tag) {
+        $("#inputTag").tagsinput('add', tag)
+
+    }
+
+    function deleteNews(e) {
+        index = $("table td button#btnDelete").index($(e.target))
+        console.log(index)
+    }
+
+    function saveNews() {
+        if (index >= 0) {
+            title = $("#inputTitle").val()
+            body = $("#inputBody").text()
+    
+            var tags = []
+            var childs = $("div#chips").children('div')
+            $.each(childs, (i, node) => {
+                var tag = $(node).attr('data')
+                tags.push(tag)
+            })
+            n = news[index]
+            n.title = title
+            n.body = body
+            n.tags = tags
+            data = JSON.stringify({
+                title: title,
+                body: body,
+                tags: tags,
+                _id: n._id
+            })
+            $.ajax({
+                url: '/api/news',
+                type: 'PUT',
+                data: {
+                    'data': data
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.statusCode == 200) {
+                        console.log(data)
+                        // news[index] = n
+                        // var table = $('#dataTableNews').DataTable();
+                        // table.ajax.reload()
+                        showSnackbar('snackbarUpdate')
+
+                    } else
+                        alert("Something went wrong!")
+                }
+            })
+        }
+    }
+</script>
+
+</html>

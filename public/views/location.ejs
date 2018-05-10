@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title><%= __('BMSTU_STUDENT_PORTAL')%></title>
+    <!-- Bootstrap core CSS-->
+    <!-- <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet"> -->
+    <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+
+    <!-- Custom fonts for this template-->
+    <!-- Page level plugin CSS-->
+    <link href="/css/friend.css" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/css/sb-admin.css" rel="stylesheet">
+    <link href="/css/location.css" rel="stylesheet">
+
+</head>
+
+<body class="fixed-nav sticky-footer" id="page-top">
+    <% include navbar_no_menu %>
+    <div id="info"  class="mt-5" style="position:fixed;display:none">
+        <div class="card  card-1  mb-3" style="max-width: 18rem;">
+            <div class="card-header" ><span id="header">Header</span>
+                <i class="fa fa-times text-muted float-right" style="line-height: 1.5em"></i>
+            </div>
+            <div class="card-body">
+              <!-- <h5 class="card-title">Primary card title</h5> -->
+              <p class="card-text">Here will be description.</p>
+            </div>
+          </div>
+    </div>
+        <!-- <div class="col-md-1">
+                <ul class="list-group">
+
+                    <li class="list-group-item active" id="1">1</li>
+                    <li class="list-group-item" id="2">2</li>
+
+                    <li class="list-group-item" id="3">3</li>
+
+                    <li class="list-group-item" id="4">4</li>
+                    <li class="list-group-item" id="5">5</li>
+                    <li class="list-group-item" id="6">6</li>
+                    <li class="list-group-item" id="7">7</li>
+                    <li class="list-group-item" id="8">8</li>
+                    <li class="list-group-item" id="9">9</li>
+                    <li class="list-group-item" id="10">10</li>
+                    <li class="list-group-item" id="11">11</li>
+
+                </ul>
+            </div> -->
+        <div class='container mt-2'>
+            <div class="row">
+                <!-- <div class="col-md-2">dd</div> -->
+                <div class="col-md-12">
+                    <div class='row'>
+                        <div class="col-md-4">
+
+                            <div class="input-group mb-3">
+                                <input type="text" name="room" id="room" class="form-control" placeholder="<%= __('ENTER_ROOM_NUM')%>..." aria-label="" aria-describedby="basic-addon1">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" id="search" type="button"><%= __('SEARCH')%></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+
+                            <button type="button" class="btn btn-default btn-circle bg-stair" onclick="show('stair');">
+                                <img src="/images/stairs.svg">
+                            </button>
+
+                            <button type="button" class="btn btn-default btn-circle bg-lift" onclick="show('lift');">
+                                <img src="/images/elevator.svg">
+                            </button>
+
+                            <button type="button" class="btn btn-default btn-circle bg-wardrobe" onclick="show('cloak');">
+                                <img src="/images/clothes-hanger.svg">
+                            </button>
+                            
+                            <button type="button" class="btn btn-default btn-circle bg-toilet" onclick="show('toilet');">
+                                <img src="/images/wc.svg">
+                                                        </button>
+                            <button type="button" class="btn btn-default btn-circle bg-canteen" onclick="show('canteen');">
+                                <img src="/images/spoon_fork.svg">
+
+                            </button>
+                            <button type="button" class="btn btn-default btn-circle bg-gate" onclick="show('gate');">
+                                <img src="/images/exit.svg">
+                            </button>
+
+                            </button>
+
+                            <!-- </br> -->
+                            <!-- <div> -->
+                            <!-- <input type="text" name="room" id="room">
+                    <button type="button" id="search">Search</button> -->
+                        </div>
+
+                    </div>
+                    <!-- <br> -->
+                    <!-- </div> -->
+                    <div>
+                        <div id="maps">
+                            <div id="map1">
+                            </div>
+                            <div id="map2" style="display:none">
+                            </div>
+                            <div id="map3" style="display:none">
+                            </div>
+                            <div id="map4" style="display:none">
+                            </div>
+                            <div id="map5" style="display:none">
+                            </div>
+                            <div id="map6" style="display:none">
+                            </div>
+                            <div id="map7" style="display:none">
+                            </div>
+                            <div id="map8" style="display:none">
+                            </div>
+                            <div id="map9" style="display:none">
+                            </div>
+                            <div id="map10" style="display:none">
+                            </div>
+                            <div id="map11" style="display:none">
+                            </div>
+                            <i class='fa fa-map-marker fa-2x red' id="marker" style="display:none;position:absolute;color:#d32f2f"></i>
+                        </div>
+  
+                        <div class="row control">
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-default btn-circle" id="zoomout">
+                                    <i class="fa fa-search-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-default btn-circle" id="zoomin">
+                                    <i class="fa fa-search-plus"></i>
+                                </button>
+                                <button type="button" class="btn btn-default btn-circle" id="up">
+                                    <i class="fa fa-caret-up"></i>
+                                </button>
+                                <button type="button" class="btn btn-default btn-circle" id="down">
+                                    <i class="fa fa-caret-down"></i>
+                                </button>
+                                <button type="button" class="btn btn-default btn-circle" id="right">
+                                    <i class="fa fa-caret-right"></i>
+                                </button>
+                                <button type="button" class="btn btn-default btn-circle" id="left">
+                                    <i class="fa fa-caret-left"></i>
+                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="list-inline float-right">
+                                    <!-- <span class="b"><%= __('E')%>таж</span> -->
+                                    <li class="list-inline-item active">
+                                        <span>1</span>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <span>2</span>
+                                    </li>
+
+                                    <li class="list-inline-item">
+                                        <span>3</span>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <span>4</span>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <span>5</span>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <span>6</span>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <span>7</span>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <span>8</span>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <span>9</span>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <span>10</span>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <span>11</span>
+                                    </li>
+
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row footer-list">
+                        <div class="col-md-4">
+                            <ul>
+                                <li>
+                                    <a href="#" onclick="showPlace(5, 'iu7');"><%= __('IU')%>7</a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="showPlace(9, 'e2');"><%= __('E')%>2 <%= __('ON')%> 9<%= __('TH')%>  <%= __('FLOOR')%></a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="showPlace(10, 'e2_10');"><%= __('E')%>2 <%= __('ON')%> 10<%= __('TH')%> <%= __('FLOOR')%></a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="showPlace(7, 'e3');"><%= __('E')%>3 <%= __('ON')%> 7<%= __('TH')%> <%= __('FLOOR')%></a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="showPlace(8, 'e3_8');"><%= __('E')%>3 <%= __('ON')%> 8<%= __('TH')%> <%= __('FLOOR')%></a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="showPlace(4, 'e6_4');"><%= __('E')%>6 <%= __('ON')%> 4<%= __('TH')%> <%= __('FLOOR')%></a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="showPlace(5, 'e6');"><%= __('E')%>6 <%= __('ON')%> 5<%= __('TH')%> <%= __('FLOOR')%></a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="showPlace(6, 'e8');"><%= __('E')%>8</a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="showPlace(6, 'ru');"><%= __('CHAIR')%> "<%= __('RUSSIAN_LANG')%>"</a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="showPlace(7, 'deanSGN');"><%= __('DEAN')%> "<%= __('SGN')%>"</a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="showPlace(7, 'sgn1_3');"><%= __('SGN')%>1,<%= __('SGN')%>2,<%= __('SGN')%>3</a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="showPlace(7, 'sgn4');"><%= __('SGN')%>4</a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="showPlace(8, 'deanFN');"><%= __('DEAN')%> "<%= __('FN')%>"</a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="showPlace(9, 'fn1');"><%= __('FN')%>1</a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="showPlace(10, 'fn2');"><%= __('FN')%>2</a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="showPlace(8, 'fn3');"><%= __('FN')%>3</a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="showPlace(9, 'fn11');"><%= __('FN')%>11</a>
+                                </li>
+
+
+                                <li>
+                                    <a href="#" onclick="showPlace(10, 'fn12');"><%= __('FN')%>12</a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="showPlace(10, 'rl1');"><%= __('RL')%>1</a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="showPlace(4, 'lang');"><%= __('FACULTY')%> <%= __('LINGUISTIC')%></a>
+                                </li>
+
+                            </ul>
+                        </div>
+
+                        <div class="col-md-4">
+                            <ul>
+                                <li>
+                                    <a href="#" onclick="showPlace(3, 'canteen3');"><%= __('CANTEEN')%> <%= __('ON')%> 3-<%= __('RD')%> <%= __('FLOOR')%></a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="showPlace(2, 'canteen2');"><%= __('CANTEEN')%> <%= __('ON')%> 2<%= __('ND')%> <%= __('FLOOR')%></a>
+                                </li>
+
+                                <li>
+                                    <a href="#" onclick="showPlace(1, 'buffet');"><%= __('BUFFET')%> <%= __('ON')%> 1<%= __('ST')%> <%= __('FLOOR')%></a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="showPlace(2, 'buffet2');"><%= __('BUFFET')%> <%= __('ON')%> 2<%= __('ND')%> <%= __('FLOOR')%></a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="showPlace(5, '539');"><%= __('BUFFET')%> <%= __('ON')%> 5<%= __('TH')%> <%= __('FLOOR')%></a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="showPlace(6, '639');"><%= __('BUFFET')%> <%= __('ON')%> 6<%= __('TH')%> <%= __('FLOOR')%></a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="showPlace(9, '939');"><%= __('BUFFET')%> <%= __('ON')%> 9<%= __('TH')%> <%= __('FLOOR')%></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <ul>
+                                <li>
+                                    <a href="#" onclick="showPlace(3, '305');"><%= __('LIBRARY')%></a>
+                                </li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            var canteen_txt = "<%= __('CANTEEN')%>"
+            var library_txt = "<%= __('LIBRARY')%>"
+            var culture_txt = "<%= __('CULTURE_HOUSE')%>"
+            var book_txt = "<%= __('BOOK_STORAGE')%>"
+            var wardrobe_txt = "<%= __('WARDROBE')%>"
+            var chair_txt = "<%= __('CHAIR')%>"
+            var faculty_txt = "<%= __('FACULTY')%>"
+            var buffet_txt = "<%= __('BUFFET')%>"
+            var male = "<%= __('MALE')%>"
+            var female = "<%= __('FEMALE')%>"
+        </script>
+        <!-- <div id="map3" class="third_floor"> -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+        <script src="/js/raphael-min.js"></script>
+        <script src="/js/floor/conf.js"></script>
+
+        <script src="/js/floor/5th_floor.js"></script>
+        <script  src="/js/floor/1st_floor.js"></script>
+        <script  src="/js/floor/2nd_floor.js"></script>
+        <script  src="/js/floor/3rd_floor.js"></script>
+        <script  src="/js/floor/4th_floor.js"></script>
+        <script  src="/js/floor/6th_floor.js"></script>
+        <script  src="/js/floor/7th_floor.js"></script>
+        <script  src="/js/floor/8th_floor.js"></script>
+        <script  src="/js/floor/9th_floor.js"></script>
+        <script  src="/js/floor/10th_floor.js"></script>
+        <script  src="/js/floor/11th_floor.js"></script>
+
+        <script type="text/javascript">
+            var previous_color;
+            var previous_id;
+            var current_floor = 1;
+            var current_paper = paper1;
+            var floors = [paper1, paper2, paper3, paper4, paper5, paper6, paper7, paper8, paper9, paper10, paper11]
+            var shown_places = { "toilet": false, "stair": false, "cloak": false, "lift": false }
+            $(document).ready(function () {
+                $("#search").click(function () {
+                    var room_num = $('#room').val();
+                    var floor_number = parseInt(room_num.substring(0, 1));
+                    toggleFloor(floor_number);
+                    showLocation(room_num);
+                });
+                
+            });
+            $(document).ready(function () {
+
+                var count = $("div#maps div").length;
+                // $( "div#maps:first-child" ).css( "visibility", "visible" )
+                // console.log(count)
+                for (i = 1; i < count-1; i++) {
+                    if (i > 1) {
+                        $(`div#maps div:nth-child(${i})`).hide()
+                    }
+                }
+                // alert("<%= __('BMSTU_STUDENT_PORTAL')%>")
+
+            })
+            
+            // $(`*[id*="canteen"]`).each(function (i, el) {
+            //         el.setAttribute("fill", color);
+            // });
+
+
+            $("ul li.list-inline-item").click(function () {
+                var index = $(this).index() + 1;
+                console.log(index);
+                toggleFloor(index)
+
+                // current_floor = index;
+                // var floor = parseInt($(this).attr('id'));
+                showFloor(index);
+            })
+
+            var currentX = 0;
+            var currentY = 0;
+            var currentS1 = parseFloat(current_paper['_viewBox'][2]);
+            var currentS2 = parseFloat(current_paper['_viewBox'][3]);
+
+            var scale = 50;
+
+            $("#right").on("click", function () {
+                currentX = currentX - scale;
+                current_paper.setViewBox(currentX, currentY, currentS1, currentS2, true);
+            });
+
+            $("#left").on("click", function () {
+                currentX = currentX + scale;
+                current_paper.setViewBox(currentX, currentY, currentS1, currentS2, true);
+            });
+
+            $("#down").on("click", function () {
+                currentY = currentY - scale;
+                current_paper.setViewBox(currentX, currentY, currentS1, currentS2, true);
+            });
+
+            $("#up").on("click", function () {
+                currentY = currentY + scale;
+                current_paper.setViewBox(currentX, currentY, currentS1, currentS2, true);
+
+            });
+
+            $("#zoomout").on("click", function () {
+                currentS2 = currentS2 + currentS2 * scale / currentS1;
+
+                currentS1 = currentS1 + scale;
+
+                current_paper.setViewBox(currentX, currentY, currentS1, currentS2, true);
+            })
+            $("#zoomin").on("click", function () {
+                currentS2 = currentS2 - currentS2 * scale / currentS1;
+
+                currentS1 = currentS1 - scale;
+                // currentS2 = currentS2 + 10;
+
+                current_paper.setViewBox(currentX, currentY, currentS1, currentS2, true);
+            })
+
+
+
+            function show(name) {
+                // deleteMarker();
+                hideOthers()
+                var map_width = parseFloat($("#maps").width())
+
+                var ratio = map_width / currentS1;
+                setColor(name, colors[name]);
+                shown_places[name] = true;
+            }
+
+            function deleteMarker() {
+                $("#marker").hide()
+                $(".marker").remove()
+            }
+
+            function hideOthers() {
+                $.each(shown_places, (k, v) => {
+                    if (v) {
+                        setColor(k, fill_room);
+                    }
+                })
+
+            }
+            function setColor(name, color) {
+                $(`#map${current_floor} *[id*="${name}"]`).each(function (i, el) {
+                    el.setAttribute("fill", color);
+                });
+            }
+            function toggleFloor(index) {
+                deleteMarker();
+                $(`ul li.list-inline-item:nth-child(${current_floor})`).removeClass('active');
+                $(`ul li.list-inline-item:nth-child(${index})`).addClass('active');
+
+            }
+
+            function showLocation(room_num) {
+                var floor_number = room_num.substring(0, room_num.length - 2);
+                showFloor(floor_number);
+                if (room_num != 0) {
+                    if (typeof previous_id !== 'undefined') {
+                        $(previous_id).css('fill', previous_color);
+                    }
+                    previous_id = "#" + room_num;
+                    previous_color = $("#" + room_num).css('fill');
+                    $(previous_id).css('fill', selected_color);
+                }
+                var room = $("#" + room_num);
+                var parent_y = $(`#map${current_floor}`).position().top;
+                var parent_x = $(`#map${current_floor}`).position().left;
+                var x = parseFloat(room.attr('x'))
+                var y = parseFloat(room.attr('y'))
+                var width = parseFloat(room.attr('width'))
+
+                place(x, y, width, function (outx, outy) {
+                    $("#marker").css({ "display": "block", "top": outy, 'left': outx })
+                })
+            }
+
+            function showPlace(floor, id) {
+                toggleFloor(floor)
+                showFloor(floor);
+                if (typeof previous_id !== 'undefined') {
+                    $(previous_id).css('fill', previous_color);
+                }
+                previous_id = "#" + id;
+                previous_color = $("#" + id).css('fill');
+                $(previous_id).css('fill', selected_color);
+            }
+
+            function showFloor(floor_number) {
+                floor_number = parseInt(floor_number)
+                console.log(floor_number)
+                toggleFloor(floor_number)
+                $(`div#maps div:nth-child(${current_floor})`).css("display", "none")
+                $(`div#maps div:nth-child(${floor_number})`).css("display", "block")
+                current_floor = floor_number;
+                current_paper = floors[current_floor - 1]
+                currentS1 = parseFloat(current_paper['_viewBox'][2]);
+            }
+
+            function place(inx, iny, width, callback) {
+                var map_width = parseFloat($("#maps").width())
+
+                var ratio = map_width / currentS1;
+                var parent_y = $(`#map${current_floor}`).position().top;
+                var parent_x = $(`#map${current_floor}`).position().left;
+                var x = (inx + width / 2) * ratio + parent_x / 1.5
+                var y = iny * ratio + parent_y / 1.5;
+                // $("#marker").css({ "display": "block", "top": y, 'left': x, })
+                callback(x, y);
+            }
+
+        </script>
+</body>
+
+</html>

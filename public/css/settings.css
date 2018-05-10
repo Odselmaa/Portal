@@ -1,0 +1,12 @@
+.form-group  label{
+    font-weight: 500;
+    color: #333;
+}
+
+.form-group  input, .form-group  textarea, .custom-select{
+    background-color: #f8f8f8;
+}
+
+select option::first-letter{
+    text-transform: capitalize
+}

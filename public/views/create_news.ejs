@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>
+        <%= __('BMSTU_STUDENT_PORTAL')%>
+    </title>
+    <!-- Bootstrap core CSS-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <link href="/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template-->
+    <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- Page level plugin CSS-->
+    <link href="/css/friend.css" rel="stylesheet">
+    <link href="/css/bootstrap-tagsinput.css" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/css/sb-admin.css" rel="stylesheet">
+    <link href="/css/profile.css" rel="stylesheet">
+
+</head>
+
+<body class="fixed-nav sticky-footer" id="page-top">
+    <% include navbar %>
+        <div class="content-wrapper">
+            <div class="container-fluid">
+                <form id="formCreate">
+                    <div class="form-group">
+                        <label for="inputTitle">Title</label>
+                        <input type="text" class="form-control" id="inputTitle" placeholder="Enter title" name="title">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputBody">Body</label>
+                        <textarea class="form-control" id="inputBody" rows="6" placeholder="Enter body" name="body"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputTags">Tags</label>
+                        <div id="chips"></div>
+                        <input type="text" class="form-control" id="inputTags" name="tags" placeholder="Enter tags" data-role="tagsinput"></input>
+                    </div>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id='btnSave'>Save changes</button>
+                </form>
+                <div class="snackbar" id="snackbarCreate">Saved! <span></span></div>
+
+            </div>
+        </div>
+
+        <script src="/vendor/jquery/jquery.min.js"></script>
+        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- <script src="/vendor/jquery-easing/jquery.easing.min.js"></script> -->
+        <script src="/js/sb-admin.min.js"></script>
+        <script src="/js/script.js"></script>
+        <script src="/js/bootstrap-tagsinput.js"></script>
+
+</body>
+<script>
+    $("#btnSave").click(()=>{
+        f = $("#formCreate").serializeArray()
+        payload = {}
+        $.each(f, (i, item)=>{
+            payload[item['name']] = item['value']
+        })
+        payload['tags'] = payload['tags'].split(',');
+        // console.log(payload)
+        $.post('/api/news', {payload: JSON.stringify(payload)}).done((data)=>{
+            if(data.statusCode==201){
+                $("#snackbarCreate span").html(` <a href="/news/${data.response.news_id}">Show news</a>`)
+                showSnackbar('snackbarCreate')
+                console.log(data)
+            }else{
+                alert("Something is wrong!")
+            }
+        })
+    })
+</script>
+</html>

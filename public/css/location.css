@@ -1,0 +1,98 @@
+#map5{
+    height: 100%;
+    width: 100%;
+}
+#maps{
+    max-height: 600px;
+    background-color: #FAFAFA;
+    border: #eee 2px solid;
+}
+.btn-circle {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    padding: 3px 0;
+    font-size: 20px;
+    line-height: 1.428571429;
+    border-radius: 20px;
+    background-color: #fff;
+    margin-right: 10px;
+  }
+.btn-circle:hover {
+      background-color: #B0BEC5
+}
+
+
+.btn-circle i{
+    color: rgb(55,71,79)
+} 
+.btn-circle img{
+    width: 26px;
+    margin-bottom: 3px;
+
+} 
+.bg-canteen{
+    background-color: #CE93D888;
+}
+.bg-stair{
+    background-color: #FFCC80
+}
+.bg-lift{
+    background-color: #7986CB99;
+}
+.bg-wardrobe{
+    background-color: #4FC3F7
+}
+.bg-gate{
+    background-color: #4DB6AC
+}
+.bg-toilet{
+    background-color:#FFAB91
+}
+.control{
+    background-color: #ddd;
+    margin: 0px;
+    padding: 5px 0px
+}
+.control i{
+    color: #777;
+}
+.control .btn-circle{
+    width: 34px;
+    height: 34px;
+    font-size: 17px;
+    border-radius: 17px;
+}
+ul{
+    list-style: none;
+
+}
+.list-inline  span{
+    text-decoration: underline;
+}
+.list-inline  .active span{
+    text-decoration: none;
+    font-weight: bold
+}
+
+.list-inline span:hover{
+    color: #64B5F6
+}
+
+.footer-list ul li::before {
+    content: "•"; color: #999
+}
+#info{
+    position: fixed;
+    z-index: 1000;
+}
+/* #info .card */
+
+.card-1 {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  }
+  
+  .card-1:hover {
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  }

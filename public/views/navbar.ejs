@@ -1,0 +1,285 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <img src="/images/logo.png" class="mr-1" width="20px"> <a class="navbar-brand" href="/" id="nav-title">
+       <b>Student</b>PORTAL</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+                <a class="nav-link" href="/">
+                    <i class="fa fa-fw fa-home"></i>
+                    <span class="nav-link-text"><%=__('HOME')%></span>
+                </a>
+            </li>
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Profile">
+                <a class="nav-link" href="/user/<%=current_user_id%>/<%=lang%>">
+                    <i class="fa fa-fw fa-area-chart"></i>
+                    <span class="nav-link-text"><%=__('PROFILE')%></span>
+                </a>
+            </li>
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Friends">
+                <a class="nav-link" href="/friend">
+                    <i class="fa fa-fw fa-user"></i>
+                    <span class="nav-link-text"><%=__('FRIENDS')%></span>
+                </a>
+            </li>
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Friends">
+                <a class="nav-link" href="/filter/<%=lang%>">
+                    <i class="fa fa-fw fa-search"></i>
+                    <span class="nav-link-text"><%=__('SEARCH')%></span>
+                </a>
+            </li>
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+                <a class="nav-link" href="/news">
+                    <i class="fa fa-fw fa-newspaper-o"></i>
+                    <span class="nav-link-text"><%=__('NEWS')%></span>
+                </a>
+            </li>
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Chat">
+                <a class="nav-link" href="/chat">
+                    <i class="fa fa-fw fa-comments"></i>
+                    <span class="nav-link-text"><%=__('CHAT')%></span>
+                </a>
+            </li>
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+                <a class="nav-link" href="/location/<%=lang%>">
+                    <i class="fa fa-fw fa-map-marker"></i>
+                    <span class="nav-link-text"><%=__('LOCATION')%></span>
+                </a>
+            </li>
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+                <a class="nav-link" href="/settings/<%=lang%>">
+                    <i class="fa fa-fw fa-table"></i>
+                    <span class="nav-link-text"><%=__('SETTINGS')%></span>
+                </a>
+            </li>
+        </ul>
+
+        </li>
+
+        <ul class="navbar-nav sidenav-toggler">
+            <li class="nav-item">
+                <a class="nav-link text-center" id="sidenavToggler">
+                    <i class="fa fa-fw fa-angle-left"></i>
+                </a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle mr-lg-2" id="messagesDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-fw fa-envelope"></i>
+                    <span class="d-lg-none">Messages
+                        <!-- <span class="badge badge-pill badge-primary">12 New</span> -->
+                    </span>
+                    <span class="indicator text-primary d-none">
+                        <i class="fa fa-fw fa-circle"></i>
+                    </span>
+                </a>
+
+                <div class="dropdown-menu" aria-labelledby="messagesDropdown" id="messages">
+                    <h6 class="dropdown-header"><%=__('NEW_MSG')%>:</h6>
+
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item small" href="/chat"><%=__('VIEW_DETAILS')%></a>
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle mr-lg-2" id="alertsDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-fw fa-bell"></i>
+                    <span class="d-lg-none">Alerts
+                        <span class="badge badge-pill badge-warning">6 New</span>
+                    </span>
+                    <span class="indicator text-warning d-none d-lg-block">
+                        <i class="fa fa-fw fa-circle"></i>
+                    </span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="alertsDropdown">
+                    <h6 class="dropdown-header">New Alerts:</h6>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">
+                        <span class="text-success">
+                            <strong>
+                                <i class="fa fa-long-arrow-up fa-fw"></i>Status Update</strong>
+                        </span>
+                        <span class="small float-right text-muted">11:21 AM</span>
+                        <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">
+                        <span class="text-danger">
+                            <strong>
+                                <i class="fa fa-long-arrow-down fa-fw"></i>Status Update</strong>
+                        </span>
+                        <span class="small float-right text-muted">11:21 AM</span>
+                        <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">
+                        <span class="text-success">
+                            <strong>
+                                <i class="fa fa-long-arrow-up fa-fw"></i>Status Update</strong>
+                        </span>
+                        <span class="small float-right text-muted">11:21 AM</span>
+                        <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item small" href="#">View all alerts</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <!-- <form class="form-inline my-2 my-lg-0 mr-lg-2">
+                    <div class="input-group">
+                        <input class="form-control" type="text" id="inputSearch" placeholder=<%=__('SEARCH_FOR')%>>
+                        <span class="input-group-append">
+                            <button class="btn btn-primary" type="button">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                </form> -->
+                <div class="dropdown show">
+                    <a class="dropdown-toggle" id="dropdown-show" style="display: none" href="#" id="dropdownMenuLink" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                    </a>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
+                    <i class="fa fa-fw fa-sign-out"></i><%=__('LOGOUT')%></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" href="/logout">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+
+<script type="text/javascript">
+    var toggled = false;
+    var chat_index = {}
+    var messages = {}    
+    var socket = io()
+    socket.emit("login", {
+        user_sender: `<%= current_user_id %>`
+    });
+    socket.on("message", receiveMessage)
+
+    var more_filter = '<a class="dropdown-item text-muted"  href="/filter/<%=lang%>">More results</a>'
+    // $("#inputSearch").keyup(function () {
+    //     var query = $("#inputSearch").val()
+    //     if (!isEmpty(query)) {
+    //         if (!toggled) {
+    //             $('#dropdown-show').dropdown('toggle')
+    //             toggled = true;
+    //         }
+    //         var lang = "<%=lang%>";
+    //         $.get(`/u/${lang}?q=${query}`).done((response) => {
+    //             if (response.statusCode == 200) {
+    //                 console.log(response)
+    //                 $(".dropdown-menu").empty()
+    //                 $.each(response.response, (index, val) => {
+    //                     var dep = ""
+    //                     if ('department' in val) {
+    //                         dep = val.department.code;
+    //                     }
+    //                     $(".dropdown-menu").append(
+    //                         `<a class="dropdown-item" href="/en/user/${val["_id"]}">
+    //                         <div class="media">
+    //                             <div class="media">
+    //                                 <img class="d-flex align-self-center mr-3 circle-profile" src="/images/user.png" alt="Generic placeholder image">
+    //                                     <div class="media-body">
+    //                                         <h6 class="m-0"> ${val.firstname} ${val.lastname}</h6>
+    //                                         ${dep}
+    //                                     </div>
+    //                             </div>
+    //                         </div>    
+    //                         </a>
+    //                         `
+    //                     )
+    //                 })
+    //                 $(".dropdown-menu").append(more_filter);
+    //                 $('#dropdown-show').dropdown('update')
+    //                 // $("#inputSearch").focus()
+    //             }
+    //         })
+    //     } else if (isEmpty(query)) {
+    //         console.log("empty");
+    //         $('#dropdown-show').empty()
+    //         if (toggled) {
+    //             $('#dropdown-show').dropdown('toggle')
+    //             toggled = false;
+    //         }
+
+    //     }
+    // });
+   
+    $("#messagesDropdown").click(()=>{
+        showIndicator(false)
+    })
+
+    $(window).on('beforeunload', function () {
+        socket.emit("logout", {
+            user_sender: `<%= current_user_id %>`
+        })
+    });
+
+    function receiveMessage(message) {
+        showIndicator(true)
+
+        messages[message.user_sender] = message
+        console.log(messages)
+       // refreshMessage(messages)
+
+        
+        $("#messages a.msg").remove()
+        $.each(messages, (i, msg)=>{
+            var date = new Date(parseInt(msg.created))
+            date = `${date.getMonth() + 1}/${date.getDate()} ${date.getHours()}:${date.getMinutes()}`
+
+            $("#messages>h6:nth-child(1)").after(
+                `
+                <a class="dropdown-item msg" href="/chat">
+                    <strong>${msg['chat_title']}</strong>
+                    <span class="small float-right text-muted">${date}</span>
+                    <div class="dropdown-message small">${msg.body}</div>
+                </a>`
+            )
+        })
+    }
+
+    function showIndicator(v) {
+        if(v)
+            $(".indicator").removeClass('d-none').addClass('d-block')
+        else
+            $(".indicator").removeClass('d-block').addClass('d-none')
+
+    }
+    
+
+    function isEmpty(str) {
+        return (!str || 0 === str.length);
+    }
+</script>

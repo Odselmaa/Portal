@@ -1,0 +1,112 @@
+[
+	{
+		"floors": [5],
+		"code": "iu7",
+		"category": 2
+	},
+	{
+		"floors": [9, 10],
+		"code": "e2",
+		"category": 2
+	},
+	{
+		"floors": [7, 8],
+		"code": "e3",
+		"category": 2
+	},
+	{
+		"floors": [4, 5],
+		"code": "e6",
+		"category": 2
+	},
+	{
+		"floors": [8],
+		"code": "e8",
+		"category": 2
+	},
+	{
+		"floors": [8],
+		"code": "l1",
+		"category": 2
+	},
+	{
+		"floors": [9],
+		"code": "fn1",
+		"category": 2
+	},
+	{
+		"floors": [10],
+		"code": "fn2",
+		"category": 2
+	},
+	{
+		"floors": [8],
+		"code": "fn3",
+		"category": 2
+	},
+	{
+		"floors": [9],
+		"code": "fn11",
+		"category": 2
+	},
+	{
+		"floors": [10],
+		"code": "fn12",
+		"category": 2
+	},
+	{
+		"floors": [10],
+		"code": "rl1",
+		"category": 2
+	},
+	{
+		"floors": [4],
+		"code": "l",
+		"category": 3
+	},
+	{
+		"floors": [8],
+		"code": "sgn",
+		"category": 4
+	},
+	{
+		"floors": [7],
+		"code": "sgn1",
+		"category": 2
+	},
+	{
+		"floors": [7],
+		"code": "sgn2",
+		"category": 2
+	},
+	{
+		"floors": [7],
+		"code": "sgn3",
+		"category": 2
+	},
+	{
+		"floors": [7],
+		"code": "sgn4",
+		"category": 2
+	},
+	{
+		"floors": [8],
+		"code": "fn",
+		"category": 4
+	},
+	{
+		"floors": [1, 2, 5, 6, 9],
+		"code": "buffet",
+		"category": 6
+	},
+	{
+		"floors": [2, 3],
+		"code": "canteen",
+		"category": 5
+	},
+	{
+		"floors": [3],
+		"code": "library",
+		"category": 7
+	}
+]

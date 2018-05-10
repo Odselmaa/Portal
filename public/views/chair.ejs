@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>
+        <%= __('BMSTU_STUDENT_PORTAL')%>
+    </title>
+    <!-- Bootstrap core CSS-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+
+    <!-- Custom fonts for this template-->
+    <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- Page level plugin CSS-->
+    <link href="/css/friend.css" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/css/sb-admin.css" rel="stylesheet">
+    <link href="/css/structure.css" rel="stylesheet">
+
+</head>
+
+<body class="fixed-nav sticky-footer" id="page-top">
+    <% include navbar %>
+        <div class="content-wrapper">
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-body" id="boxshadow">
+                        <h4 class="card-title title">
+                            <span class="" id="name"></span>
+                            <span class="btn btn-outline-warning">
+                                <span id="rating"></span>
+                                <i class="fa fa-star p-0"></i>
+                            </span>
+                        </h4>
+                        <a id="link">
+                            <h6 class="card-subtitle mb-2 text-muted"></h6>
+                        </a>
+                        <ul class="nav nav-tabs mt-4" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="desc-tab" data-toggle="tab" href="#desc" role="tab" aria-controls="desc" aria-selected="true">Description</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="false">Review</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content p-3" id="myTabContent">
+                            <div class="tab-pane fade show active p-3" id="desc" role="tabpanel" aria-labelledby="desc-tab">
+                                <div id="desc" class=""></div>
+                            </div>
+
+                            <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
+                                <ul class="list-group list-group-flush" id="listReviews">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="/vendor/jquery/jquery.min.js"></script>
+        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <script src="/js/sb-admin.min.js"></script>
+        <script src="/js/script.js"></script>
+
+        <script>
+            $.get('/api/chair/<%=chair_id%>/<%=lang%>', (r) => {
+                if (r.statusCode == 200) {
+                    console.log(r)
+                    set_chair(r.response)
+                    get_review(r.response._id)
+                }
+            })
+
+            function set_chair(chair) {
+                $("#name").html(`${chair.code.toUpperCase()} | ${chair.name}`)
+                $("#desc").html(chair.description)
+            }
+
+            function get_review(_id) {
+                $.get(`/api/review/chair/${_id}`, (r) => {
+                    console.log(r)
+                    set_review(r.response)
+                })
+            }
+
+            function set_review(r) {
+                $("#rating").html(parseFloat(r.average).toPrecision(2))
+                if (r.reviews.length > 0) {
+                    $.each(r.reviews, (i, review) => {
+                        f = r.authors[review.author].firstname
+                        l = r.authors[review.author].lastname
+                        $("#listReviews").append(
+                            `<li class="list-group-item">
+                                <h6><a href="/user/${review.author}">${f} ${l}</a></h6>
+                                ${get_rating_html(review.rating)}
+                                    <p>${review.comment}</p>
+                            </li>`
+                        )
+                    })
+                } else {
+                    $("#listReviews").html('No reviews')
+                }
+            }
+
+            function get_rating_html(rating) {
+                avg = (rating.teachers + rating.course + rating.facility) / 3
+                rating_html = ""
+                $.each(rating, (i, r) => {
+                    rating_html += `<a class="dropdown-item title" href="#">${i}</br>${get_stars(r)}</a>`
+                })
+                return `<div class="btn-group">
+                            <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    ${get_stars(parseInt(avg))}
+                            </button>
+                            <div class="dropdown-menu">${rating_html}
+                            </div>
+                        </div>`
+            }
+        </script>
+</body>
+
+</html>

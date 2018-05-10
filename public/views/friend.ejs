@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>BMSTU Student Portal</title>
+  <!-- Bootstrap core CSS-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+    crossorigin="anonymous">
+  <!-- Custom fonts for this template-->
+  <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <!-- Page level plugin CSS-->
+  <link href="/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+  <link href="/css/friend.css" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="/css/sb-admin.css" rel="stylesheet">
+</head>
+
+<body class="fixed-nav sticky-footer" id="page-top">
+  <% include navbar %>
+
+    <div class="content-wrapper">
+
+      <div class='container fluid'>
+        <ul class="list-group" id='friend-list'>
+        </ul>
+      </div>
+    </div>
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <!-- <script src="/vendor/jquery-easing/jquery.easing.min.js"></script> -->
+    <!-- Page level plugin JavaScript-->
+    <!-- Custom scripts for all pages-->
+    <script src="/js/sb-admin.min.js"></script>
+    <script src="/js/script.js"></script>
+    <script>
+      var user_id = '<%=current_user_id%>'
+      var lang = '<%=lang%>'
+      $(() => {
+        get_friends(user_id, lang, (friends) => {
+
+          $('#friend-list').empty()
+          $.each(friends, function (index, item) {
+            var profile = '/images/user.png'
+            if (!isEmpty(item.profile))
+              profile = item.profile
+            var department = '';
+            if ('department' in item) {
+              department = item.department.code;
+            }
+            // <button class="btn btn-primary pull-right">Message</button>
+            $('#friend-list').append(
+              `<li class="list-group-item">
+        <div class="media">
+            <div class="media-left">
+                <img class="media-object profile" src=${profile} alt="...">
+            </div>
+            <div class="media-body ml-2">
+                <a href="/user/${item['_id']}/<%=lang%>">${item.firstname} ${item.lastname}</a>           
+               
+
+            </br>
+            ${department}
+            
+            </div>
+        </div>
+            </li>
+        `
+            )
+          })
+        })
+
+      })
+     </script>
+</body>
+
+</html>

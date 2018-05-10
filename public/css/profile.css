@@ -1,0 +1,39 @@
+body{
+    background-color: #fbfcfc;
+}
+#boxshadow {
+    -webkit-box-shadow: 5px 2px 19px 3px rgba(209,209,209,1);
+    -moz-box-shadow: 5px 2px 19px 3px rgba(209,209,209,1);
+    box-shadow: 5px 2px 19px 3px rgba(209,209,209,1);
+    border-radius: 5px;
+    border: #fff 4px solid;
+    padding: 25px 50px;
+}
+
+#profile-pic, #description{
+    width: 100%;
+    font-size: 13px;
+    color: #333;
+}
+
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;} 
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;} 
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
