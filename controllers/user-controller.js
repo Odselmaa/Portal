@@ -2,10 +2,10 @@ var h = require('../routes/helper.js')
 var urls = require('../url')
 var fs = require('fs');
 var sharp = require('sharp')
-
+var v = require('./verification-controller.js')
 var formidable = require('formidable');
 var path = require('path')
-var cache= require('../routes/cache-provider.js')
+var cache = require('../routes/cache-provider.js')
 // var cache = cache_provider.cache
 
 function update_user(payload, request, callback) {
@@ -33,7 +33,6 @@ function update_user(payload, request, callback) {
             request.session.save()
         }
         callback(response)
-
     })
 }
 
@@ -252,7 +251,6 @@ module.exports = {
             };
 
             h.send_request(options, function (error, response, body) {
-                console.log(error)
                 if (response.statusCode == 200) {
                     body.lastUpdate = new Date().getTime()
                     cache.instance().set(lastu_key, body, cache.TTL);
@@ -262,7 +260,6 @@ module.exports = {
             })
         }
     },
-
     friends_api: function (req, res) {
         var lang = req.params.language == undefined ? 'en' : req.params.language
         var user_id = req.params.user_id
@@ -395,9 +392,6 @@ module.exports = {
         });
 
         form.on('end', function () {
-            // update_user(user, req, (response)=>{
-            //   res.json(response);
-            // })
             if ('profile' in user && user.profile != "") {
                 resize(user)
                     .then(convert)
@@ -418,5 +412,30 @@ module.exports = {
         // parse the incoming request containing the form data
         form.parse(req);
 
-    }
+    },
+    send_confirm_api: function (req, res) {
+        var hostname = req.headers.host; // hostname = 'localhost:8080'
+        var url = 'http://' + hostname + "/verify/";
+        var email = req.body.email
+        v.send_email(url, email, (error, info, token) => {
+            if (error) {
+                res.status(400).json({
+                    response: "Error",
+                    statusCode: 400
+                })
+            } else {
+                payload = {}
+                payload.user_id = req.session.user_id
+                payload.verified_email = email
+                cache.instance().set(token, payload, cache.CONFIRM_TTL);
+                console.log("CACHING TOKEN CONFIRMATION")
+                res.json({
+                    response: "OK",
+                    statusCode: 200
+                })
+            }
+        })
+
+    },
+    update_user: update_user
 }

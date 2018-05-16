@@ -10,6 +10,7 @@
 	"CONTACTS": "Contacts",
 	"COUNTRY": "Country",
 	"DATE": "Date",
+	"DASHBOARD": "Dashboard",
 	"DESCRIPTION": "Description",
 	"EDUCATION": "Education",
 	"EMAIL": "Email",
@@ -77,6 +78,7 @@
 	"IU": "IU",
 	"E": "E",
 	"RUSSIAN_LANG": "Russian language",
+
 	"NEWS": "News",
 	"TITLE": "Title",
 	"BODY": "Body",
@@ -87,5 +89,6 @@
 	"CREATE_NEWS": "Create news",
 	"CLOSE": "Close",
 	"BODT": "BODT",
-	"CHAIRS":"Chairs"
+	"CHAIRS": "Chairs",
+	"REVIEW": "Review"
 }

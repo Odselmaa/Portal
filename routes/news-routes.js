@@ -4,7 +4,7 @@ var urls = require('../url')
 var body_parser = require("body-parser")
 var h = require('./helper.js')
 var cache = require('./cache-provider.js')
-var i18n = require('../i18n.js')
+var i18n = require('../i18n/i18n.js')
 var router = connection.router
 
 router.use(body_parser.json())
@@ -20,7 +20,9 @@ router.get(['/news', '/news/:language(en|ru)'], (req, res) => {
     res.render('news', {
         lang: 'en',
         current_user_id: current_user_id,
-        i18n: res
+        i18n: res,
+        role: req.session[current_user_id].role['_id']
+
     })
 })
 
@@ -34,7 +36,8 @@ router.get(['/news/:news_id', '/news/:news_id/:language(en|ru)'], (req, res) => 
         lang: 'en',
         current_user_id: current_user_id,
         i18n: res,
-        news_id: news_id
+        news_id: news_id,
+        role: req.session[current_user_id].role['_id']
     })
 })
 
@@ -48,7 +51,8 @@ router.get(['/newsfeed'], (req, res) => {
         lang: 'en',
         current_user_id: current_user_id,
         i18n: res,
-        news_tags: tags.join()
+        news_tags: tags.join(),
+        role: req.session[current_user_id].role['_id']
     })
 })
 
@@ -59,7 +63,8 @@ router.get(['/create/news', '/create/news/:language(en|ru)'], (req, res) => {
     res.render('create_news', {
         lang: 'en',
         current_user_id: current_user_id,
-        i18n: res
+        i18n: res,
+        role: req.session[current_user_id].role['_id']
     })
 })
 
@@ -81,6 +86,7 @@ router.post('/api/news', (req, res) => {
 
 router.get('/api/news', (req, res) => {
     var tags = req.query.tags
+    // var limit = req.query.limit == undefined? 5: req.query.limit
     // console.log(tags)
     if(tags!=undefined || tags!=""){
         var options = {

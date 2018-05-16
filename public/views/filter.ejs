@@ -173,7 +173,7 @@
                             departments = response.response
                             $.each(departments, (i, val) => {
                                 $('#ddDepartment')
-                                    .append(`<li class="dropdown-item">${val.code}</li>`)
+                                    .append(`<li class="dropdown-item">${val.code.toUpperCase()}</li>`)
                             })
                         }
                     })
@@ -408,7 +408,7 @@
                     chair_list = chairs[department_id];
                     setChairs(chair_list);
                 } else {
-                    $.get(`/api/chair/department/${department_id}/${lang}`)
+                    $.get(`/api/chair/dep/${department_id}/${lang}`)
                         .done((response) => {
                             if (response.statusCode == 200) {
                                 console.log(response)

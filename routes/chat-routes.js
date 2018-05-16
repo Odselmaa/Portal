@@ -3,7 +3,7 @@ var c = require('../controllers/chat-controller.js')
 
 var h = require('./helper.js')
 var urls = require('../url.js')
-var i18n = require('../i18n.js')
+var i18n = require('../i18n/i18n.js')
 var connection = require('./connection.js')
 
 var router = connection.router

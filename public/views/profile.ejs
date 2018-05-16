@@ -7,7 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title><%= __('BMSTU_STUDENT_PORTAL')%></title>
+    <title>
+        <%= __('BMSTU_STUDENT_PORTAL')%>
+    </title>
     <!-- Bootstrap core CSS-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
@@ -36,7 +38,12 @@
                     <div class="card-body" id="boxshadow" style="display: none">
                         <div class='row'>
                             <div class='col-4'>
-                                <h4 class="card-title" id="name"></h4>
+                                <h4 class="card-title" ><span id="name"> </span>
+                                    <%if (is_verified) { %>
+                                    <i class="ml-1 blue fa fa-check-circle" style="color:#007bff;font-size: 20px"></i>
+                                    <%}%>
+                                </h4>
+                               
                                 <h5 class="card-subtitle mb-2 text-muted" id="role"></h5>
                                 </br>
                                 <h5>
@@ -44,9 +51,13 @@
                                     <span id="friends"></span>
                                 </h5>
                                 </br>
-                                <h5><%= __('PERSONAL_INFO')%></h5>
-                                <div id="gender"><%= __('GENDER')%>: </div>
-                                <div id="birthday"><%= __('BIRTHDAY')%>:</div>
+                                <h5>
+                                    <%= __('PERSONAL_INFO')%>
+                                </h5>
+                                <div id="gender">
+                                    <%= __('GENDER')%>: </div>
+                                <div id="birthday">
+                                    <%= __('BIRTHDAY')%>:</div>
                                 </br>
 
                                 <!-- <h5>Activity</h5>
@@ -56,24 +67,30 @@
                             </div>
                             <!-- <div class='col-1'></div> -->
                             <div class='col-4'>
-                                <h5><%= __('CONTACTS')%></h5>
+                                <h5>
+                                    <%= __('CONTACTS')%>
+                                </h5>
                                 <div id="contact">
 
                                 </div>
                                 </br>
-                                <h5><%= __('ACCOUNTS')%></h5>
+                                <h5>
+                                    <%= __('ACCOUNTS')%>
+                                </h5>
                                 <div id="accounts">
 
                                 </div>
                                 </br>
-                                <h5><%= __('LANGUAGES')%></h5>
+                                <h5>
+                                    <%= __('LANGUAGES')%>
+                                </h5>
                                 <div id="languages">
 
 
                                 </div>
                             </div>
                             <div class='col-3'>
-                                <img id="profile-pic" src="/images/user.png"  class="center-cropped"/>
+                                <img id="profile-pic" src="/images/user.png" class="center-cropped" />
                                 <div class="alert alert-warning mt-1" role="alert" id="bio">
                                 </div>
 
@@ -83,20 +100,26 @@
                                             aria-expanded="false" id="btnFriendMode">
                                             <%if (is_friend) { %>
                                                 <%= __('FRIENDS')%>
-                                                <% }else{ %>
-                                                    <%= __('ADD_FRIENDS')%>
-                                                    <% } %>
+                                                    <% }else{ %>
+                                                        <%= __('ADD_FRIENDS')%>
+                                                            <% } %>
 
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             <!-- <a class="dropdown-item" href="#">Add friend</a> -->
                                             <%if (is_friend) { %>
-                                                <button class="dropdown-item" id="btnUnfriend"> <%= __('UNFRIEND')%></button>
+                                                <button class="dropdown-item" id="btnUnfriend">
+                                                    <%= __('UNFRIEND')%>
+                                                </button>
                                                 <% }else{ %>
-                                                    <button class="dropdown-item" id="btnAddFriend"> <%= __('ADD_FRIENDS')%></button>
+                                                    <button class="dropdown-item" id="btnAddFriend">
+                                                        <%= __('ADD_FRIENDS')%>
+                                                    </button>
                                                     <% } %>
-                                                        <button class="dropdown-item" data-toggle="modal" data-target="#reportModal"> <%= __('REPORT')%></buttona>
-                                                            <!-- <a class="dropdown-item" href="#">Something else here</a> -->
+                                                        <button class="dropdown-item" data-toggle="modal" data-target="#reportModal">
+                                                            <%= __('REPORT')%>
+                                                                </buttona>
+                                                                <!-- <a class="dropdown-item" href="#">Something else here</a> -->
                                         </div>
                                     </div>
                                     <button type="button" class="btn btn-outline-primary btn-block mt-1" data-toggle="modal" data-target="#msgModal">
@@ -204,7 +227,7 @@
                         $("#friends").html(friend_count);
                         $("#bio").html(info.bio)
                         console.log(info)
-           
+
                         var languages = info.languages
                         $.each(languages, (k, l) => {
                             $("#languages").append(
@@ -216,20 +239,21 @@
                             $("#accounts").append(`<a href="${social}">${social}</a></br>`);
                         });
 
-                        if ('department' in info && info.department!=undefined  && ('code' in info.department) && info.role._id != 1) 
+                        if ('department' in info && info.department != undefined && ('code' in info.department) &&
+                            info.role._id != 1)
                             $("#role").append(
                                 ` of <a href="/department/${info.department.code}">${info.department.code}</a>`
                             )
-                        
 
-                        if ('gender' in info && info.gender!=undefined)
+
+                        if ('gender' in info && info.gender != undefined)
                             $("#gender").append(info.gender.name);
 
 
                         if (!isEmpty(info.profile)) {
                             $("#profile-pic").attr('src', info.profile);
                         }
-                        var lang = "<%=lang%>"    
+                        var lang = "<%=lang%>"
                         var user_id = '<%=user_id%>'
                         if (friend_count > 0) {
                             get_friends(user_id, lang, (friends) => {
@@ -263,9 +287,10 @@
                                 })
                             })
                         }
-                        
-                        if(info.blocked)
-                            $("#name").append("<h5><span class='badge badge-danger'>blocked</span></h5></br>")
+
+                        if (info.blocked)
+                            $("#name").append(
+                                "<h5><span class='badge badge-danger'>blocked</span></h5></br>")
 
                         $(".card-body").show();
                         $(document).on('click', "#btnAddFriend", function () {

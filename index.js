@@ -18,17 +18,17 @@ var department_routes = require('./routes/department-routes.js');
 var chair_routes = require('./routes/chair-routes.js');
 var gender_routes = require('./routes/gender-routes.js');
 var country_routes = require('./routes/country-routes.js');
-var location_routes = require('./routes/location.js');
+var location_routes = require('./routes/location-routes.js');
 var report_routes = require('./routes/report-routes.js');
 var lang_routes = require('./routes/lang-routes.js');
 var news_routes = require('./routes/news-routes.js');
 var chat_routes = require('./routes/chat-routes.js');
 var review_routes = require('./routes/review-routes.js');
 
-var i18n = require('./i18n.js')
+var i18n = require('./i18n/i18n.js')
 var h = require("./routes/helper.js")
 var urls = require('./url.js');
-var cache_provider = require('./routes/cache-provider.js')
+var cache = require('./routes/cache-provider.js')
 
 var connectedUsers = {};
 
@@ -63,6 +63,9 @@ app.use(body_parser.urlencoded({
     extended: false
 }))
 
+
+
+
 app.use(express.static(__dirname + '/public'));
 app.use('/js', express.static(path.join(__dirname, 'public/js')));
 app.use('/css', express.static(path.join(__dirname, 'public/css')));
@@ -75,27 +78,41 @@ app.set('view engine', 'ejs');
 app.set('views', __dirname + '/public/views');
 app.engine('html', require('ejs').renderFile);
 
-cache_provider.start(function(err) {
+
+cache.start(function(err) {
     if (err) console.error(err);
 });
-
 
 var index_handler = function(req, res){
     var lang = req.params.language == undefined ? 'en' : req.params.language
     req.setLocale(lang);
-
     var current_user_id = req.session.user_id
     var user = req.session[current_user_id]
-    var role_id = user.role['_id']
-
-    if (role_id == 1)
-        res.render('index_admin', {
+    var role = user.role['_id']
+    res.render('index', 
+    { 
+        lang: lang,
+        current_user_id: current_user_id,
+        i18n: res,
+        role: role
+    })
+}
+var dashboard_handler = function(req, res){
+    var lang = req.params.language == undefined ? 'en' : req.params.language
+    req.setLocale(lang);
+    var current_user_id = req.session.user_id
+    var user = req.session[current_user_id]
+    var role = user.role['_id']
+    if (role == 1){
+        res.render('dashboard', 
+        { 
             lang: lang,
             current_user_id: current_user_id,
-            i18n: res
+            i18n: res,
+            role: role
         })
-    else
-        res.redirect('/newsfeed')
+    }else
+        res.render('error/404')
 }
 var login_handler = function(req, res){
     var lang = req.params.language == undefined ? 'en' : req.params.language
@@ -320,8 +337,15 @@ function get_socket(user_receiver) {
     return user_receiver in connectedUsers ? connectedUsers[user_receiver] : []
 }
 
+function get_role(req){
+    var current_user_id = req.session.user_id
+    var user = req.session[current_user_id]
+    var role_id = user.role['_id']
+    return role_id
+}
+app.get('/', h.logMiddleware, index_handler)
 app.get('/status', status)
-app.get(["/", '/:language(en|ru)'], h.logMiddleware, index_handler)
+app.get(["/dashboard", '/dashboard/:language(en|ru)'], h.logMiddleware, dashboard_handler)
 app.get(["/login",'/login/:language(en|ru)'], login_handler)
 app.get(["/register",'/register/:language(en|ru)/'], register_handler)
 app.post("/login", login_post_handler)
@@ -347,8 +371,16 @@ io.on('connection', (socket) => {
 })
 
 app.get("/test_token", (req, res) => {
+    // async
+    cache.instance().keys( function( err, mykeys ){
+        if( !err ){
+        console.log( mykeys );
+        // [ "all", "my", "keys", "foo", "bar" ]
+        }
+    });
     res.send(req.session)
 })
+
 
 var server = http.listen(3000, () => {
     console.log("server is listening on port", server.address().port)

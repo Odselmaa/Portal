@@ -35,7 +35,7 @@ router.post('/r', h.logMiddleware, (req, res) => {
 router.get('/r/:status', h.logMiddleware, (req, res) => {
   var status = req.params.status
   var report_key = `report_${status}`
-
+  var limit = req.query.l == undefined ? 5 : parseInt(req.query.l)
   try {
     value = cache.instance().get(report_key, true);
     console.log("REPORT IS IN CACHE")
@@ -43,7 +43,36 @@ router.get('/r/:status', h.logMiddleware, (req, res) => {
 
   } catch (err) {
     var options = {
-      uri: `${urls.API_URL}report/${status}`,
+      uri: `${urls.API_URL}report/${status}?limit=${limit}`,
+      method: 'GET',
+      json: {},
+      headers: {
+        "Authorization": `Bearer ${req.session.access_token.token}`
+      }
+    }
+    h.send_request(options, function (error, response, body) {
+      console.log(body)
+
+      if (body.statusCode == 200) {
+        cache.instance().set(report_key, body, cache.TTL);
+        console.log("SAVING REPORT IN CACHE")
+        res.json(body)
+      } else {
+        res.json(body)
+      }
+    })
+  }
+})
+router.get('/api/r', h.logMiddleware, (req, res) => {
+  var report_key = `all_report`
+  try {
+    value = cache.instance().get(report_key, true);
+    console.log("REPORT IS IN CACHE")
+    res.json(value)
+
+  } catch (err) {
+    var options = {
+      uri: `${urls.API_URL}report`,
       method: 'GET',
       json: {},
       headers: {
@@ -81,8 +110,6 @@ router.put('/r/:status', h.logMiddleware, (req, res) => {
     }
     h.send_request(options, function (error, response, body) {
       if(body.statusCode == 200){
-        // var report_key = 
-
         delete_cache(`report_all`)
       }
       res.json(body);
@@ -97,6 +124,22 @@ router.put('/r/:status', h.logMiddleware, (req, res) => {
 
 
 })
+
+router.get(['/report', '/report/:language(en|ru)'], h.logMiddleware, (req, res) => {
+  var lang = req.params.language == undefined ? 'en' : req.params.language
+    req.setLocale(lang);
+    var current_user_id = req.session.user_id
+    var user = req.session[current_user_id]
+    var role = user.role['_id']
+    res.render('report', 
+    { 
+        lang: lang,
+        current_user_id: current_user_id,
+        i18n: res,
+        role: role
+    })
+})
+
 function delete_cache(key){
     cache.instance().del(key, function( err, count ){
       if( !err ){

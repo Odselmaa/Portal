@@ -41,14 +41,30 @@ function review_dep_api(req, res){
     })
 }
 
+function dep_report_api(req, res){
+    var lang = req.params.language == undefined ? 'en' : req.params.language
+
+    var options = {
+        uri: `${urls.API_URL}review/department/report`,
+        method: 'GET',
+        json: {lang:lang},
+        headers: {"Authorization": `Bearer ${req.session.access_token.token}`}
+    };
+    h.send_request(options, function (error, response, body) {
+        res.json(body);
+    })
+}
+
 function review_api(req, res){
     var payload = JSON.parse(req.body.payload)
     console.log(payload)
     var uri = `${urls.API_URL}review/${payload.type}`
+
     if(payload.type=="department"){
         payload.stars = payload.rating.stars
         delete payload.rating
     }
+
     delete payload.type
     payload.author = req.session.user_id
 
@@ -72,11 +88,15 @@ function review_handler(req, res){
     res.render('review', {
         current_user_id: current_user_id,
         i18n: res,
-        lang: lang
+        lang: lang,
+        role: req.session[current_user_id].role['_id']
+
     })
 }
 
 router.get('/api/review/dep/:dep_id', review_dep_api)
+router.get('/api/review/department/report/:language(en|ru)', dep_report_api)
+
 router.get('/api/review/chair/:chair_id', review_chair_api)
 router.post('/api/review', review_api)
 

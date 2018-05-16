@@ -71,16 +71,7 @@
                 </div>
             </li>
             <li class="nav-item">
-                <form class="form-inline my-2 my-lg-0 mr-lg-2">
-                    <div class="input-group">
-                        <input class="form-control" type="text" id="inputSearch" placeholder=<%=__('SEARCH_FOR')%>>
-                        <span class="input-group-append">
-                            <button class="btn btn-primary" type="button">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </span>
-                    </div>
-                </form>
+                
                 <div class="dropdown show">
                     <a class="dropdown-toggle" id="dropdown-show" style="display: none" href="#" id="dropdownMenuLink" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
@@ -114,66 +105,3 @@
         </div>
     </div>
 </div>
-<script src="/vendor/jquery/jquery.min.js"></script>
-
-<script type="text/javascript">
-    var toggled = false;
-    // $(()=>{
-
-
-    //     console.log(lang)
-
-    // })
-
-    var more_filter = '<a class="dropdown-item text-muted"  href="/<%=lang%>/filter">More results</a>'
-    $("#inputSearch").keyup(function () {
-        var query = $("#inputSearch").val()
-        if (!isEmpty(query)) {
-            if (!toggled) {
-                $('#dropdown-show').dropdown('toggle')
-                toggled = true;
-            }
-            var lang = "<%=lang%>";
-            $.get(`/u/${lang}?q=${query}`).done((response) => {
-                if (response.statusCode == 200) {
-                    console.log(response)
-                    $(".dropdown-menu").empty()
-
-                    $.each(response.response, (index, val) => {
-                        var dep = ""
-                        if ('department' in val) {
-                            dep = val.department.code;
-                        }
-                        $(".dropdown-menu").append(`<a class="dropdown-item" href="/en/user/${val["_id"]}">
-                            <div class="media">
-                                <div class="media">
-                                    <img class="d-flex align-self-center mr-3 circle-profile" src="/images/user.png" alt="Generic placeholder image">
-                                        <div class="media-body">
-                                            <h6 class="m-0"> ${val.firstname} ${val.lastname}</h6>
-                                            ${dep}
-                                        </div>
-                                </div>
-                            </div>    
-                            </a>
-                            `)
-                    })
-                    $(".dropdown-menu").append(more_filter);
-                    $('#dropdown-show').dropdown('update')
-                    // $("#inputSearch").focus()
-                }
-
-            })
-        } else if (isEmpty(query)) {
-            console.log("empty");
-            $('#dropdown-show').empty()
-            if (toggled) {
-                $('#dropdown-show').dropdown('toggle')
-                toggled = false;
-            }
-
-        }
-    });
-    function isEmpty(str) {
-        return (!str || 0 === str.length);
-    }
-</script>

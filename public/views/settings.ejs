@@ -27,206 +27,242 @@
 
 <body class="fixed-nav sticky-footer" id="page-top">
     <% include navbar %>
-        <div class="content-wrapper">
+    <div class="content-wrapper">
 
-            <div class='container fluid'>
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" id="personal-tab" data-toggle="tab" href="#personal" role="tab" aria-controls="personal" aria-selected="true">
-                            <%=__('PERSONAL_INFO')%>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="background-tab" data-toggle="tab" href="#background" role="tab" aria-controls="background" aria-selected="false">
-                            <%=__('EDUCATION')%>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">
-                            <%=__('CONTACTS')%>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="news-tab" data-toggle="tab" href="#news" role="tab" aria-controls="news" aria-selected="false">News</a>
-                    </li>
-                </ul>
-                <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active p-3 mt-2" id="personal" role="tabpanel" aria-labelledby="personal-tab">
-                        <div class="row pr-5">
-                            <div class="col-md-7">
-                                <div class="form-group row">
-                                    <label for="inputPassword" class="col-sm-3 col-form-label">
-                                        <%=__('FIRSTNAME')%>
-                                    </label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="inputFirstname" value="<%=user.firstname%>">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="inputPassword" class="col-sm-3 col-form-label">
-                                        <%=__('LASTNAME')%>
-                                    </label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="inputLastname" value="<%=user.lastname%>">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="inputState" class="col-sm-3 col-form-label">
-                                        <%=__('GENDER')%>
-                                    </label>
-                                    <div class="col-sm-9">
-                                        <select id="selectGender" class="form-control custom-select">
-                                            <option selected>
-                                                <%=__('CHOOSE')%>
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="inputState" class="col-sm-3 col-form-label">
-                                        <%=__('COUNTRY')%>
-                                    </label>
-                                    <div class="col-sm-9">
-                                        <select id="selectCountry" class="form-control custom-select">
-                                            <option selected>
-                                                <%=__('CHOOSE')%>
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="inputState" class="col-sm-3 col-form-label">
-                                        <%=__('LANGUAGES')%>
-                                    </label>
-                                    <div class="col-sm-9">
-                                        <div id="chips">
-                                        </div>
-                                        <select id="selectLanguages" class="form-control custom-select">
-                                            <option selected>
-                                                <%=__('CHOOSE')%>
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="inputPassword" class="col-sm-3 col-form-label">
-                                        <%=__('BIO')%>
-                                    </label>
-                                    <div class="col-sm-9">
-                                        <textarea class="form-control" id="textareaBio" rows="3" placeholder="Write about yourself">
-                                            <%=user.bio%>
-                                        </textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- <div class="col-md-offset-1"></div> -->
-                            <div class="col-md-4 text-center">
-                                <% if(user.profile!=""){%>
-                                    <img src="<%=user.profile%>" class="center-cropped" id="imgProfile" style="width:90%">
-                                    <% } else {%>
-                                        <img src="/images/user.png" class="center-cropped" id="imgProfile" style="width:90%">
-                                        <% } %>
-                                            <label class="btn btn-outline-primary btn-file mt-3" style="width:90%">
-                                                <%=__('UPLOAD')%>
-                                                    <input type="file" id="fileImg" onchange="readURL(this);" style="display: none;">
-                                            </label>
-                                            <!-- <button class="btn btn-outline-primary mt-2" style="width:90%">Upload photo</button> -->
-                                            <div class="progress mx-auto d-none" style="width:90%">
-                                                <div class="progress-bar" role="progressbar"></div>
-                                            </div>
+    <div class='container fluid'>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="personal-tab" data-toggle="tab" href="#personal" role="tab" aria-controls="personal" aria-selected="true">
+                    <%=__('PERSONAL_INFO')%>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="background-tab" data-toggle="tab" href="#background" role="tab" aria-controls="background" aria-selected="false">
+                    <%=__('EDUCATION')%>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">
+                    <%=__('CONTACTS')%>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="news-tab" data-toggle="tab" href="#news" role="tab" aria-controls="news" aria-selected="false">News</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="verify-tab" data-toggle="tab" href="#verify" role="tab" aria-controls="verify" aria-selected="false">Verify account</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active p-3 mt-2" id="personal" role="tabpanel" aria-labelledby="personal-tab">
+                <div class="row pr-5">
+                    <div class="col-md-7">
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-3 col-form-label">
+                                <%=__('FIRSTNAME')%>
+                            </label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="inputFirstname" value="<%=user.firstname%>">
                             </div>
                         </div>
-                    </div>
-                    <div class="tab-pane fade  p-3 mt-2" id="background" role="tabpanel" aria-labelledby="background-tab">
                         <div class="form-group row">
-                            <label for="inputState" class="col-sm-2 col-form-label">
-                                <%=__('FACULTY')%>
+                            <label for="inputPassword" class="col-sm-3 col-form-label">
+                                <%=__('LASTNAME')%>
                             </label>
-                            <div class="col-sm-6">
-                                <select id="selectDepartment" class="form-control custom-select">
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="inputLastname" value="<%=user.lastname%>">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputState" class="col-sm-3 col-form-label">
+                                <%=__('GENDER')%>
+                            </label>
+                            <div class="col-sm-9">
+                                <select id="selectGender" class="form-control custom-select">
                                     <option selected>
                                         <%=__('CHOOSE')%>
                                     </option>
                                 </select>
                             </div>
                         </div>
+
                         <div class="form-group row">
-                            <label for="inputState" class="col-sm-2 col-form-label">
-                                <%=__('CHAIR')%>
+                            <label for="inputState" class="col-sm-3 col-form-label">
+                                <%=__('COUNTRY')%>
                             </label>
-                            <div class="col-sm-6">
-                                <select id="selectChair" class="form-control custom-select">
+                            <div class="col-sm-9">
+                                <select id="selectCountry" class="form-control custom-select">
                                     <option selected>
                                         <%=__('CHOOSE')%>
                                     </option>
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="tab-pane fade   p-3 mt-2" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                        <div class="row">
-                            <div class="col-md-9">
-                                <div class="form-group row">
-                                    <label for="inputPassword" class="col-sm-3 col-form-label">
-                                        <%=__('EMAIL')%>
-                                    </label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="inputEmail" placeholder="name@example.com" value="<%=user.email%>">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="inputPassword" class="col-sm-3 col-form-label">
-                                        <%=__('PHONE')%>
-                                    </label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="inputPhone" value="<%=user.phone%>">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="inputPassword" class="col-sm-3 col-form-label">Facebook</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="inputFB" placeholder="" value="<%=user.socials.facebook%>">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="inputPassword" class="col-sm-3 col-form-label">Google</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="inputGoogle" value="<%=user.socials.google%>">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="inputPassword" class="col-sm-3 col-form-label">Vk</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="inputVk" placeholder="" value="<%=user.socials.vk%>">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade  p-3 mt-2" id="news" role="tabpanel" aria-labelledby="news-tab">
+
                         <div class="form-group row">
-                            <label for="inputState" class="col-sm-2 col-form-label">
-                                Tags
+                            <label for="inputState" class="col-sm-3 col-form-label">
+                                <%=__('LANGUAGES')%>
                             </label>
-                            <div class="col-sm-10">
-                                <input type="text" id="inputTags" width="100%" class="form-control" value="" data-role="tagsinput">
+                            <div class="col-sm-9">
+                                <div id="chips">
+                                </div>
+                                <select id="selectLanguages" class="form-control custom-select">
+                                    <option selected>
+                                        <%=__('CHOOSE')%>
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-3 col-form-label">
+                                <%=__('BIO')%>
+                            </label>
+                            <div class="col-sm-9">
+                                <textarea class="form-control" id="textareaBio" rows="3" placeholder="Write about yourself">
+                                    <%=user.bio%>
+                                </textarea>
                             </div>
                         </div>
                     </div>
-                    <div class="row mt-1">
-                        <div class="offset-sm-2"></div>
-                        <button class="btn btn-primary col-sm-3" id="btnSave">
-                            <%=__('SAVE_CHANGES')%>
-                        </button>
+                    <!-- <div class="col-md-offset-1"></div> -->
+                    <div class="col-md-4 text-center">
+                        <% if(user.profile!=""){%>
+                            <img src="<%=user.profile%>" class="center-cropped" id="imgProfile" style="width:90%">
+                            <% } else {%>
+                                <img src="/images/user.png" class="center-cropped" id="imgProfile" style="width:90%">
+                                <% } %>
+                                    <label class="btn btn-outline-primary btn-file mt-3" style="width:90%">
+                                        <%=__('UPLOAD')%>
+                                            <input type="file" id="fileImg" onchange="readURL(this);" style="display: none;">
+                                    </label>
+                                    <!-- <button class="btn btn-outline-primary mt-2" style="width:90%">Upload photo</button> -->
+                                    <div class="progress mx-auto d-none" style="width:90%">
+                                        <div class="progress-bar" role="progressbar"></div>
+                                    </div>
                     </div>
-                    <div id="response"></div>
-                    <div class="snackbar" id="snackbarUpdate">Saved!</div>
                 </div>
-
             </div>
+            <div class="tab-pane fade  p-3 mt-2" id="background" role="tabpanel" aria-labelledby="background-tab">
+                <div class="form-group row">
+                    <label for="inputState" class="col-sm-2 col-form-label">
+                        <%=__('FACULTY')%>
+                    </label>
+                    <div class="col-sm-6">
+                        <select id="selectDepartment" class="form-control custom-select">
+                            <option selected>
+                                <%=__('CHOOSE')%>
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputState" class="col-sm-2 col-form-label">
+                        <%=__('CHAIR')%>
+                    </label>
+                    <div class="col-sm-6">
+                        <select id="selectChair" class="form-control custom-select">
+                            <option selected>
+                                <%=__('CHOOSE')%>
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade   p-3 mt-2" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-3 col-form-label">
+                                <%=__('EMAIL')%>
+                            </label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="inputEmail" placeholder="name@example.com" value="<%=user.email%>">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-3 col-form-label">
+                                <%=__('PHONE')%>
+                            </label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="inputPhone" value="<%=user.phone%>">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-3 col-form-label">Facebook</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="inputFB" placeholder="" value="<%=user.socials.facebook%>">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-3 col-form-label">Google</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="inputGoogle" value="<%=user.socials.google%>">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-3 col-form-label">Vk</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="inputVk" placeholder="" value="<%=user.socials.vk%>">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade  p-3 mt-2" id="news" role="tabpanel" aria-labelledby="news-tab">
+                <div class="form-group row">
+                    <label for="inputState" class="col-sm-2 col-form-label">
+                        Tags
+                    </label>
+                    <div class="col-sm-10">
+                        <input type="text" id="inputTags" width="100%" class="form-control" value="" data-role="tagsinput">
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade  p-3 mt-2 mb-5" id="verify" role="tabpanel" aria-labelledby="verify-tab">
+                <div class="row d-none" id="alertConfirmation">
+                    <div class="alert alert-success col-sm-7" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <strong>Confirmation email is sent!</strong> Check your mail box!
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputState" class="col-sm-2 col-form-label">
+                        University email
+                    </label>
+                    <% if(user.verified_email==undefined){ %>
+                    <div class="col-sm-4">
+                       
+                            <input type="text" class="form-control" id="inputEmailUni" placeholder="example@university.ru"
+                        value="">
+
+                    </div>
+                    <a href="#" class="col-sm-1 btn btn-outline-primary" id="btnConfirm">Confirm</a>
+
+                    <%}else{%>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="inputEmailUni" placeholder="example@university.ru" 
+                            value="<%=user.verified_email%>" readonly>
+                        </div>
+                        <h5><i class="fa fa-check-circle royal-blue"></i></h5>
+
+                    <%}%>
+
+                </div>
+            </div>
+            <div class="row mt-1">
+                <div class="offset-sm-2"></div>
+                <button class="btn btn-primary col-sm-3" id="btnSave">
+                    <%=__('SAVE_CHANGES')%>
+                </button>
+            </div>
+            <div id="response"></div>
+            <div class="snackbar" id="snackbarUpdate">Saved!</div>
+        </div>
+
+    </div>
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- Core plugin JavaScript-->
@@ -240,13 +276,13 @@
     <script src="/js/bootstrap-tagsinput.js"></script>
 
     <% if (user.chair != undefined) { %>
-    <script>
-        var c = "<%=user.chair._id%>"
-    </script>
-    <% } else{%>
         <script>
-            var c = -1
+            var c = "<%=user.chair._id%>"
         </script>
+        <% } else{%>
+            <script>
+                var c = -1
+            </script>
     <% }%>
     <script>
         var user_langs = [];
@@ -273,7 +309,8 @@
             get_data('/api/dep/<%=lang%>', set_department, inform_error)
             get_data('/gender/<%=lang%>', set_gender, inform_error)
             get_data('/languages/<%=lang%>', set_languages, inform_error)
-
+            handle_confirm()
+            handle_save()
         })
         $("#selectLanguages").change(() => {
             var lang = $('#selectLanguages').find(":selected")
@@ -290,93 +327,8 @@
             file_changed = true;
         })
 
-        $("#btnSave").click(() => {
-            //personal info
-            var firstname = $("#inputFirstname").val()
-            var lastname = $("#inputLastname").val()
-            var gender = $('#selectGender').find(":selected").attr("id")
-            var country = $("#selectCountry").find(":selected").attr("id")
-            // console.log(langs)
-            var bio = $("#textareaBio").val()
-            //background scene
-            var dep_index = $('#selectDepartment').find(":selected").index()
-            var deprt = departments[dep_index - 1]
-            // console.log(dep)
-
-            var chair_index = $("#selectChair").find(":selected").index()
-            var chair = chairs[chair_index - 1]
-
-            //contacts
-            var email = $('#inputEmail').val()
-            var phone = $('#inputPhone').val()
-            var fb = $('#inputFB').val()
-            var google = $('#inputGoogle').val()
-            var vk = $('#inputVk').val()
-            var tags = $('#inputTags').tagsinput('items')
-
-            var user = {}
-
-            if (firstname != "<%=user.firstname%>") user.firstname = firstname
-            if (lastname != "<%=user.lastname%>") user.lastname = lastname
-            if (country != "<%=user.country['_id']%>") user.country = country
-            if (gender != parseInt("<%=user.gender['_id']%>")) user.gender = parseInt(
-                gender)
-
-            user.bio = bio
-            if (deprt._id != "<%=user.department['_id']%>" && deprt != undefined) user.department =
-                deprt
-            if (c._id != chair._id && chair != undefined) user.chair = chair
-            if (email != "<%=user.email%>") user.email = email
-            if (phone != "<%=user.phone%>") user.phone = phone
-            if (google != "<%=user.socials.google%>")
-                if ("socials" in user)
-                    user.socials['google'] = google
-            else
-                user.socials = {
-                    google: google
-                }
-
-            if (fb != "<%=user.socials.fb%>")
-                if ("socials" in user)
-                    user.socials['fb'] = fb
-            else
-                user.socials = {
-                    fb: fb
-                }
-
-            if (vk != "<%=user.socials.vk%>")
-                if ("socials" in user)
-                    user["socials"]["vk"] = vk
-            else
-                user["socials"] = {
-                    vk: vk
-                }
-
-            var langs = []
-            var childs = $("div#chips").children('div')
-
-            $.each(childs, (i, node) => {
-                var index = $(node).attr('data')
-                langs.push(index)
-            })
-            console.log(langs)
-            if (isEqual(langs, user_langs) == false) {
-                tmp = []
-                $.each(childs, (i, node) => {
-                    var index = parseInt($(node).attr('id'))
-                    tmp.push(languages[index])
-                })
-                user_langs = langs
-                user["languages"] = tmp
-            }
-            user.news_tags = tags
-            if ($.isEmptyObject(user) == false || file_changed) {
-                upload(user)
-            }
-        })
-        
-        function set_department(items){
-            departments = items 
+        function set_department(items) {
+            departments = items
             $.each(items, (i, v) => {
                 if (v["_id"] == "<%=user.department['_id']%>") {
                     // console.log("hey")
@@ -390,7 +342,8 @@
                     )
             })
         }
-        function set_chair(items){
+
+        function set_chair(items) {
             $("#selectChair").find('option').not(':first').remove();
             chairs = items
             $.each(chairs, (i, v) => {
@@ -405,7 +358,8 @@
 
             })
         }
-        function set_country(countries){
+
+        function set_country(countries) {
             $.each(countries, (i, v) => {
                 if ("<%=user.country['_id']%>" == v["_id"]) {
                     $("#selectCountry").append(
@@ -419,7 +373,8 @@
 
             })
         }
-        function set_gender(genders){
+
+        function set_gender(genders) {
             $.each(genders, (i, v) => {
                 if ("<%=user.gender['_id']%>" == v["_id"]) $(
                     "#selectGender").append(
@@ -430,7 +385,8 @@
                 )
             })
         }
-        function set_languages(langs){
+
+        function set_languages(langs) {
             languages = langs
             $.each(languages, (i, v) => {
                 $("#selectLanguages").append(
@@ -440,10 +396,10 @@
                     addChip(v.name, v["_id"], i)
             })
         }
-        function inform_error(e){
+
+        function inform_error(e) {
             console.log(e)
         }
- 
 
         function get_chair(id) {
             get_data(`/api/chair/dep/${id}/<%=lang%>`, set_chair, inform_error)
@@ -452,13 +408,10 @@
         function addChip(name, id, index) {
             $("#chips").append(
                 `<div class="chip" data="${id}" id="${index}">${name}
-                <span class="closebtn" onclick="this.parentElement.remove()">&times;</span>
-                </div>`
+<span class="closebtn" onclick="this.parentElement.remove()">&times;</span>
+</div>`
             )
         }
-
-
-
 
         function readURL(input) {
             if (input.files && input.files[0]) {
@@ -529,6 +482,110 @@
 
                     return xhr;
                 }
+            })
+        }
+
+        function handle_save() {
+            $("#btnSave").click(() => {
+                //personal info
+                var firstname = $("#inputFirstname").val()
+                var lastname = $("#inputLastname").val()
+                var gender = $('#selectGender').find(":selected").attr("id")
+                var country = $("#selectCountry").find(":selected").attr("id")
+                // console.log(langs)
+                var bio = $("#textareaBio").val()
+                //background scene
+                var dep_index = $('#selectDepartment').find(":selected").index()
+                var deprt = departments[dep_index - 1]
+                // console.log(dep)
+
+                var chair_index = $("#selectChair").find(":selected").index()
+                var chair = chairs[chair_index - 1]
+
+                //contacts
+                var email = $('#inputEmail').val()
+                var phone = $('#inputPhone').val()
+                var fb = $('#inputFB').val()
+                var google = $('#inputGoogle').val()
+                var vk = $('#inputVk').val()
+                var tags = $('#inputTags').tagsinput('items')
+
+                var user = {}
+
+                if (firstname != "<%=user.firstname%>") user.firstname = firstname
+                if (lastname != "<%=user.lastname%>") user.lastname = lastname
+                if (country != "<%=user.country['_id']%>") user.country = country
+                if (gender != parseInt("<%=user.gender['_id']%>")) user.gender = parseInt(
+                    gender)
+
+                user.bio = bio
+                if (deprt._id != "<%=user.department['_id']%>" && deprt != undefined) user.department =
+                    deprt
+                if (c._id != chair._id && chair != undefined) user.chair = chair
+                if (email != "<%=user.email%>") user.email = email
+                if (phone != "<%=user.phone%>") user.phone = phone
+                if (google != "<%=user.socials.google%>")
+                    if ("socials" in user)
+                        user.socials['google'] = google
+                else
+                    user.socials = {
+                        google: google
+                    }
+
+                if (fb != "<%=user.socials.fb%>")
+                    if ("socials" in user)
+                        user.socials['fb'] = fb
+                else
+                    user.socials = {
+                        fb: fb
+                    }
+
+                if (vk != "<%=user.socials.vk%>")
+                    if ("socials" in user)
+                        user["socials"]["vk"] = vk
+                else
+                    user["socials"] = {
+                        vk: vk
+                    }
+
+                var langs = []
+                var childs = $("div#chips").children('div')
+
+                $.each(childs, (i, node) => {
+                    var index = $(node).attr('data')
+                    langs.push(index)
+                })
+                console.log(langs)
+                if (isEqual(langs, user_langs) == false) {
+                    tmp = []
+                    $.each(childs, (i, node) => {
+                        var index = parseInt($(node).attr('id'))
+                        tmp.push(languages[index])
+                    })
+                    user_langs = langs
+                    user["languages"] = tmp
+                }
+                user.news_tags = tags
+                if ($.isEmptyObject(user) == false || file_changed) {
+                    upload(user)
+                }
+            })
+
+
+        }
+
+        function handle_confirm() {
+            $("#btnConfirm").click(() => {
+                e = $("#inputEmailUni").val()
+                $.post('/verify', {
+                    "email": e
+                }).done((r) => {
+                    if (r.statusCode == 200) {
+                        $("#alertConfirmation").removeClass("d-none")
+                    } else {
+                        alert("Something went wrong!")
+                    }
+                })
             })
         }
     </script>

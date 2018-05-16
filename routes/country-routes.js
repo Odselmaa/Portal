@@ -2,7 +2,6 @@ var connection = require('./connection.js')
 var urls = require('../url.js')
 var h = require('./helper.js')
 var cache = require('./cache-provider.js')
-// var cache = cache.instance()
 var router = connection.router
 
 router.get('/country/:language(en|ru)', h.logMiddleware, (request, res) => {
@@ -12,7 +11,6 @@ router.get('/country/:language(en|ru)', h.logMiddleware, (request, res) => {
         value = cache.instance().get(country_key, true );
         res.json(value)
     } catch( err ){
-        // ENOTFOUND: Key `not-existing-key` not found
         var options = {
             uri: `${urls.API_URL}country`,
             method: 'GET',
@@ -21,7 +19,6 @@ router.get('/country/:language(en|ru)', h.logMiddleware, (request, res) => {
                 "Authorization":`Bearer ${request.session.access_token.token}`
               }
         };
-    
         h.send_request(options, function (error, response, body, req) {
             if (!error && body.statusCode == 200) {
                 cache.instance().set(country_key, body, cache.TTL );

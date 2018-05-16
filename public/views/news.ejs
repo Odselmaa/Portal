@@ -152,7 +152,8 @@
             }, {
                 targets: 3,
                 render: function (data, type, row, meta) {
-                    return new Date(1000 * row["created_when"]);
+                    date = new Date(1000 * row["created_when"])
+                    return Intl.DateTimeFormat('en-US').format(date)
                 }
             }, {
                 targets: 2,

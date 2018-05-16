@@ -12,45 +12,29 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
     <!-- Custom fonts for this template-->
-    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <!-- Page level plugin CSS-->
     <link href="/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+    <link href="/css/friend.css" rel="stylesheet">
+
     <!-- Custom styles for this template-->
     <link href="/css/sb-admin.css" rel="stylesheet">
 </head>
 
-<body class="fixed-nav sticky-footer bg-dark" id="page-top">
-    <!-- Navigation-->
-    <% include navbar %>
+<body class="fixed-nav sticky-footer" id="page-top">
+    <% include navbar_no_menu %>
 
         <div class="content-wrapper">
             <div class="container-fluid">
-                <!-- Breadcrumbs-->
-            </div>
-            <!-- <footer class="sticky-footer">
-                <div class="container">
-                    <div class="text-center">
-                        <small>Copyright © Your Website 2018</small>
-                    </div>
+                <div>
+                    <h4><%=message%></h4>
                 </div>
-            </footer> -->
-
-            <!-- Scroll to Top Button-->
-            <!-- <a class="scroll-to-top rounded" href="#page-top">
-                <i class="fa fa-angle-up"></i>
-            </a> -->
-            <!-- Logout Modal-->
-
-            <!-- Bootstrap core JavaScript-->
-           
-            <!-- Custom scripts for this page-->
-
+            </div>
         </div>
+        <script src="/vendor/jquery/jquery.min.js"></script>
         <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <!-- Core plugin JavaScript-->
-        <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-        <!-- Custom scripts for all pages-->
         <script src="/js/sb-admin.min.js"></script>
+
 </body>
 
 </html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>BMSTU Student Portal</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+
+    <link href="/css/sb-admin.css" rel="stylesheet">
+</head>
+
+<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+    <% include navbar %>
+        <div class="content-wrapper">
+            <div class="container-fluid">
+                <table id="tableReport" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Description</th>
+                            <th>New</th>
+                            <th>Informed user</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                            <!-- <th>Salary</th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <script src="/js/sb-admin.min.js"></script>
+
+        <script src="/vendor/datatables/jquery.dataTables.js"></script>
+        <script src="/vendor/datatables/dataTables.bootstrap4.js"></script>
+        
+        <script>
+            $(() => {
+                get_report()
+                handle_decide()
+            })
+
+            function get_report() {
+                $.get('/r/all?l=1000', (data) => {
+                    r = data.response
+                    // console.log(r)
+                    renderTable(r)
+                })
+            }
+
+            function renderTable(data) {
+                $('#tableReport').DataTable({
+                    data: data,
+                    columns: [{
+                            data: 'users.user.fullname',
+                            render: function (data, type, row) {
+                                return `<a href="/user/${row.user}">${data}</a>`
+                            }
+                        },
+                        {
+                            data: 'description',
+                        },
+                        {
+                            data: 'status',
+                            render: function (data, type, row) {
+                                if (data == "decided")
+                                    return `<span class="badge badge-warning">${data}</span>`
+                                else
+                                    return `<span class="badge badge-success">${data}</span>`
+                            }
+                        },
+                        {
+                            data: 'users.user_informed.fullname',
+                            render: function (data, type, row) {
+                                return `<a href="/user/${row.user_informed}">${data}</a>`
+                            }
+                        },
+                        {
+                            data: 'date_created',
+                            render: function (data, type, row) {
+                                date = new Date(data * 1000);
+                                return Intl.DateTimeFormat('en-US').format(date)
+                            }
+                        }
+                    ],
+                    columnDefs: [{
+                        targets: 5,
+                        render: function (data, type, row, meta) {
+                            // console.log(meta)
+                            if (row['status'] == 'new')
+                                return `<button class="btn btn-outline-primary" id="decide_${meta.row}" data=${meta.row}>Decide</button>`
+                            else
+                                return '-'
+                        }
+                    }]
+                });
+            }
+
+            function handle_decide() {
+                $(document).on('click', '[id^="decide_"]', function (e) {
+                    i = parseInt($(this).attr('data'))
+                    // console.log(i)
+                    btn_id = e.target.id
+                    var selector = $(`#tableReport tbody tr:nth-child(${i}) td:nth-child(3) span`)
+                    // console.log(selector)
+                    id = r[i]['_id']
+                    // console.log(id)
+                    $.ajax({
+                        url: '/r/decided',
+                        type: 'PUT',
+                        data: {
+                            id: id
+                        },
+                        success: function (result) {
+                            console.log(result)
+                            if(result.statusCode==200){
+                                selector.removeClass('badge-success')
+                                selector.addClass('badge-warning')
+                                selector.html("decided")
+                                $(`#${btn_id}`).addClass('d-none')
+                            }else
+                                alert("Something wrong!")
+                        }
+                    });
+                })
+            }
+        </script>
+</body>
+
+</html>

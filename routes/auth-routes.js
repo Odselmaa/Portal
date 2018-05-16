@@ -1,10 +1,10 @@
 var body_parser = require("body-parser");
 
 var h = require('./helper.js')
-var i18n = require('../i18n.js')
+var i18n = require('../i18n/i18n.js')
 
 var connection = require('./connection.js')
-var i18n = require('../i18n.js')
+var i18n = require('../i18n/i18n.js')
 var jwt = require('jsonwebtoken');
 
 var router = connection.router

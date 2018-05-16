@@ -12,3 +12,4 @@ exports.instance = function() {
 
 exports.TTL = 10000;
 exports.FR_TTL = 100;
+exports.CONFIRM_TTL = 60 * 60 * 24 * 5

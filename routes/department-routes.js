@@ -71,7 +71,8 @@ var department_handler = function (req, res) {
         lang: lang,
         current_user_id: current_user_id,
         dep_id: dep_id,
-        i18n: res
+        i18n: res,
+        role: req.session[current_user_id].role['_id']
     })
 }
 
