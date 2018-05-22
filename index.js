@@ -378,7 +378,7 @@ app.get("/test_token", (req, res) => {
     res.send(req.session)
 })
 
-
-var server = http.listen(3000, () => {
-    
-})
+const port = process.env.PORT || 8080;
+app.listen(port, () => {
+  console.log('Express server listening on port', port)
+});
