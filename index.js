@@ -366,6 +366,7 @@ io.on('connection', (socket) => {
         io.emit('logged_in', {
             "user_id": data.user_sender
         })
+        io.emit('ok', "hey");
     })
     socket.on("logout", function (data) {
         delete_socket(data.user_sender, socket.id)
