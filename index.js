@@ -362,7 +362,7 @@ io.on('connection', (socket) => {
     // 
     socket.on("login", function (data) {
         set_socket(data.user_sender, socket.id)
-        console.log("user connected", socket.id + " "+ data)
+        console.log("user connected", data)
         io.emit('logged_in', {
             "user_id": data.user_sender
         })
