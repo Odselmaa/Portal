@@ -133,7 +133,7 @@ var login_post_handler = function(req, res){
     };
     h.send_request(options, function (error, response, body) {
         // console.log(response)
-        if (!error &&  response.statusCode == 200) {
+        if (!error &&  body.statusCode == 200) {
             var access_token = body.response.access_token
             var user_id = body.response.user_id
             set_session(req.session, 'access_token', access_token)
