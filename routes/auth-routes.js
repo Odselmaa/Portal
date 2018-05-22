@@ -145,7 +145,7 @@ function get_set_profile(session, user_id, func_callback) {
         uri: `${urls.API_URL}user/${user_id}`,
         method: 'GET',
         json: {
-            // fields: ["firstname", "lastname", "profile", "gender", "role", "friends", "socials", "email", "languages", "department", "blocked", "country", "bio"] 
+            fields: ["firstname", "lastname", "profile", "gender", "role", "friends", "socials", "email", "languages", "department", "blocked", "country", "bio"] 
         },
         headers: {
             "Authorization": `Bearer ${session.access_token.token}`

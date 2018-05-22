@@ -110,6 +110,7 @@ module.exports = {
 
         if (user_id == req.session.user_id) {
             response = req.session[user_id]
+            delete response['access_token']
             res.json({
                 response: response,
                 statusCode: 200
