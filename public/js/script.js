@@ -1,6 +1,6 @@
 function get_friends(user_id, lang, callback) {
         $.get(`/f/${user_id}/${lang}`, (data) => {
-            console.log(data)
+            
             callback(data.response)
         })
 }

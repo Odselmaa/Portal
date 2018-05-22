@@ -80,7 +80,7 @@
         <script>
             $(() => {
                 $.get('/api/dep/<%=dep_id%>/<%=lang%>', (r) => {
-                    console.log(r)
+                    
                     if (r.statusCode == 200) {
                         set_department(r.response)
                         set_chairs(r.response.chairs)
@@ -106,15 +106,15 @@
             function append_chair(chair) {
                 $("#chairs").append(
                     `<div class="col-md-4 mt-3">
-                    <h6 class="upper"><a href="/chair/${chair.code}/<%=lang%>">${chair.code}</a></h6>
-                    <div class="title"><a href="/chair/${chair.code}/<%=lang%>">${chair.name}</a></div>
+                    <h6 class="upper"><a href="/chair/${chair._id}/<%=lang%>">${chair.code}</a></h6>
+                    <div class="title"><a href="/chair/${chair._id}/<%=lang%>">${chair.name}</a></div>
                     </div>`
                 )
             }
 
             function get_review(id) {
                 $.get(`/api/review/dep/${id}`, (r) => {
-                    console.log(r)
+                    
                     if (r.statusCode == 200) {
                         set_review(r.response)
                     }

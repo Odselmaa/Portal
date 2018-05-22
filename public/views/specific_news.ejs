@@ -52,7 +52,7 @@
 </body>
 <script>
     $.get(`/api/news/<%=news_id%>`, (data) => {
-        console.log(data)
+        
         if (data.statusCode == 200) renderNews(data.response)
         else alert("Something went wrong!")
 

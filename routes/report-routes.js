@@ -24,7 +24,7 @@ router.post('/r', h.logMiddleware, (req, res) => {
     json: body
   };
   h.send_request(options, function (error, response, body) {
-    console.log(body)
+    
     delete_cache(`report_all`)
 
     res.json(body);
@@ -38,7 +38,7 @@ router.get('/r/:status', h.logMiddleware, (req, res) => {
   var limit = req.query.l == undefined ? 5 : parseInt(req.query.l)
   try {
     value = cache.instance().get(report_key, true);
-    console.log("REPORT IS IN CACHE")
+    
     res.json(value)
 
   } catch (err) {
@@ -51,11 +51,11 @@ router.get('/r/:status', h.logMiddleware, (req, res) => {
       }
     }
     h.send_request(options, function (error, response, body) {
-      console.log(body)
+      
 
-      if (body.statusCode == 200) {
+      if (!error && body.statusCode == 200) {
         cache.instance().set(report_key, body, cache.TTL);
-        console.log("SAVING REPORT IN CACHE")
+        
         res.json(body)
       } else {
         res.json(body)
@@ -63,11 +63,12 @@ router.get('/r/:status', h.logMiddleware, (req, res) => {
     })
   }
 })
+
 router.get('/api/r', h.logMiddleware, (req, res) => {
   var report_key = `all_report`
   try {
     value = cache.instance().get(report_key, true);
-    console.log("REPORT IS IN CACHE")
+    
     res.json(value)
 
   } catch (err) {
@@ -80,11 +81,9 @@ router.get('/api/r', h.logMiddleware, (req, res) => {
       }
     }
     h.send_request(options, function (error, response, body) {
-      console.log(body)
-
       if (body.statusCode == 200) {
         cache.instance().set(report_key, body, cache.TTL);
-        console.log("SAVING REPORT IN CACHE")
+        
         res.json(body)
       } else {
         res.json(body)
@@ -143,10 +142,10 @@ router.get(['/report', '/report/:language(en|ru)'], h.logMiddleware, (req, res) 
 function delete_cache(key){
     cache.instance().del(key, function( err, count ){
       if( !err ){
-        console.log( count ); // 1
-        console.log(`Deleted ${key}`)
+        
+        
       }else{
-        console.log(`Can't delete ${key} or it doesn't exist`)
+        
       }
     });
 }

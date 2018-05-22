@@ -169,7 +169,7 @@
                 $.get(`/api/dep/${lang}`)
                     .done((response) => {
                         if (response.statusCode == 200) {
-                            console.log(response)
+                            
                             departments = response.response
                             $.each(departments, (i, val) => {
                                 $('#ddDepartment')
@@ -180,6 +180,8 @@
 
                 $.get(`/languages/${lang}`)
                     .done((response) => {
+                        console.log(response)
+
                         if (response.statusCode == 200) {
                             languages = response.response
                             $.each(languages, (i, val) => {
@@ -187,9 +189,14 @@
                                     `<li class="dropdown-item">${val.name}</li>`)
                             })
                         }
+                    }).fail((e)=>{
+                        console.log(e)
+
                     })
                 $.get(`/gender/${lang}`)
                     .done((response) => {
+                        console.log(response)
+
                         if (response.statusCode == 200) {
                             genders = response.response
                             $.each(genders, (i, val) => {
@@ -199,12 +206,16 @@
                     })
                 $.get(`/country/${lang}`)
                     .done((response) => {
+                        console.log(response)
                         if (response.statusCode == 200) {
                             countries = response.response
                             $.each(countries, (i, val) => {
                                 $('#ddCountry').append(`<li class="dropdown-item">${val.name}</li>`)
                             })
                         }
+                    }).fail((e)=>{
+                        console.log(e)
+
                     })
             });
 
@@ -358,16 +369,16 @@
                 if ('country' in keys && keys['country'] != 0)
                     str += `cn=${keys['country']}`
                 url = `/u?q=${q}&l=${l}&s=${s}&${str}`
-                console.log(url)
+                
                 $.get(url).done((r) => {
-                    console.log(r)
+                    
                     if (r.statusCode == 200) {
                         if (r.response.length == 0) {
                             $("#noResult").show()
                         } else {
                             var addition = ''
                             u = r.response
-                            console.log(u)
+                            
                             $.each(r.response, (index, val) => {
                                 var dep = ""
                                 if ('department' in val && val.department != undefined) {
@@ -411,7 +422,7 @@
                     $.get(`/api/chair/dep/${department_id}/${lang}`)
                         .done((response) => {
                             if (response.statusCode == 200) {
-                                console.log(response)
+                                
                                 chair_list = response.response
                                 setChairs(chair_list);
                                 chairs[department_id] = chair_list
@@ -432,7 +443,7 @@
                 .done((r) => {
                     if(r.statusCode==201){
                         callback()
-                        console.log(r)
+                        
 
                     }
                 })
@@ -453,7 +464,7 @@
             }
 
             function setUsers(array) {
-                //console.log(array)
+                
             }
 
             function isEmpty(str) {

@@ -8,6 +8,9 @@ module.exports = {
             method: 'GET',
             json: {
                 fields: ['author', 'body', 'created_when']
+            },
+            headers: {
+                "Authorization": `Bearer ${req.session.access_token.token}`
             }
         };
         h.send_request(options, function (error, response, body) {
@@ -40,13 +43,13 @@ module.exports = {
             }
         };
         h.send_request(options, function (error, response, body) {
-            console.log(body)
+            
             if (!error &&  body.statusCode == 200) {
                 var chats = body.response
                 for (var i=0;i<chats.length; i++){
                     u = chats[i].participants
                     if(u.profile!="" && u.profile!=undefined){
-                        console.log(chats[i].participants)
+                        
                         img_path = h.uploadDir(u['_id'])
                         h.base64img(u.profile, `.${img_path}`)
                         u.profile = img_path

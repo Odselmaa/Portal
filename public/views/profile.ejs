@@ -38,11 +38,8 @@
                     <div class="card-body" id="boxshadow" style="display: none">
                         <div class='row'>
                             <div class='col-4'>
-                                <h4 class="card-title" ><span id="name"> </span>
-                                    <%if (is_verified) { %>
-                                    <i class="ml-1 blue fa fa-check-circle" style="color:#007bff;font-size: 20px"></i>
-                                    <%}%>
-                                </h4>
+                                <h4 class="card-title" id="name">
+                                      </h4>
                                
                                 <h5 class="card-subtitle mb-2 text-muted" id="role"></h5>
                                 </br>
@@ -215,18 +212,25 @@
         <script>
             $(() => {
                 $.get('/u/<%=user_id%>/<%=lang%>', (response) => {
-                    if (response.statusCode == 200) {
-                        console.log(response)
-                        var info = response.response;
+                    console.log(response)
 
+                    if (response.statusCode == 200) {
+                        
+                        var info = response.response;
                         var friend_count = 'friends' in info ? info.friends.length : 0
                         //do something for successful response
-                        $("#name").html(info.firstname + " " + info.lastname);
+                        $("#name").append(
+                        `<span id="name">${info.firstname + " " + info.lastname}</span>`    
+                        );
+                        if(info.verified_email!=undefined)
+                            $("#name").append(`<i class="ml-1 blue fa fa-check-circle" style="color:#007bff;font-size: 20px"></i>`)
+                        
                         $("#role").html(info.role.name);
                         $("#contact").html(info.email);
                         $("#friends").html(friend_count);
-                        $("#bio").html(info.bio)
-                        console.log(info)
+                        if("bio" in info)
+                            $("#bio").html(info.bio.trim())
+                        
 
                         var languages = info.languages
                         $.each(languages, (k, l) => {
@@ -294,10 +298,10 @@
 
                         $(".card-body").show();
                         $(document).on('click', "#btnAddFriend", function () {
-                            console.log("btn clicked")
+                            
                             $.post('/f/<%=user_id%>')
                                 .done(function (response) {
-                                    console.log(response)
+                                    
                                     if (response.statusCode == 201) {
                                         $("#btnFriendMode").html('Friends')
                                         $("#btnAddFriend").replaceWith(
@@ -315,12 +319,12 @@
                         })
 
                         $(document).on('click', "#btnUnfriend", function () {
-                            console.log("unfriend btn clicked")
+                            
                             $.ajax({
                                 url: '/f/<%=user_id%>',
                                 method: 'delete',
                             }).done(function (response) {
-                                console.log(response);
+                                
                                 if (response.statusCode == 200) {
                                     $("#btnFriendMode").html('Add friend')
                                     $("#btnUnfriend").replaceWith(
@@ -340,7 +344,7 @@
                         $("#not_success").removeClass('d-block')
 
                     }
-                    console.log(response);
+                    
                 })
 
             })

@@ -40,7 +40,7 @@
             var body = { user_receiver: "<%= user_receiver%>" };
             $.get(url = "/messages", body)
                 .done(function (response) {
-                    console.log(response)
+                    
                     if (response.statusCode == 200) {
                         showMessages(response.body)
                     }
@@ -50,13 +50,13 @@
                 addMessage(body)
                 $.post(url = "/messages", body)
                     .done(function (response) {
-                        console.log(response)
+                        
                     })
             })
         })
 
         function addMessage(message) {
-            console.log(message)
+            
             if (message['user_receiver'] == "<%= user_sender%>" ) {
                 addMyMsg(message.body)
             } else {
@@ -67,7 +67,7 @@
         function showMessages(msgs) {
             $.each(msgs, function (index, msg) {
                 var user_receiver = "<%= user_receiver %>";
-                console.log(msg.author + "and" + user_receiver)
+                
                 // msg.user_receiver
                 if (msg.author== user_receiver) {
                     addMyMsg(msg.body)

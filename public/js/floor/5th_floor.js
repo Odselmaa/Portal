@@ -493,7 +493,7 @@ function deselect_room(node){
 }
 
 function isChair(id, a) {
-	// console.log(a)
+	// 
 	return $.inArray(id, a) != -1
 }
 

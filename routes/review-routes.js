@@ -45,9 +45,9 @@ function dep_report_api(req, res){
     var lang = req.params.language == undefined ? 'en' : req.params.language
 
     var options = {
-        uri: `${urls.API_URL}review/department/report`,
+        uri: `${urls.API_URL}review/department/report?lang=${lang}`,
         method: 'GET',
-        json: {lang:lang},
+        json: {},
         headers: {"Authorization": `Bearer ${req.session.access_token.token}`}
     };
     h.send_request(options, function (error, response, body) {
@@ -57,7 +57,7 @@ function dep_report_api(req, res){
 
 function review_api(req, res){
     var payload = JSON.parse(req.body.payload)
-    console.log(payload)
+    
     var uri = `${urls.API_URL}review/${payload.type}`
 
     if(payload.type=="department"){

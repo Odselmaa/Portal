@@ -9,7 +9,7 @@ router.get(['/languages/:language(en|ru)'], h.logMiddleware, (req, res) => {
     var lang_key = `lang_${lang}`
     try {
         value = cache.instance().get(lang_key, true);
-        console.log("LANG IS IN CACHE")
+        
         res.json(value)
     } catch (err) {
         var options = {
@@ -26,7 +26,7 @@ router.get(['/languages/:language(en|ru)'], h.logMiddleware, (req, res) => {
         h.send_request(options, function (error, response, body) {
             if (!error && body.statusCode == 200) {
                 cache.instance().set(lang_key, body, cache.TTL );
-                console.log("SAVING LANG IN CACHE")
+                
                 res.json(body)
             } else {
                 res.json(body)

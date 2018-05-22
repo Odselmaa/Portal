@@ -87,7 +87,7 @@ router.post('/api/news', (req, res) => {
 router.get('/api/news', (req, res) => {
     var tags = req.query.tags
     // var limit = req.query.limit == undefined? 5: req.query.limit
-    // console.log(tags)
+    // 
     if(tags!=undefined || tags!=""){
         var options = {
             uri: `http://localhost:3001${req.url}`,
@@ -121,7 +121,7 @@ router.put('/api/news', (req, res) => {
     delete body['_id']
     h.send_request(options, function (error, response, body1) {
         if (body1.statusCode == 200) {
-            console.log(body1)
+            
             //   put2session(req.session, user_id1, 'friends', user_id2)
         }
         res.json(body1);

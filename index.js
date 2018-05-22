@@ -132,6 +132,7 @@ var login_post_handler = function(req, res){
         }
     };
     h.send_request(options, function (error, response, body) {
+        // console.log(response)
         if (!error &&  response.statusCode == 200) {
             var access_token = body.response.access_token
             var user_id = body.response.user_id
@@ -139,18 +140,13 @@ var login_post_handler = function(req, res){
             set_session(req.session, 'user_id', user_id)
 
             get_set_profile(req.session, user_id, () => {
-
-              
                 res.json({
-                    
                     body: 'Successfully logged',
                     statusCode: response.statusCode
                 })
             })
         } else {
-            res.json({
-                response
-            })
+            res.json(body)
         }
     })
 }
@@ -200,7 +196,7 @@ var msg_post_handler = function(req, res){
 
     var user_receiver = req.body.user_receiver
     var chat_title = session[user_sender].firstname
-    // console.log(req.session[user_sender]['firstname'])
+    // 
     var user = session[user_sender]
     var access_token = session.access_token.token
     body["user_sender"] = user_sender
@@ -252,7 +248,7 @@ function send_message(chat_id, user_sender, body, access_token) {
 
     h.send_request(options, function (error, response, body) {
         if (!error &&  response.statusCode == 200) {
-            console.log(body)
+            
         } else {
            
         }
@@ -288,8 +284,8 @@ function get_set_profile(session, user_id, func_callback) {
     };
 
     h.send_request(options, function (error, response, body) {
-        if (!error &&  body.statusCode == 200) {
-            // console.log(session)
+        // console.log
+        if (body.statusCode == 200) {
             if(body.response.profile!=""){
                 img_path = h.uploadDir(user_id)
                 h.base64img(body.response.profile, `.${img_path}`)
@@ -297,9 +293,10 @@ function get_set_profile(session, user_id, func_callback) {
             }
             set_session(session, user_id, body.response)
             func_callback()
-            // console.log(body)
+            // 
         } else {
-            // console.log({ body: body.error, statusCode:  response.statusCode })
+            func_callback()
+            
         }
     })
 }
@@ -355,18 +352,18 @@ app.post("/register", register_post_handler)
 app.post("/messages", h.logMiddleware, msg_post_handler)
 
 io.on('connection', (socket) => {
-    console.log('user connected')
-    // console.log(connectedUsers)
+    
+    // 
     socket.on("login", function (data) {
         set_socket(data.user_sender, socket.id)
-        console.log("logging ", connectedUsers)
+        console.log("user connected", socket.id)
         io.emit('logged_in', {
             "user_id": data.user_sender
         })
     })
     socket.on("logout", function (data) {
         delete_socket(data.user_sender, socket.id)
-        console.log("loggin out ", connectedUsers)
+        
     })
 })
 
@@ -374,7 +371,7 @@ app.get("/test_token", (req, res) => {
     // async
     cache.instance().keys( function( err, mykeys ){
         if( !err ){
-        console.log( mykeys );
+        
         // [ "all", "my", "keys", "foo", "bar" ]
         }
     });
@@ -383,5 +380,5 @@ app.get("/test_token", (req, res) => {
 
 
 var server = http.listen(3000, () => {
-    console.log("server is listening on port", server.address().port)
+    
 })

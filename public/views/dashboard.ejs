@@ -232,7 +232,7 @@
         }
         function get_users(){
           $.get(`/allu/${lang}?l=5`, (data) => {
-            console.log(data)
+            
             if (data.statusCode == 200) {
               $.each(data.response, (i, user) => {
                 if(user.department == undefined || user.department.code==undefined) code = '-'
@@ -250,7 +250,7 @@
         }
         function get_report(){
           $.get('/r/new?limit=5', (data) => {
-            console.log(data)
+            
 
             if (data.statusCode == 200) {
               r = data.response
@@ -287,7 +287,7 @@
         }
         function get_review(){
           $.get('/api/review/department/report/<%=lang%>', (r)=>{
-            console.log(r)
+            
             if(r.statusCode == 200){
               deps = r.response.departments
               $.each(r.response.report, (i, item) => {

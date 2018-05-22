@@ -226,14 +226,14 @@
         $.each(items, (i, item) => {
             $("#selectDepartment").append(`<option value="${item._id}">${item.code} | ${item.name}</option>`)
         })
-        console.log(items[0]._id)
+        
         // get_chair(items[0]._id)
     }
 
     function set_department_change() {
         $("#selectDepartment").change(() => {
             var dep = $('#selectDepartment').find(":selected")
-            // console.log(dep.attr("id"))
+            // 
             if (!type)
                 get_chair(dep.attr("value"))
         })
@@ -269,7 +269,7 @@
     }
 
     function inform_error(e) {
-        console.log(e)
+        
     }
 </script>
 

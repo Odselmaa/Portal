@@ -23,7 +23,7 @@ app.post('/upload', function(req, res){
   
     // log any errors that occur
     form.on('error', function(err) {
-      console.log('An error has occured: \n' + err);
+      
     });
   
     // once all the files have been uploaded, send a response to the client

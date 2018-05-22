@@ -295,7 +295,7 @@
         "<% } }%>"
 
         "<% for (var j=user.news_tags.length, len1=user.news_tags.length; j>=0; j--) { %>"
-        console.log("<%=user.news_tags[j]%>")
+        
         $("#inputTags").tagsinput('add', "<%=user.news_tags[j]%>")
         "<% } %>"
 
@@ -331,7 +331,7 @@
             departments = items
             $.each(items, (i, v) => {
                 if (v["_id"] == "<%=user.department['_id']%>") {
-                    // console.log("hey")
+                    // 
                     $("#selectDepartment").append(
                         `<option selected id="${v["_id"]}">${v.code} | ${v.name}</option>`
                     )
@@ -398,7 +398,7 @@
         }
 
         function inform_error(e) {
-            console.log(e)
+            
         }
 
         function get_chair(id) {
@@ -427,7 +427,7 @@
         }
 
         function upload(user) {
-            console.log("uploading")
+            
             var formData = new FormData();
 
             if (file_changed) {
@@ -446,8 +446,8 @@
                 processData: false,
                 contentType: false,
                 success: function (data) {
-                    console.log('upload successful!\n' + data);
-                    console.log(data)
+                    
+                    
                     $('.progress').removeClass('d-block').addClass('d-none')
                     showSnackbar('snackbarUpdate')
                     file_changed = false
@@ -492,12 +492,12 @@
                 var lastname = $("#inputLastname").val()
                 var gender = $('#selectGender').find(":selected").attr("id")
                 var country = $("#selectCountry").find(":selected").attr("id")
-                // console.log(langs)
+                // 
                 var bio = $("#textareaBio").val()
                 //background scene
                 var dep_index = $('#selectDepartment').find(":selected").index()
                 var deprt = departments[dep_index - 1]
-                // console.log(dep)
+                // 
 
                 var chair_index = $("#selectChair").find(":selected").index()
                 var chair = chairs[chair_index - 1]
@@ -555,7 +555,7 @@
                     var index = $(node).attr('data')
                     langs.push(index)
                 })
-                console.log(langs)
+                
                 if (isEqual(langs, user_langs) == false) {
                     tmp = []
                     $.each(childs, (i, node) => {

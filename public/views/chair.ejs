@@ -74,7 +74,7 @@
         <script>
             $.get('/api/chair/<%=chair_id%>/<%=lang%>', (r) => {
                 if (r.statusCode == 200) {
-                    console.log(r)
+                    
                     set_chair(r.response)
                     get_review(r.response._id)
                 }
@@ -87,7 +87,7 @@
 
             function get_review(_id) {
                 $.get(`/api/review/chair/${_id}`, (r) => {
-                    console.log(r)
+                    
                     set_review(r.response)
                 })
             }

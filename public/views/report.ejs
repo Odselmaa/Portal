@@ -54,7 +54,7 @@
             function get_report() {
                 $.get('/r/all?l=1000', (data) => {
                     r = data.response
-                    // console.log(r)
+                    // 
                     renderTable(r)
                 })
             }
@@ -97,7 +97,7 @@
                     columnDefs: [{
                         targets: 5,
                         render: function (data, type, row, meta) {
-                            // console.log(meta)
+                            // 
                             if (row['status'] == 'new')
                                 return `<button class="btn btn-outline-primary" id="decide_${meta.row}" data=${meta.row}>Decide</button>`
                             else
@@ -110,12 +110,12 @@
             function handle_decide() {
                 $(document).on('click', '[id^="decide_"]', function (e) {
                     i = parseInt($(this).attr('data'))
-                    // console.log(i)
+                    // 
                     btn_id = e.target.id
                     var selector = $(`#tableReport tbody tr:nth-child(${i}) td:nth-child(3) span`)
-                    // console.log(selector)
+                    // 
                     id = r[i]['_id']
-                    // console.log(id)
+                    // 
                     $.ajax({
                         url: '/r/decided',
                         type: 'PUT',
@@ -123,7 +123,7 @@
                             id: id
                         },
                         success: function (result) {
-                            console.log(result)
+                            
                             if(result.statusCode==200){
                                 selector.removeClass('badge-success')
                                 selector.addClass('badge-warning')

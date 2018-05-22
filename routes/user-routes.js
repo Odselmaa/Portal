@@ -79,7 +79,6 @@ var check_confirm_handler = (req, res) => {
   var message = ""
   try {
     value = cache.instance().get(token, true);
-    console.log(value)
     u.update_user({
       verified_email: value.verified_email,
       user_id: value.user_id
@@ -109,7 +108,7 @@ router.get(['/user/:user_id', '/user/:user_id/:language(en|ru)'], h.logMiddlewar
 router.get('/verify/:token', h.logMiddleware, check_confirm_handler)
 
 //API Specific user profile page route.
-router.get(['/u/:user_id', '/u/:user_id/:language(en|ru)'], h.detectAjax, h.logMiddleware, u.user_api)
+router.get(['/u/:user_id', '/u/:user_id/:language(en|ru)'], h.logMiddleware, u.user_api)
 router.get(['/u', '/u/:language(en|ru)'], h.logMiddleware, u.filter_users_api)
 router.get(['/allu', '/allu/:language(en|ru)'], h.logMiddleware, u.last_user_api)
 router.post('/b/:user_id', h.logMiddleware, u.block_user_api)

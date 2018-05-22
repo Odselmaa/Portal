@@ -23,7 +23,6 @@ router.get('/location/:language(en|ru)', (req, res) => {
     }else{
         res.render('error/401')
     }
-
 })
     
 module.exports = router;

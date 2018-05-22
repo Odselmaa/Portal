@@ -119,10 +119,10 @@
             if (response.statusCode == 200) {
                 setDataTable(response.response)
                 news = response.response
-                console.log(response)
+                
             } else {
                 alert("Something went wrong!")
-                console.log(response)
+                
             }
         })
 
@@ -187,7 +187,7 @@
         $.each(n.tags, (i, tag) => {
             addChip(tag)
         })
-        console.log(n)
+        
     }
 
     function handleInput(e) {
@@ -207,7 +207,7 @@
 
     function deleteNews(e) {
         index = $("table td button#btnDelete").index($(e.target))
-        console.log(index)
+        
     }
 
     function saveNews() {
@@ -240,7 +240,7 @@
                 dataType: 'json',
                 success: function (data) {
                     if (data.statusCode == 200) {
-                        console.log(data)
+                        
                         // news[index] = n
                         // var table = $('#dataTableNews').DataTable();
                         // table.ajax.reload()

@@ -17,7 +17,7 @@ router.use(body_parser.urlencoded({
 
 
 router.get(["/", '/:language(en|ru)'], h.logMiddleware, (req, res) => {
-    // console.log(req.session.access_token)
+    // 
     var lang = req.params.language == undefined ? 'en' : req.params.language
     req.setLocale(lang);
 
@@ -68,14 +68,17 @@ router.post("/login", (req, res) => {
             set_session(req.session, 'access_token', access_token)
             set_session(req.session, 'user_id', user_id)
 
-            get_set_profile(req.session, user_id, () => {
-
-              
-                res.json({
-                    
-                    body: 'Successfully logged',
-                    statusCode: response.statusCode
-                })
+            get_set_profile(req.session, user_id, (response) => {
+                if(response.statusCode == 200)
+                    res.json({
+                        body: 'Successfully logged',
+                        statusCode: response.statusCode
+                    })
+                else
+                    res.json({
+                        body: 'Error',
+                        statusCode: response.statusCode
+                    })
             })
         } else {
             res.json({
@@ -113,7 +116,7 @@ router.get("/register", (req, res) => {
 
 
 router.post("/register", (req, res) => {
-    // console.log(res)
+    // 
     var payload = req.body
     payload.role = 2
     var my_token = jwt.sign(payload, 'f*ckyou');
@@ -150,21 +153,16 @@ function get_set_profile(session, user_id, func_callback) {
     };
 
     h.send_request(options, function (error, response, body) {
-        if (!error &&  body.statusCode == 200) {
-            // console.log(session)
+        if (!error &&  response.statusCode == 200) {
             if(body.response.profile!=""){
                 img_path = h.uploadDir(user_id)
-                console.log("get set profile")
+                
                 h.base64img(body.response.profile, `.${img_path}`)
                 body.response.profile = img_path
             }
             set_session(session, user_id, body.response)
-            func_callback()
-            // console.log(body)
-        } else {
-            // console.log({ body: body.error, statusCode:  response.statusCode })
-        }
-        console.log(response.body)
+        } 
+        func_callback(response)
     })
 }
 function set_session(session, key, value) {

@@ -1,11 +1,13 @@
-var h = require('../routes/helper.js')
-var urls = require('../url')
-var fs = require('fs');
-var sharp = require('sharp')
-var v = require('./verification-controller.js')
-var formidable = require('formidable');
-var path = require('path')
-var cache = require('../routes/cache-provider.js')
+let h = require('../routes/helper.js')
+let urls = require('../url')
+let fs = require('fs');
+let sharp = require('sharp')
+let v = require('./verification-controller.js')
+let formidable = require('formidable');
+let path = require('path')
+let cache = require('../routes/cache-provider.js')
+let querystring = require('querystring');
+
 // var cache = cache_provider.cache
 
 function update_user(payload, request, callback) {
@@ -20,7 +22,6 @@ function update_user(payload, request, callback) {
     };
 
     h.send_request(options, function (error, response, body, req) {
-        console.log(body)
         if (!error && body.statusCode == 200) {
             if ('profile' in payload) {
                 img_path = h.uploadDir(user_id)
@@ -48,8 +49,6 @@ function resize(user) {
             });
         user.profile = img_path
         user.old_path = old_path
-        console.log("resizing")
-
         resolve(user);
     });
     return promise;
@@ -60,7 +59,6 @@ function convert(user) {
         setTimeout(function () {
             var bitmap = fs.readFileSync(user.profile);
             user.profile = new Buffer(bitmap).toString('base64')
-            console.log("converting")
             resolve(user);
         }, 500);
     });
@@ -74,10 +72,8 @@ function delete_old(user) {
                 console.log("Deleting old image is giving error", err);
                 reject(user)
             } else {
-                console.log("OLD IMAGE IS DELETED")
                 delete user.old_path
                 resolve(user);
-                // console.log(user)
             }
         })
     });
@@ -113,8 +109,6 @@ module.exports = {
         var lang = req.params.language == undefined ? 'en' : req.params.language
 
         if (user_id == req.session.user_id) {
-            // console.log("here is")
-            // if(lang=='en')
             response = req.session[user_id]
             res.json({
                 response: response,
@@ -122,23 +116,22 @@ module.exports = {
             })
         } else {
             if (user_id != undefined) {
+                fields = ["firstname", "lastname", "profile", "gender", "role", "friends", "socials", "email", "languages", "department", "country"]
                 var options = {
-                    uri: `${urls.API_URL}user/${user_id}`,
+                    uri: `${urls.API_URL}user/${user_id}?lang=${lang}&fields=${fields.join(',')}`,
                     method: 'GET',
-                    json: {
-                        fields: ["firstname", "lastname", "profile", "gender", "role", "friends", "socials", "email", "languages", "department", "country"],
-                        lang: lang
-                    },
+                    json: {},
                     headers: {
                         "Authorization": `Bearer ${req.session.access_token.token}`
                     },
                 };
 
                 current_user = req.session[req.session.user_id]
-                if (current_user.role._id == 1) options.json.fields.push("blocked")
+                if (current_user.role._id == 1) fields.push("blocked")
 
 
-                h.send_request(options, function (error, response, body, req) {
+                h.send_request(options, function (error, response, body) {
+
                     if (!error && body.statusCode == 200) {
 
                         if (body.response.profile != "") {
@@ -146,11 +139,13 @@ module.exports = {
                             img_path = h.uploadDir(user_id)
                             h.base64img(body.response.profile, `..${img_path}`)
                             body.response.profile = img_path
-                            // console.log()
                         }
                         res.json(body)
                     } else {
-                        res.json(body)
+                        res.json({
+                            response: "Something went wrong",
+                            statusCode: "400"
+                        })
                     }
                 })
             } else {
@@ -165,7 +160,6 @@ module.exports = {
     filter_users_api: function (req, res) {
         var query = req.query.q
         var lang = req.params.language == undefined ? 'en' : req.params.language
-        console.log(lang)
         var limit = req.query.l == undefined ? 10 : parseInt(req.query.l)
         var skip = req.query.s == undefined ? 0 : parseInt(req.query.s)
 
@@ -175,51 +169,27 @@ module.exports = {
         var gender = req.query.g
         var country = req.query.cn
 
+        var fields = ['firstname', 'lastname', 'profile', 'department']
+        var keys = {}
+        if (req.session[req.session.user_id].role['_id'] == 1) fields.push('blocked')
+        if (query != undefined) keys.search_key = query;
+        if (department != undefined) keys.department = department;
+        if (ulang != undefined) keys.ulang = ulang;
+        if (chair != undefined) keys.chair = chair;
+        if (gender != undefined) keys.gender = gender;
+        if (country != undefined) keys.country = country;
+
+        query = querystring.stringify(keys);
+
         var options = {
-            uri: `${urls.API_URL}user`,
+            uri: `${urls.API_URL}user?fields=${fields.join(',')}&lang=${lang}&limit=${limit}&skip=${skip}&${query}`,
             method: 'GET',
+            json: {},
             headers: {
                 "Authorization": `Bearer ${req.session.access_token.token}`
-            },
-            json: {
-                fields: ['firstname', 'lastname', 'profile', 'department', 'blocked'],
-                lang: lang,
-                keys: {},
-                limit: limit,
-                skip: skip,
             }
         };
-
-        if (req.session[req.session.user_id].role['_id'] == 1) {
-            options.json.fields.push('blocked')
-        }
-
-        if (query != undefined) {
-            options.json.keys.search_key = query;
-        }
-
-        if (department != 0 || department != undefined) {
-            options.json.keys.department = department;
-        }
-
-        if (ulang != 0 || department != undefined) {
-            options.json.keys.ulang = ulang;
-        }
-
-        if (ulang != 0 || department != undefined) {
-            options.json.keys.chair = chair;
-        }
-
-        if (gender != 0 || department != undefined) {
-            options.json.keys.gender = gender;
-        }
-        if (country != 0 || department != undefined) {
-            options.json.keys.country = country;
-
-        }
-
-        h.send_request(options, function (error, response, body) {
-            console.log(body)
+        h.send_request(options, function (error, response, body, req) {
             res.json(body);
         })
     },
@@ -229,37 +199,38 @@ module.exports = {
         var lastu_key = `lastu_${lang}`
         try {
             value = cache.instance().get(lastu_key, true);
-            console.log("LAST USER IS IN CACHE")
             res.json(value)
 
         } catch (err) {
             var limit = req.query.l == undefined ? 10 : parseInt(req.query.l)
             var skip = req.query.s == undefined ? 0 : parseInt(req.query.s)
+            var fields = ['firstname', 'lastname', 'role', 'department'].join(',')
+            var keys = {
+                fields: fields,
+                lang: lang,
+                limit: limit,
+                skip: skip,
+            }
+            query = querystring.stringify(keys);
             var options = {
-                uri: `${urls.API_URL}user`,
+                uri: `${urls.API_URL}user?${query}`,
                 method: 'GET',
                 headers: {
                     "Authorization": `Bearer ${req.session.access_token.token}`
                 },
-                json: {
-                    fields: ['firstname', 'lastname', 'role', 'department'],
-                    lang: lang,
-                    keys: {},
-                    limit: limit,
-                    skip: skip,
-                }
+                json: {}
             };
 
             h.send_request(options, function (error, response, body) {
-                if (response.statusCode == 200) {
+                if (!error && response.statusCode == 200) {
                     body.lastUpdate = new Date().getTime()
                     cache.instance().set(lastu_key, body, cache.TTL);
-                    console.log("SAVING LAST USER IN CACHE")
                 }
                 res.json(body);
             })
         }
     },
+
     friends_api: function (req, res) {
         var lang = req.params.language == undefined ? 'en' : req.params.language
         var user_id = req.params.user_id
@@ -267,25 +238,21 @@ module.exports = {
 
         try {
             value = cache.instance().get(friend_key, true);
-            console.log("FRIENDS ARE IN CACHE")
-            // console.log(value)
             res.json(value)
 
         } catch (err) {
+            fields = ['firstname', 'lastname', 'profile', 'id', 'department'].join(',')
             var options = {
-                uri: `${urls.API_URL}user/${user_id}/friend`,
+                uri: `${urls.API_URL}user/${user_id}/friend?${lang}=lang&fields=${fields}`,
                 method: 'GET',
                 headers: {
                     "Authorization": `Bearer ${req.session.access_token.token}`
                 },
                 json: {
-                    fields: ['firstname', 'lastname', 'profile', 'id', 'department'],
-                    lang: lang
                 }
             };
             h.send_request(options, function (error, response, body) {
-                // console.log(body)
-                if (body.statusCode == 200)
+                if (!error && body.statusCode == 200)
                     for (var i = 0; i < body.response.length; i++) {
                         if (body.response[i].profile != "") {
                             img_path = h.uploadDir(body.response[i]['_id'])
@@ -294,9 +261,6 @@ module.exports = {
                         }
                     }
                 cache.instance().set(friend_key, body, cache.FR_TTL);
-                console.log("SAVING FRIENDS IN CACHE")
-                console.log(body)
-
                 res.json(body);
             })
         }
@@ -428,7 +392,6 @@ module.exports = {
                 payload.user_id = req.session.user_id
                 payload.verified_email = email
                 cache.instance().set(token, payload, cache.CONFIRM_TTL);
-                console.log("CACHING TOKEN CONFIRMATION")
                 res.json({
                     response: "OK",
                     statusCode: 200

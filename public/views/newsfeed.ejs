@@ -44,7 +44,7 @@
 
 </body>
 <script>
-    // console.log("<%=news_tags%>")
+    // 
     $.get('/api/news?tags=<%=news_tags%>', (data) => {
         if (data.statusCode == 200) {
             if (data.response.length > 0)
@@ -53,7 +53,7 @@
                 renderNoResult()
 
         }
-        console.log(data)
+        
     })
 
     function addCards(cards) {

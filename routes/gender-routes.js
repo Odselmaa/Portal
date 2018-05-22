@@ -5,20 +5,18 @@ var cache = require('./cache-provider.js')
 var router = connection.router
 
 router.get('/gender/:language(en|ru)', h.logMiddleware, (req, res) => {
-    var lang = req.params.language == undefined ? 'en' : req.params.language
     var gender_key = `gender_${lang}`
     try {
         value = cache.instance().get(gender_key, true);
-        console.log("GENDER IS IN CACHE")
+        
         res.json(value)
     } catch (err) {
+        var lang = req.params.language == undefined ? 'en' : req.params.language
+
         var options = {
-            uri: `${urls.API_URL}gender`,
+            uri: `${urls.API_URL}gender?lang=${lang}`,
             method: 'GET',
-            json: {
-                fields: [],
-                lang: lang
-            },
+            json: {    },
             headers: {
                 "Authorization": `Bearer ${req.session.access_token.token}`
             }
@@ -27,7 +25,7 @@ router.get('/gender/:language(en|ru)', h.logMiddleware, (req, res) => {
         h.send_request(options, function (error, response, body, req) {
             if (!error && body.statusCode == 200) {
                 cache.instance().set(gender_key, body, cache.TTL );
-                console.log("SAVING GENDER IN CACHE")
+                
 
                 res.json(body)
             } else {

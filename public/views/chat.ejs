@@ -150,7 +150,7 @@
             socket.on('logged_out', userLoggedOut)
             $.get('/conversations', {})
                 .done(function (response) {
-                    console.log(response)
+                    
                     if (response.statusCode == 200) {
                         chat_array = response.response
                         var activeness = "active"
@@ -183,7 +183,7 @@
             });
             //serverees irsen msg iig haruulah function
             function receiveMessage(message) {
-                // console.log(message)
+                // 
                 var chat_id = message.chat_id
                 var body = message.body
                 var chat = chat_array[chat_index[chat_id]]
@@ -196,8 +196,8 @@
                 if (!("msgs" in chat)) {
                     getSetMessages(chat_index[chat_id])
                     chat = chat_array[chat_index[chat_id]]
-                    console.log(chat)
-                    // console.log(chat)
+                    
+                    // 
 
                 }
                 chat["msgs"].push({
@@ -289,7 +289,7 @@
             // receiveMessage(body)
             $.post(url = "/messages", body)
                 .done(function (response) {
-                    console.log(response)
+                    
                 })
         }
 
@@ -302,6 +302,7 @@
             } else {
                 $.get(url = "/messages", payload)
                     .done(function (response) {
+                        
                         if (response.statusCode == 200) {
                             chat_array[index]["msgs"] = response.body
                             setConversation(index)
@@ -340,7 +341,7 @@
             var msgs = chat["msgs"]
             var sent_or_reply = "sent";
             $('.messages ul').empty();
-            console.log(chat_array)
+            
             var profile;
             $('.contact-profile img').attr('src', chat.participants.profile)
             $('#sender_username').html(chat.participants.firstname + " " + chat.participants.lastname)
@@ -380,7 +381,7 @@
             $.each(chat_array, function (i, chat) {
                 if (chat.participants["_id"] == user_id) {
                     index = i
-                    console.log("breaking" + index)
+                    
                     return false
                 }
             })
@@ -390,12 +391,12 @@
         //Hereglegchiin online, offline baigaa esehiig haruulah function
         function userLogged(data) {
             var index = getChatIndexByUser(data.user_id)
-            // console.log(data)
+            // 
             $(`li#${index} .wrap span`).removeClass('offline')
             $(`li#${index} .wrap span`).addClass('online')
 
-            console.log("data")
-            console.log(data)
+            
+            
 
         }
 

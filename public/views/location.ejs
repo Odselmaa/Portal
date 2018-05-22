@@ -359,7 +359,7 @@
 
                 var count = $("div#maps div").length;
                 // $( "div#maps:first-child" ).css( "visibility", "visible" )
-                // console.log(count)
+                // 
                 for (i = 1; i < count-1; i++) {
                     if (i > 1) {
                         $(`div#maps div:nth-child(${i})`).hide()
@@ -376,7 +376,7 @@
 
             $("ul li.list-inline-item").click(function () {
                 var index = $(this).index() + 1;
-                console.log(index);
+                
                 toggleFloor(index)
 
                 // current_floor = index;
@@ -501,7 +501,7 @@
 
             function showFloor(floor_number) {
                 floor_number = parseInt(floor_number)
-                console.log(floor_number)
+                
                 toggleFloor(floor_number)
                 $(`div#maps div:nth-child(${current_floor})`).css("display", "none")
                 $(`div#maps div:nth-child(${floor_number})`).css("display", "block")

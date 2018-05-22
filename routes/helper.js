@@ -14,7 +14,7 @@ function extend_token(req, res, next_url, access_token) {
             "access_token": access_token.token
         }
     };
-    module.exports.send_request(options, function (error, response, body) {
+    module.exports.send_request(options, function (error, response, body, req) {
         if(body.statusCode == 200){
             req.session.access_token = body.response
             res.redirect(next_url)
@@ -47,7 +47,7 @@ module.exports = {
 
                     next()
                 } else {
-                    console.log('Refreshing access token')
+                    
                     extend_token(req, res, req.url, access_token)
                 }
                 // next()
@@ -60,12 +60,12 @@ module.exports = {
     base64img: function(raw, path){
         var base64Data = raw.replace(/^data:image\/png;base64,/, "");
         fs.writeFile(path, base64Data, 'base64', function(err) {
-          console.log(err);
+          
         });
     },
     uploadDir: function(user_id){
        p = `/public/uploads`
-    //    console.log(__dirname)
+    //    
     //     if (!fs.existsSync( `..${p}`)) {
     //         fs.mkdirSync(`..${p}`);
     //     }
