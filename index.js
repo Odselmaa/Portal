@@ -1,34 +1,33 @@
-var express = require("express")
-var session = require("express-session")
-var body_parser = require("body-parser")
-var request = require('request');
-var path = require('path')
-var app = express()
-var http = require('http').Server(app)
-var io = require('socket.io')(http)
-var jwt = require('jsonwebtoken');
-var passport = require('passport')
-var promise = require('promise')
-var MongoStore = require("connect-mongo")(session);
-var morgan = require('morgan')
+const express = require("express")
+const session = require("express-session")
+const body_parser = require("body-parser")
+const request = require('request');
+const path = require('path')
+const app = express()
+// const http = require('http').Server(app)
+const jwt = require('jsonwebtoken');
+const passport = require('passport')
+const promise = require('promise')
+const MongoStore = require("connect-mongo")(session);
+const morgan = require('morgan')
 
 //imported routes
-var user_routes = require('./routes/user-routes.js');
-var department_routes = require('./routes/department-routes.js');
-var chair_routes = require('./routes/chair-routes.js');
-var gender_routes = require('./routes/gender-routes.js');
-var country_routes = require('./routes/country-routes.js');
-var location_routes = require('./routes/location-routes.js');
-var report_routes = require('./routes/report-routes.js');
-var lang_routes = require('./routes/lang-routes.js');
-var news_routes = require('./routes/news-routes.js');
-var chat_routes = require('./routes/chat-routes.js');
-var review_routes = require('./routes/review-routes.js');
+const user_routes = require('./routes/user-routes.js');
+const department_routes = require('./routes/department-routes.js');
+const chair_routes = require('./routes/chair-routes.js');
+const gender_routes = require('./routes/gender-routes.js');
+const country_routes = require('./routes/country-routes.js');
+const location_routes = require('./routes/location-routes.js');
+const report_routes = require('./routes/report-routes.js');
+const lang_routes = require('./routes/lang-routes.js');
+const news_routes = require('./routes/news-routes.js');
+const chat_routes = require('./routes/chat-routes.js');
+const review_routes = require('./routes/review-routes.js');
 
-var i18n = require('./i18n/i18n.js')
-var h = require("./routes/helper.js")
-var urls = require('./url.js');
-var cache = require('./routes/cache-provider.js')
+const i18n = require('./i18n/i18n.js')
+const h = require("./routes/helper.js")
+const urls = require('./url.js');
+const cache = require('./routes/cache-provider.js')
 
 var connectedUsers = {};
 
@@ -77,6 +76,13 @@ app.use(morgan('combined'))
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/public/views');
 app.engine('html', require('ejs').renderFile);
+
+const port = process.env.PORT || 8080;
+const server = app.listen(port, () => {
+  console.log('Express server listening on port', port)
+});
+
+const io = require('socket.io')(server)
 
 
 cache.start(function(err) {
@@ -378,7 +384,4 @@ app.get("/test_token", (req, res) => {
     res.send(req.session)
 })
 
-const port = process.env.PORT || 8080;
-app.listen(port, () => {
-  console.log('Express server listening on port', port)
-});
+
