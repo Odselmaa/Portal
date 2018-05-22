@@ -21,13 +21,13 @@ This link will be expired after 5 days.
         var transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'odselmaa.dorj@gmail.com',
-                pass: '9e5-QQF-SZh-KLK'
+                user: 'noreplyportalstudent@gmail.com',
+                pass: "idon'tgiveafuck"
             }
         });
 
         var mailOptions = {
-            from: 'odselmaa.dorj@gmail.com',
+            from: 'noreplyportalstudent@gmail.com',
             to: email,
             subject: 'Confirm your email',
             text: body
