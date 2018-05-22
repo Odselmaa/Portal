@@ -358,8 +358,6 @@ app.post("/register", register_post_handler)
 app.post("/messages", h.logMiddleware, msg_post_handler)
 
 io.on('connection', (socket) => {
-    
-    // 
     socket.on("login", function (data) {
         set_socket(data.user_sender, socket.id)
         console.log("user connected", data)
@@ -370,7 +368,6 @@ io.on('connection', (socket) => {
     })
     socket.on("logout", function (data) {
         delete_socket(data.user_sender, socket.id)
-        
     })
 })
 

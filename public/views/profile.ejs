@@ -39,8 +39,8 @@
                         <div class='row'>
                             <div class='col-4'>
                                 <h4 class="card-title" id="name">
-                                      </h4>
-                               
+                                </h4>
+
                                 <h5 class="card-subtitle mb-2 text-muted" id="role"></h5>
                                 </br>
                                 <h5>
@@ -215,22 +215,27 @@
                     console.log(response)
 
                     if (response.statusCode == 200) {
-                        
+
                         var info = response.response;
                         var friend_count = 'friends' in info ? info.friends.length : 0
+                        
+                        set_friends(info.friends)
+
                         //do something for successful response
                         $("#name").append(
-                        `<span id="name">${info.firstname + " " + info.lastname}</span>`    
+                            `<span id="name">${info.firstname + " " + info.lastname}</span>`
                         );
-                        if(info.verified_email!=undefined)
-                            $("#name").append(`<i class="ml-1 blue fa fa-check-circle" style="color:#007bff;font-size: 20px"></i>`)
-                        
+                        if (info.verified_email != undefined)
+                            $("#name").append(
+                                `<i class="ml-1 blue fa fa-check-circle" style="color:#007bff;font-size: 20px"></i>`
+                            )
+
                         $("#role").html(info.role.name);
                         $("#contact").html(info.email);
                         $("#friends").html(friend_count);
-                        if("bio" in info)
+                        if ("bio" in info)
                             $("#bio").html(info.bio.trim())
-                        
+
 
                         var languages = info.languages
                         $.each(languages, (k, l) => {
@@ -259,49 +264,17 @@
                         }
                         var lang = "<%=lang%>"
                         var user_id = '<%=user_id%>'
-                        if (friend_count > 0) {
-                            get_friends(user_id, lang, (friends) => {
-
-                                $('#friend-list').empty()
-                                $.each(friends, function (index, item) {
-                                    var profile = '/images/user.png'
-                                    if (!isEmpty(item.profile))
-                                        profile = item.profile
-                                    var department = '';
-                                    if ('department' in item) {
-                                        department = item.department.code;
-                                    }
-                                    $('#friend-list').append(
-                                        `<li class="list-group-item">
-                                        <div class="media">
-                                            <div class="media-left">
-                                                <img class="media-object profile" src=${profile} alt="...">
-                                            </div>
-                                            <div class="media-body ml-2">
-                                                <a href="/user/${item['_id']}/<%=lang%>">${item.firstname} ${item.lastname}</a>           
-                                                <a href="/m/${item['_id']}"><i class="fa fa-comment text-secondary pull-right"></i></a>
-                                            </br>
-                                            ${department}
-
-                                                </div>
-                                            </div>
-                                                </li>
-                                            `
-                                    )
-                                })
-                            })
-                        }
-
+                        
                         if (info.blocked)
                             $("#name").append(
                                 "<h5><span class='badge badge-danger'>blocked</span></h5></br>")
 
                         $(".card-body").show();
                         $(document).on('click', "#btnAddFriend", function () {
-                            
+
                             $.post('/f/<%=user_id%>')
                                 .done(function (response) {
-                                    
+
                                     if (response.statusCode == 201) {
                                         $("#btnFriendMode").html('Friends')
                                         $("#btnAddFriend").replaceWith(
@@ -319,12 +292,12 @@
                         })
 
                         $(document).on('click', "#btnUnfriend", function () {
-                            
+
                             $.ajax({
                                 url: '/f/<%=user_id%>',
                                 method: 'delete',
                             }).done(function (response) {
-                                
+
                                 if (response.statusCode == 200) {
                                     $("#btnFriendMode").html('Add friend')
                                     $("#btnUnfriend").replaceWith(
@@ -344,7 +317,7 @@
                         $("#not_success").removeClass('d-block')
 
                     }
-                    
+
                 })
 
             })
@@ -387,6 +360,35 @@
                 return (!str || 0 === str.length);
             }
 
+            function set_friends(friends) {
+                $.each(friends, function (index, item) {
+                    var profile = '/images/user.png'
+                    if (!isEmpty(item.profile))
+                        profile = item.profile
+                    var department = '';
+                    if ('department' in item) {
+                        department = item.department.code;
+                    }
+                    $('#friend-list').append(
+                        `<li class="list-group-item">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <img class="media-object profile" src=${profile} alt="...">
+                                            </div>
+                                            <div class="media-body ml-2">
+                                                <a href="/user/${item['_id']}/<%=lang%>">${item.firstname} ${item.lastname}</a>           
+                                                <a href="/m/${item['_id']}"><i class="fa fa-comment text-secondary pull-right"></i></a>
+                                            </br>
+                                            ${department}
+
+                                                </div>
+                                            </div>
+                                                </li>
+                                            `
+                    )
+                })
+
+            }
             //getting user's friend list
         </script>
 </body>
