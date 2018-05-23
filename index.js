@@ -118,7 +118,7 @@ var register_handler = function (req, res) {
 }
 var login_post_handler = function (req, res) {
     var payload = jwt.sign(req.body, 'f*ckyou');
-    const session = req.session
+    const s = req.session
     var options = {
         uri: `${urls.API_URL}auth`,
         method: 'POST',
@@ -130,10 +130,10 @@ var login_post_handler = function (req, res) {
         if (!error && body.statusCode == 200) {
             var access_token = body.response.access_token
             var user_id = body.response.user_id
-            set_session(session, 'access_token', access_token, ()=>{})
-            set_session(session, 'user_id', user_id,  ()=>{})
+            set_session(s, 'access_token', access_token, ()=>{})
+            set_session(s, 'user_id', user_id,  ()=>{})
             try {
-                set_session(session, 'b', 'a', ()=>{})
+                set_session(s, 'b', 'a', ()=>{})
 
                 u.get_profile(access_token.token, user_id, (r) => {
                     b = r.body
@@ -143,9 +143,9 @@ var login_post_handler = function (req, res) {
                             h.base64img(b.response.profile, `.${img_path}`)
                             b.response.profile = img_path
                         }
-                        set_session(session, 'a', 'a', ()=>{})
+                        set_session(s, 'a', 'a', ()=>{})
 
-                        set_session(session, user_id, b.response, ()=>{
+                        set_session(s, user_id, b.response, ()=>{
                             console.log(b)
                             res.json(b)
                         })
