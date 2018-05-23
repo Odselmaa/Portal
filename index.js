@@ -69,6 +69,7 @@ const port = process.env.PORT || 8080;
 const server = app.listen(port, () => {
     console.log('Express server listening on port', port)
 });
+server.setTimeout(5000000);
 
 const io = require('socket.io')(server)
 
@@ -125,7 +126,7 @@ var login_post_handler = function (req, res) {
             payload: payload
         }
     };
-    
+
     h.send_request(options, function (error, response, body) {
         if (!error && body.statusCode == 200) {
             const access_token = body.response.access_token
