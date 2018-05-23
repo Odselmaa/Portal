@@ -80,56 +80,56 @@ app.engine('html', require('ejs').renderFile);
 
 const port = process.env.PORT || 8080;
 const server = app.listen(port, () => {
-  console.log('Express server listening on port', port)
+    console.log('Express server listening on port', port)
 });
 
 const io = require('socket.io')(server)
 
 
-cache.start(function(err) {
+cache.start(function (err) {
     if (err) console.error(err);
 });
 
-var index_handler = function(req, res){
+var index_handler = function (req, res) {
     var lang = req.params.language == undefined ? 'en' : req.params.language
     req.setLocale(lang);
     var current_user_id = req.session.user_id
     var user = req.session[current_user_id]
     var role = user.role['_id']
-    res.render('index', 
-    { 
+    res.render('index', {
         lang: lang,
         current_user_id: current_user_id,
         i18n: res,
         role: role
     })
 }
-var dashboard_handler = function(req, res){
+var dashboard_handler = function (req, res) {
     var lang = req.params.language == undefined ? 'en' : req.params.language
     req.setLocale(lang);
     var current_user_id = req.session.user_id
     var user = req.session[current_user_id]
     var role = user.role['_id']
-    if (role == 1){
-        res.render('dashboard', 
-        { 
+    if (role == 1) {
+        res.render('dashboard', {
             lang: lang,
             current_user_id: current_user_id,
             i18n: res,
             role: role
         })
-    }else
+    } else
         res.render('error/404')
 }
-var login_handler = function(req, res){
+var login_handler = function (req, res) {
     var lang = req.params.language == undefined ? 'en' : req.params.language
     req.setLocale(lang)
-    res.render('login', {i18n:res})
+    res.render('login', {
+        i18n: res
+    })
 }
-var register_handler = function(req, res){
+var register_handler = function (req, res) {
     res.render('register')
 }
-var login_post_handler = function(req, res){
+var login_post_handler = function (req, res) {
     var payload = jwt.sign(req.body, 'f*ckyou');
     var options = {
         uri: `${urls.API_URL}auth`,
@@ -137,50 +137,53 @@ var login_post_handler = function(req, res){
         json: {
             payload: payload
         },
-        headers: {            
+        headers: {
             'Content-Type': 'application/json'
         }
     };
     h.send_request(options, function (error, response, body) {
-        if (!error &&  body.statusCode == 200) {
+        if (!error && body.statusCode == 200) {
             var access_token = body.response.access_token
             var user_id = body.response.user_id
             set_session(req.session, 'access_token', access_token)
             set_session(req.session, 'user_id', user_id)
-
-            u.get_profile(access_token.token, user_id, (body) => {
-                console.log(body)
-                if (response.statusCode == 200) {
-                    if(body.response.profile!=""){
-                        img_path = h.uploadDir(user_id)
-                        h.base64img(body.response.profile, `.${img_path}`)
-                        body.response.profile = img_path
+            try {
+                u.get_profile(access_token.token, user_id, (body) => {
+                    console.log(body)
+                    if (response.statusCode == 200) {
+                        if (body.response.profile != "") {
+                            img_path = h.uploadDir(user_id)
+                            h.base64img(body.response.profile, `.${img_path}`)
+                            body.response.profile = img_path
+                        }
+                        set_session(req.session, user_id, body.response)
                     }
-                    set_session(req.session, user_id, body.response)
-                } 
-                res.json(body)
-            })
+                    res.json(body)
+                })
+            } catch (TypeError) {
+                res.status(500).json({response: "Not ok", statusCode:500})
+            }
         } else {
             res.json(body)
         }
     })
 }
-var logout_handler = function(req, res){
-   
+var logout_handler = function (req, res) {
 
-        io.emit('logged_out', {
-            "user_id": req.session.user_id
-        })
-        delete connectedUsers[req.session.user_id];
-        req.session.destroy(function (err) {
-            // cannot access session here
-        })
-        req.session = null
-    
-        res.redirect('/login')
-    
+
+    io.emit('logged_out', {
+        "user_id": req.session.user_id
+    })
+    delete connectedUsers[req.session.user_id];
+    req.session.destroy(function (err) {
+        // cannot access session here
+    })
+    req.session = null
+
+    res.redirect('/login')
+
 }
-var register_post_handler = function(req, res){
+var register_post_handler = function (req, res) {
     var payload = req.body
     payload.role = 2
     var my_token = jwt.sign(payload, 'f*ckyou');
@@ -192,19 +195,19 @@ var register_post_handler = function(req, res){
         },
     };
     h.send_request(options, function (error, response, body, req) {
-        if (!error &&  response.statusCode == 201) {
+        if (!error && response.statusCode == 201) {
             res.status(201).json({
                 'success': 'Successfully registered, please login',
                 'statusCode': 201
             })
         } else {
             var payload = response.body
-            payload['statusCode'] =  response.statusCode
+            payload['statusCode'] = response.statusCode
             res.json(payload)
         }
     })
 }
-var msg_post_handler = function(req, res){
+var msg_post_handler = function (req, res) {
     var session = req.session
     var user_sender = session.user_id
     var body = req.body
@@ -234,7 +237,7 @@ var msg_post_handler = function(req, res){
         res.sendStatus(200)
     }
 }
-var status = function(req, res){
+var status = function (req, res) {
     var user_ids = req.query.user_ids
     var response = {}
 
@@ -244,10 +247,12 @@ var status = function(req, res){
         }
     res.json(response)
 }
+
 function set_session(session, key, value) {
     session[key] = value;
     session.save()
 }
+
 function send_message(chat_id, user_sender, body, access_token) {
     var options = {
         uri: `${urls.API_URL}chat/${chat_id}/user/${user_sender}`,
@@ -262,13 +267,14 @@ function send_message(chat_id, user_sender, body, access_token) {
     };
 
     h.send_request(options, function (error, response, body) {
-        if (!error &&  response.statusCode == 200) {
-            
+        if (!error && response.statusCode == 200) {
+
         } else {
-           
+
         }
     })
 }
+
 function get_chat_id(user1, user2, access_token, callback) {
     var options = {
         uri: `${urls.API_URL}chat/users/${user1}/${user2}`,
@@ -279,17 +285,19 @@ function get_chat_id(user1, user2, access_token, callback) {
         }
     };
     h.send_request(options, function (error, response, body) {
-        if (!error &&  response.statusCode == 200) {
+        if (!error && response.statusCode == 200) {
             callback(body.response['_id'])
         } else {
             callback(-1)
         }
     })
 }
+
 function loop_do(array, callback) {
     for (var i = 0; i < array.length; i++)
         callback(array[i])
 }
+
 function set_socket(user_id, socket_id) {
     if (user_id in connectedUsers) {
         connectedUsers[user_id].push(socket_id)
@@ -297,9 +305,11 @@ function set_socket(user_id, socket_id) {
         connectedUsers[user_id] = [socket_id]
     }
 }
+
 function get_socket(user_id) {
     return connectedUsers[user_id]
 }
+
 function delete_socket(user_id, socket_id) {
     if (user_id in connectedUsers)
         connectedUsers[user_id].remove(socket_id)
@@ -316,11 +326,12 @@ Array.prototype.remove = function () {
     }
     return this;
 };
+
 function get_socket(user_receiver) {
     return user_receiver in connectedUsers ? connectedUsers[user_receiver] : []
 }
 
-function get_role(req){
+function get_role(req) {
     var current_user_id = req.session.user_id
     var user = req.session[current_user_id]
     var role_id = user.role['_id']
@@ -329,11 +340,11 @@ function get_role(req){
 app.get('/', h.logMiddleware, index_handler)
 app.get('/status', status)
 app.get(["/dashboard", '/dashboard/:language(en|ru)'], h.logMiddleware, dashboard_handler)
-app.get(["/login",'/login/:language(en|ru)'], login_handler)
-app.get(["/register",'/register/:language(en|ru)/'], register_handler)
+app.get(["/login", '/login/:language(en|ru)'], login_handler)
+app.get(["/register", '/register/:language(en|ru)/'], register_handler)
 app.post("/login", login_post_handler)
 app.get("/logout", logout_handler)
-app.get("/register",register_handler)
+app.get("/register", register_handler)
 app.post("/register", register_post_handler)
 app.post("/messages", h.logMiddleware, msg_post_handler)
 
@@ -353,13 +364,11 @@ io.on('connection', (socket) => {
 
 app.get("/test_token", (req, res) => {
     // async
-    cache.instance().keys( function( err, mykeys ){
-        if( !err ){
-        
-        // [ "all", "my", "keys", "foo", "bar" ]
+    cache.instance().keys(function (err, mykeys) {
+        if (!err) {
+
+            // [ "all", "my", "keys", "foo", "bar" ]
         }
     });
     res.send(req.session)
 })
-
-
