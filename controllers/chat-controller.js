@@ -41,8 +41,8 @@ module.exports = {
             }
         };
         h.send_request(options, function (error, response, body) {
-            
-            if (!error &&  body.statusCode == 200) {
+
+            if (!error &&  response.statusCode == 200) {
                 var chats = body.response
                 for (var i=0;i<chats.length; i++){
                     u = chats[i].participants
