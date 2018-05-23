@@ -130,8 +130,6 @@ var login_post_handler = function (req, res) {
         if (!error && body.statusCode == 200) {
             const access_token = body.response.access_token
             const user_id = body.response.user_id
-            set_session(s, 'access_token', access_token, () => {})
-            set_session(s, 'user_id', user_id, () => {})
             try {
                 set_session(s, 'b', 'a', () => {})
                 fields = ["firstname", "lastname", "profile", "gender", "role", "friends", "socials", "email", "languages", "department", "blocked", "country", "bio"]
@@ -155,8 +153,10 @@ var login_post_handler = function (req, res) {
                             h.base64img(b.response.profile, `.${img_path}`)
                             b.response.profile = img_path
                         }
-
+                        set_session(s, 'access_token', access_token, () => {})
+                        set_session(s, 'user_id', user_id, () => {})
                         set_session(s, user_id, b.response, () => {
+                            
                             console.log(b)
                             res.json(b)
                         })
