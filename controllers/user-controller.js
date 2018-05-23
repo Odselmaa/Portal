@@ -406,12 +406,12 @@ module.exports = {
 
     },
     get_profile : function(token, user_id, func_callback) {
+        fields=["firstname", "lastname", "profile", "gender", "role", "friends", "socials", "email", "languages", "department", "blocked", "country", "bio"] 
+
         var options = {
-            uri: `${urls.API_URL}user/${user_id}`,
+            uri: `${urls.API_URL}user/${user_id}?fields=${fields.join(',')}`,
             method: 'GET',
-            json: {
-                fields: ["firstname", "lastname", "profile", "gender", "role", "friends", "socials", "email", "languages", "department", "blocked", "country", "bio"] 
-            },
+            json: {},
             headers: {
                 "Authorization": `Bearer ${token}`
             }
