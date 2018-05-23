@@ -36,7 +36,6 @@ module.exports = {
        
         if ("access_token" in req.session) {
             var user = req.session[req.session.user_id]
-
             if(user.blocked){
                 res.redirect('/blocked')
             }else{
@@ -44,16 +43,12 @@ module.exports = {
                 expired_when = access_token['expired_when']['$date']
                 now = new Date().getTime()
                 if (expired_when > now) {
-
                     next()
                 } else {
-                    
                     extend_token(req, res, req.url, access_token)
                 }
-                // next()
             }
         } else {
-            
             res.redirect('/login')
         }
     },

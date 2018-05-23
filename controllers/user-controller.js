@@ -418,7 +418,7 @@ module.exports = {
         };
     
         h.send_request(options, function (error, response, body) {
-            func_callback(body)
+            func_callback(response)
         })
     },
     update_user: update_user

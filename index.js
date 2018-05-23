@@ -1,5 +1,4 @@
 const express = require("express")
-const session = require("express-session")
 const body_parser = require("body-parser")
 const request = require('request');
 const path = require('path')
@@ -8,9 +7,7 @@ const app = express()
 const jwt = require('jsonwebtoken');
 const passport = require('passport')
 const promise = require('promise')
-const MongoStore = require("connect-mongo")(session);
 const morgan = require('morgan')
-
 //imported routes
 const user_routes = require('./routes/user-routes.js');
 const department_routes = require('./routes/department-routes.js');
@@ -24,6 +21,7 @@ const news_routes = require('./routes/news-routes.js');
 const chat_routes = require('./routes/chat-routes.js');
 const review_routes = require('./routes/review-routes.js');
 const u = require('./controllers/user-controller.js');
+const connection = require('./routes/connection.js')
 
 const i18n = require('./i18n/i18n.js')
 const h = require("./routes/helper.js")
@@ -43,22 +41,11 @@ app.use('/', lang_routes);
 app.use('/', news_routes);
 app.use('/', chat_routes);
 app.use('/', review_routes);
-
+app.use(connection.session)
 app.use(i18n.i18n.init);
 app.use(express.static(__dirname))
 app.use(body_parser.json())
-app.use(session({
-    secret: 'a4f8071f-c873-4447-8ee22d',
-    name: 'nameOfCookie',
-    store: new MongoStore({
-        url: 'mongodb://admin_odko:WinniePooh@portalinternational-shard-00-00-3b6lw.mongodb.net:27017,portalinternational-shard-00-01-3b6lw.mongodb.net:27017,portalinternational-shard-00-02-3b6lw.mongodb.net:27017/Portal?ssl=true&replicaSet=PortalInternational-shard-0&authSource=admin',
-        autoRemove: 'native',
-        collection: 'session'
-    }),
-    proxy: true,
-    resave: true,
-    saveUninitialized: false
-}));
+
 app.use(body_parser.urlencoded({
     extended: false
 }))
@@ -136,9 +123,6 @@ var login_post_handler = function (req, res) {
         method: 'POST',
         json: {
             payload: payload
-        },
-        headers: {
-            'Content-Type': 'application/json'
         }
     };
     h.send_request(options, function (error, response, body) {
@@ -148,9 +132,10 @@ var login_post_handler = function (req, res) {
             set_session(req.session, 'access_token', access_token, ()=>{})
             set_session(req.session, 'user_id', user_id,  ()=>{})
             try {
-                u.get_profile(access_token.token, user_id, (body) => {
-                    // console.log(body)
-                    if (response.statusCode == 200 && response.headers['content-type']=='application/json') {
+                u.get_profile(access_token.token, user_id, (r) => {
+                    console.log(r)
+                    body = r.body
+                    if (r.statusCode == 200 && r.headers['content-type']=='application/json') {
                         if (body.response.profile != "") {
                             img_path = h.uploadDir(user_id)
                             h.base64img(body.response.profile, `.${img_path}`)
@@ -160,7 +145,7 @@ var login_post_handler = function (req, res) {
                             res.json(body)
                         })
                     }else
-                        res.json({ response: error, statusCode: response.statusCode })
+                        res.json({ r: error, statusCode: r.statusCode })
                 })
             } catch (error) {
                 res.status(500).json({response: error, statusCode:500})

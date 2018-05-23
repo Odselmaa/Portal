@@ -1,12 +1,10 @@
 var express = require('express');
-var session = require("express-session")
-var MongoStore = require("connect-mongo")(session);
+var express_session = require("express-session")
+var MongoStore = require("connect-mongo")(express_session);
 
 var router = express.Router();
-
-
-router.use(session({
-  secret: 'a4f8071f-c873-4447-8ee22d',
+var session = express_session({
+  secret: 'a4f8071f-c873-4447-8ee22d-dddd',
   name: 'nameOfCookie',
   store: new MongoStore({
     url: 'mongodb://admin_remine:WinniePooh8@remineme-shard-00-00-h4vdb.mongodb.net:27017,remineme-shard-00-01-h4vdb.mongodb.net:27017,remineme-shard-00-02-h4vdb.mongodb.net:27017/Portal?ssl=true&replicaSet=RemineMe-shard-0&authSource=admin',
@@ -16,8 +14,11 @@ router.use(session({
   proxy: true,
   resave: true,
   saveUninitialized: false
-}));
+})
+
+router.use(session);
 module.exports.router = router;
 module.exports.express = express;
+module.exports.session = session;
 // module.exports.io = io;
 
