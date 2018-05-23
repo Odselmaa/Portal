@@ -132,7 +132,7 @@ var login_post_handler = function (req, res) {
             const user_id = body.response.user_id
             try {
                 set_session(s, 'b', 'a', () => {})
-                fields = ["firstname", "lastname", "profile", "gender", "role", "friends", "socials", "email", "languages", "department", "blocked", "country", "bio"]
+                fields = ["firstname", "lastname", "profile", "gender", "role", "socials", "email", "languages", "department", "blocked", "country", "bio"]
 
                 var options = {
                     uri: `${urls.API_URL}user/${user_id}?fields=${fields.join(',')}`,
