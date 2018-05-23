@@ -141,7 +141,7 @@ var login_post_handler = function (req, res) {
                     method: 'GET',
                     json: {},
                     headers: {
-                        "Authorization": `Bearer ${token}`
+                        "Authorization": `Bearer ${access_token.token}`
                     }
                 };
 
