@@ -129,25 +129,26 @@ var login_post_handler = function (req, res) {
 
     h.send_request(options, function (error, response, body) {
         if (!error && body.statusCode == 200) {
-            const access_token = body.response.access_token
-            const user_id = body.response.user_id
-            u.get_profile(access_token.token, user_id)
-            .then((r)=>{
-                b = r.body
-                if(r.statusCode == 200){
-                    if (b.response.profile != "") {
-                        img_path = h.uploadDir(user_id)
-                        h.base64img(b.response.profile, `.${img_path}`)
-                        b.response.profile = img_path
-                    }
-                    set_session(req.session, user_id, b.response)
-                    set_session(req.session, 'access_token', access_token)
-                    set_session(req.session, 'user_id', user_id)
-                    res.json({body: "Successfull", statusCode: 200})
-                }else
-                    res.json({body: "bla", statusCode: 400})
+            // const access_token = body.response.access_token
+            // const user_id = body.response.user_id
+            // u.get_profile(access_token.token, user_id)
+            // .then((r)=>{
+            //     b = r.body
+            //     if(r.statusCode == 200){
+            //         if (b.response.profile != "") {
+            //             img_path = h.uploadDir(user_id)
+            //             h.base64img(b.response.profile, `.${img_path}`)
+            //             b.response.profile = img_path
+            //         }
+            //         set_session(req.session, user_id, b.response)
+            //         set_session(req.session, 'access_token', access_token)
+            //         set_session(req.session, 'user_id', user_id)
+            //         res.json({body: "Successfull", statusCode: 200})
+            //     }else
+            //         res.json({body: "bla", statusCode: 400})
 
-            })
+            // })
+            res.json({body: "Successfull", statusCode: 200})
         } else {
             res.json(body)
         }
