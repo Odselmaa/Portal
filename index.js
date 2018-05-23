@@ -141,9 +141,9 @@ var login_post_handler = function (req, res) {
                     set_session(req.session, user_id, b.response)
                     set_session(req.session, 'access_token', access_token)
                     set_session(req.session, 'user_id', user_id)
-                    res.json({response: "Successfull", statusCode: 200})
+                    res.json({body: "Successfull", statusCode: 200})
                 }else
-                    res.json({response: "bla", statusCode: 400})
+                    res.json({body: "bla", statusCode: 400})
 
             })
         } else {

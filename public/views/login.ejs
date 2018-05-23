@@ -59,8 +59,6 @@
         $.post('/login', message)
           .done(function (response) {
             console.log(response)
-
-
             showResponse(response)
           }).fail((r)=>{
               console.log(r)
