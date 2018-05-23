@@ -23,6 +23,7 @@ const lang_routes = require('./routes/lang-routes.js');
 const news_routes = require('./routes/news-routes.js');
 const chat_routes = require('./routes/chat-routes.js');
 const review_routes = require('./routes/review-routes.js');
+const u = require('./controllers/user-controller.js');
 
 const i18n = require('./i18n/i18n.js')
 const h = require("./routes/helper.js")
@@ -145,11 +146,17 @@ var login_post_handler = function(req, res){
             set_session(req.session, 'access_token', access_token)
             set_session(req.session, 'user_id', user_id)
 
-            get_set_profile(req.session, user_id, () => {
-                res.json({
-                    body: 'Successfully logged',
-                    statusCode: response.statusCode
-                })
+            u.get_profile(req.session, user_id, (body) => {
+                if (!error &&  response.statusCode == 200) {
+                    if(body.response.profile!=""){
+                        img_path = h.uploadDir(user_id)
+                        
+                        h.base64img(body.response.profile, `.${img_path}`)
+                        body.response.profile = img_path
+                    }
+                    set_session(session, user_id, body.response)
+                } 
+                res.json(body)
             })
         } else {
             res.json(body)
@@ -274,35 +281,6 @@ function get_chat_id(user1, user2, access_token, callback) {
             callback(body.response['_id'])
         } else {
             callback(-1)
-        }
-    })
-}
-function get_set_profile(session, user_id, func_callback) {
-    var options = {
-        uri: `${urls.API_URL}user/${user_id}`,
-        method: 'GET',
-        json: {
-            fields: ["firstname", "lastname", "profile", "gender", "role", "friends", "socials", "email", "languages", "department", "blocked", "country", "bio"] 
-        },
-        headers: {
-            "Authorization": `Bearer ${session.access_token.token}`
-        }
-    };
-
-    h.send_request(options, function (error, response, body) {
-        // console.log
-        if (body.statusCode == 200) {
-            if(body.response.profile!=""){
-                img_path = h.uploadDir(user_id)
-                h.base64img(body.response.profile, `.${img_path}`)
-                body.response.profile = img_path
-            }
-            set_session(session, user_id, body.response)
-            func_callback()
-            // 
-        } else {
-            func_callback()
-            
         }
     })
 }

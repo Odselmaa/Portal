@@ -36,7 +36,10 @@ function update_user(payload, request, callback) {
         callback(response)
     })
 }
-
+function set_session(session, key, value) {
+    session[key] = value;
+    session.save()
+}
 function resize(user) {
     var promise = new Promise(function (resolve, reject) {
         img_path = path.join(__dirname, `../${h.uploadDir(user.user_id)}`)
@@ -401,6 +404,22 @@ module.exports = {
             }
         })
 
+    },
+    get_profile : function(session, user_id, func_callback) {
+        var options = {
+            uri: `${urls.API_URL}user/${user_id}`,
+            method: 'GET',
+            json: {
+                fields: ["firstname", "lastname", "profile", "gender", "role", "friends", "socials", "email", "languages", "department", "blocked", "country", "bio"] 
+            },
+            headers: {
+                "Authorization": `Bearer ${session.access_token.token}`
+            }
+        };
+    
+        h.send_request(options, function (error, response, body) {
+            func_callback(body)
+        })
     },
     update_user: update_user
 }
