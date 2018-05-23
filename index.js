@@ -133,15 +133,17 @@ var login_post_handler = function (req, res) {
             set_session(req.session, 'user_id', user_id,  ()=>{})
             try {
                 u.get_profile(access_token.token, user_id, (r) => {
-                    console.log(b)
                     b = r.body
                     if (r.statusCode == 200 && r.headers['content-type']=='application/json') {
                         if (b.response.profile != "") {
                             img_path = h.uploadDir(user_id)
-                            h.base64img(body.response.profile, `.${img_path}`)
+                            h.base64img(b.response.profile, `.${img_path}`)
                             b.response.profile = img_path
                         }
+                        set_session(req.session, 'a', 'a', ()=>{})
+
                         set_session(req.session, user_id, b.response, ()=>{
+                            console.log(b)
                             res.json(b)
                         })
                     }else
