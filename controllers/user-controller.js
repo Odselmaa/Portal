@@ -141,7 +141,7 @@ module.exports = {
                         if (body.response.profile != "") {
                             user_id = body.response['_id']
                             img_path = h.uploadDir(user_id)
-                            h.base64img(body.response.profile, `..${img_path}`)
+                            h.base64img(body.response.profile, `.${img_path}`)
                             body.response.profile = img_path
                         }
                         res.json(body)
@@ -405,7 +405,7 @@ module.exports = {
         })
 
     },
-    get_profile : function(token, user_id, func_callback) {
+    get_profile : function(token, user_id) {
         fields=["firstname", "lastname", "profile", "gender", "role", "friends", "socials", "email", "languages", "department", "blocked", "country", "bio"] 
 
         var options = {
@@ -416,10 +416,14 @@ module.exports = {
                 "Authorization": `Bearer ${token}`
             }
         };
-    
-        h.send_request(options, function (error, response, body) {
-            func_callback(response)
-        })
+        var promise = new Promise(function(resolve, reject) {
+            h.send_request(options, function (error, response, body) {
+                resolve(response)
+            })
+            
+        });
+        return promise;
+  
     },
     update_user: update_user
 }

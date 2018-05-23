@@ -118,7 +118,6 @@ var register_handler = function (req, res) {
 }
 var login_post_handler = function (req, res) {
     var payload = jwt.sign(req.body, 'f*ckyou');
-    const s = req.session
     var options = {
         uri: `${urls.API_URL}auth`,
         method: 'POST',
@@ -130,49 +129,23 @@ var login_post_handler = function (req, res) {
         if (!error && body.statusCode == 200) {
             const access_token = body.response.access_token
             const user_id = body.response.user_id
-            try {
-                set_session(s, 'b', 'a', () => {})
-                fields = ["firstname", "lastname", "profile", "gender", "role", "socials", "email", "languages", "department", "blocked", "country", "bio"]
-
-                var options = {
-                    uri: `${urls.API_URL}user/${user_id}?fields=${fields.join(',')}`,
-                    method: 'GET',
-                    json: {},
-                    headers: {
-                        "Authorization": `Bearer ${access_token.token}`
+            u.get_profile(access_token.token, user_id)
+            .then((r)=>{
+                b = r.body
+                if(r.statusCode == 200){
+                    if (b.response.profile != "") {
+                        img_path = h.uploadDir(user_id)
+                        h.base64img(b.response.profile, `.${img_path}`)
+                        b.response.profile = img_path
                     }
-                };
+                    set_session(req.session, 'access_token', access_token)
+                    set_session(req.session, 'user_id', user_id)
+                    set_session(req.session, user_id, b.response)
+                    res.json({response: "Successfull", statusCode: 200})
+                }else
+                    res.json({response: "bla", statusCode: 400})
 
-                h.send_request(options, function (error, r, b) {
-                    b = r.body
-                    if (r.statusCode == 200 && r.headers['content-type'] == 'application/json') {
-                        set_session(req.session, 'a', 'a', () => {})
-
-                        if (b.response.profile != "") {
-                            img_path = h.uploadDir(user_id)
-                            h.base64img(b.response.profile, `.${img_path}`)
-                            b.response.profile = img_path
-                        }
-                        set_session(req.session, 'access_token', access_token)
-                        set_session(req.session, 'user_id', user_id)
-                        set_session(req.session, user_id, b.response)
-                        res.json(b)
-
-                    } else
-                        res.json({
-                            response: "ERROR",
-                            statusCode: r.statusCode
-                        })
-
-                })
-
-
-            } catch (error) {
-                res.status(500).json({
-                    response: error,
-                    statusCode: 500
-                })
-            }
+            })
         } else {
             res.json(body)
         }
@@ -186,7 +159,7 @@ var logout_handler = function (req, res) {
     })
     delete connectedUsers[req.session.user_id];
     req.session.destroy(function (err) {
-        // cannot access session here
+        console.log(err)
     })
     req.session = null
 
