@@ -156,7 +156,7 @@ var login_post_handler = function (req, res) {
                             h.base64img(body.response.profile, `.${img_path}`)
                             body.response.profile = img_path
                         }
-                        set_session(req.session, user_id, body.response,  ()=>{
+                        set_session(req.session, user_id, body.response, ()=>{
                             res.json(body)
                         })
                     }else
@@ -255,6 +255,8 @@ function set_session(session, key, value, callback) {
     session.save((err)=>{
         if(!err)
             callback()
+        else
+            console.log(err)
     })
 }
 
