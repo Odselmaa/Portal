@@ -125,6 +125,7 @@ var login_post_handler = function (req, res) {
             payload: payload
         }
     };
+    
     h.send_request(options, function (error, response, body) {
         if (!error && body.statusCode == 200) {
             const access_token = body.response.access_token
