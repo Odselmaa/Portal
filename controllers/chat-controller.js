@@ -29,8 +29,8 @@ module.exports = {
     },
     conversations_api : function(req, res){
         var user_id = req.session.user_id
-        var limit = req.query.limit
-        var skip = req.query.skip
+        var limit = req.query.limit==undefined ? 10 : req.query.limit
+        var skip = req.query.skip==undefined ? 0 : req.query.skip
         var options = {
             uri: `${urls.API_URL}chat/user/${user_id}?limit=${limit}&skip=${skip}`,
             method: 'GET',
