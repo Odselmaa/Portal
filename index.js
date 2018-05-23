@@ -145,7 +145,7 @@ var login_post_handler = function (req, res) {
                             res.json(body)
                         })
                     }else
-                        res.json({ r: error, statusCode: r.statusCode })
+                        res.json({ response: "ERROR", statusCode: r.statusCode })
                 })
             } catch (error) {
                 res.status(500).json({response: error, statusCode:500})
@@ -238,9 +238,8 @@ var status = function (req, res) {
 function set_session(session, key, value, callback) {
     session[key] = value;
     session.save((err)=>{
+        callback()
         if(!err)
-            callback()
-        else
             console.log(err)
     })
 }
