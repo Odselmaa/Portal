@@ -149,7 +149,7 @@ var login_post_handler = function (req, res) {
             set_session(req.session, 'user_id', user_id)
             try {
                 u.get_profile(access_token.token, user_id, (body) => {
-                    console.log(response.statusCode)
+                    console.log(body)
                     if (response.statusCode == 200 && response.headers['content-type']=='application/json') {
                         if (body.response.profile != "") {
                             img_path = h.uploadDir(user_id)
