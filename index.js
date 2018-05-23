@@ -145,20 +145,22 @@ var login_post_handler = function (req, res) {
         if (!error && body.statusCode == 200) {
             var access_token = body.response.access_token
             var user_id = body.response.user_id
-            set_session(req.session, 'access_token', access_token)
-            set_session(req.session, 'user_id', user_id)
+            set_session(req.session, 'access_token', access_token, ()=>{})
+            set_session(req.session, 'user_id', user_id,  ()=>{})
             try {
                 u.get_profile(access_token.token, user_id, (body) => {
-                    console.log(body)
+                    // console.log(body)
                     if (response.statusCode == 200 && response.headers['content-type']=='application/json') {
                         if (body.response.profile != "") {
                             img_path = h.uploadDir(user_id)
                             h.base64img(body.response.profile, `.${img_path}`)
                             body.response.profile = img_path
                         }
-                        set_session(req.session, user_id, body.response)
-                    }
-                    res.json(body)
+                        set_session(req.session, user_id, body.response,  ()=>{
+                            res.json(body)
+                        })
+                    }else
+                        res.json({ response: error, statusCode: response.statusCode })
                 })
             } catch (error) {
                 res.status(500).json({response: error, statusCode:500})
@@ -248,9 +250,12 @@ var status = function (req, res) {
     res.json(response)
 }
 
-function set_session(session, key, value) {
+function set_session(session, key, value, callback) {
     session[key] = value;
-    session.save()
+    session.save((err)=>{
+        if(!err)
+            callback()
+    })
 }
 
 function send_message(chat_id, user_sender, body, access_token) {
