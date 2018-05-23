@@ -406,7 +406,7 @@ module.exports = {
 
     },
     get_profile : function(token, user_id) {
-        fields=["firstname", "lastname", "profile", "gender", "role", "friends", "socials", "email", "languages", "department", "blocked", "country", "bio"] 
+        fields=["firstname", "lastname", "profile", "gender", "role",  "socials", "email", "languages", "department", "blocked", "country", "bio"] 
 
         var options = {
             uri: `${urls.API_URL}user/${user_id}?fields=${fields.join(',')}`,
@@ -420,10 +420,8 @@ module.exports = {
             h.send_request(options, function (error, response, body) {
                 resolve(response)
             })
-            
         });
         return promise;
-  
     },
     update_user: update_user
 }
