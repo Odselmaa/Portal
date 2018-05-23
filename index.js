@@ -153,7 +153,7 @@ var login_post_handler = function(req, res){
                         h.base64img(body.response.profile, `.${img_path}`)
                         body.response.profile = img_path
                     }
-                    set_session(session, user_id, body.response)
+                    set_session(req.session, user_id, body.response)
                 } 
                 res.json(body)
             })
