@@ -27,7 +27,7 @@ function extend_token(req, res, next_url, access_token) {
 
 module.exports = {
     send_request: function (options, callback) {
-        request(options, {timeout: 5000},function (error, response, body) {
+        request(options,function (error, response, body) {
             callback(error, response, body)
         });
     },
