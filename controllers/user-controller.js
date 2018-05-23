@@ -405,7 +405,7 @@ module.exports = {
         })
 
     },
-    get_profile : function(session, user_id, func_callback) {
+    get_profile : function(token, user_id, func_callback) {
         var options = {
             uri: `${urls.API_URL}user/${user_id}`,
             method: 'GET',
@@ -413,7 +413,7 @@ module.exports = {
                 fields: ["firstname", "lastname", "profile", "gender", "role", "friends", "socials", "email", "languages", "department", "blocked", "country", "bio"] 
             },
             headers: {
-                "Authorization": `Bearer ${session.access_token.token}`
+                "Authorization": `Bearer ${token}`
             }
         };
     
