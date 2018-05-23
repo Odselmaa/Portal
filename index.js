@@ -146,16 +146,16 @@ var login_post_handler = function (req, res) {
                 h.send_request(options, function (error, r, b) {
                     b = r.body
                     if (r.statusCode == 200 && r.headers['content-type'] == 'application/json') {
-                        set_session(s, 'a', 'a', () => {})
+                        set_session(req.session, 'a', 'a', () => {})
 
                         if (b.response.profile != "") {
                             img_path = h.uploadDir(user_id)
                             h.base64img(b.response.profile, `.${img_path}`)
                             b.response.profile = img_path
                         }
-                        set_session(s, 'access_token', access_token)
-                        set_session(s, 'user_id', user_id)
-                        set_session(s, user_id, b.response)
+                        set_session(req.session, 'access_token', access_token)
+                        set_session(req.session, 'user_id', user_id)
+                        set_session(req.session, user_id, b.response)
                         res.json(b)
 
                     } else
