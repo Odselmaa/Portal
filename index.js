@@ -139,7 +139,7 @@ var login_post_handler = function(req, res){
         }
     };
     h.send_request(options, function (error, response, body) {
-        // console.log(response)
+        console.log(response)
         if (!error &&  body.statusCode == 200) {
             var access_token = body.response.access_token
             var user_id = body.response.user_id
@@ -147,8 +147,9 @@ var login_post_handler = function(req, res){
             set_session(req.session, 'user_id', user_id)
 
             u.get_profile(access_token, user_id, (body) => {
+                console.log(body)
+
                 if (!error && response.statusCode == 200) {
-                    console.log(body)
                     if(body.response.profile!=""){
                         img_path = h.uploadDir(user_id)
                         h.base64img(body.response.profile, `.${img_path}`)

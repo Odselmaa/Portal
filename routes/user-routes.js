@@ -86,15 +86,19 @@ var check_confirm_handler = (req, res) => {
       if (r.body.statusCode == 200) {
         message = "You are verified user, now you are able to see the university location!"
         cache.instance().del(token)
-      }else{
+      } else {
         message = "Something went wrong!"
       }
-      res.render('msg', {message: message})
+      res.render('msg', {
+        message: message
+      })
 
     })
   } catch (err) {
     message = "Token expired :("
-    res.render('msg', {message: message})
+    res.render('msg', {
+      message: message
+    })
   }
 }
 //Routes for rendering pages
