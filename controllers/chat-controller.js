@@ -3,11 +3,11 @@ var urls = require('../url')
 module.exports = {
     msg_api : function(req, res){
         var chat_id = req.query.chat_id
+        fields = ['author', 'body', 'created_when']
         var options = {
-            uri: `${urls.API_URL}chat/${chat_id}/message`,
+            uri: `${urls.API_URL}chat/${chat_id}/message?fields=${fields.join(',')}`,
             method: 'GET',
             json: {
-                fields: ['author', 'body', 'created_when']
             },
             headers: {
                 "Authorization": `Bearer ${req.session.access_token.token}`
@@ -32,11 +32,9 @@ module.exports = {
         var limit = req.query.limit
         var skip = req.query.skip
         var options = {
-            uri: `${urls.API_URL}chat/user/${user_id}`,
+            uri: `${urls.API_URL}chat/user/${user_id}?limit=${limit}&skip=${skip}`,
             method: 'GET',
             json: {
-                limit: limit,
-                skip: skip
             },
             headers: {
                 "Authorization": `Bearer ${req.session.access_token.token}`
