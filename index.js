@@ -128,17 +128,27 @@ var login_post_handler = function (req, res) {
     };
     h.send_request(options, function (error, response, body) {
         if (!error && body.statusCode == 200) {
-            var access_token = body.response.access_token
-            var user_id = body.response.user_id
-            set_session(s, 'access_token', access_token, ()=>{})
-            set_session(s, 'user_id', user_id,  ()=>{})
+            const access_token = body.response.access_token
+            const user_id = body.response.user_id
+            set_session(s, 'access_token', access_token, () => {})
+            set_session(s, 'user_id', user_id, () => {})
             try {
-                set_session(s, 'b', 'a', ()=>{})
+                set_session(s, 'b', 'a', () => {})
+                fields = ["firstname", "lastname", "profile", "gender", "role", "friends", "socials", "email", "languages", "department", "blocked", "country", "bio"]
 
-                u.get_profile(access_token.token, user_id, (r) => {
+                var options = {
+                    uri: `${urls.API_URL}user/${user_id}?fields=${fields.join(',')}`,
+                    method: 'GET',
+                    json: {},
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                };
+
+                h.send_request(options, function (error, r, b) {
                     b = r.body
-                    if (r.statusCode == 200 && r.headers['content-type']=='application/json') {
-                        set_session(s, 'a', 'a', ()=>{})
+                    if (r.statusCode == 200 && r.headers['content-type'] == 'application/json') {
+                        set_session(s, 'a', 'a', () => {})
 
                         if (b.response.profile != "") {
                             img_path = h.uploadDir(user_id)
@@ -146,15 +156,24 @@ var login_post_handler = function (req, res) {
                             b.response.profile = img_path
                         }
 
-                        set_session(s, user_id, b.response, ()=>{
+                        set_session(s, user_id, b.response, () => {
                             console.log(b)
                             res.json(b)
                         })
-                    }else
-                        res.json({ response: "ERROR", statusCode: r.statusCode })
+                    } else
+                        res.json({
+                            response: "ERROR",
+                            statusCode: r.statusCode
+                        })
+
                 })
+
+
             } catch (error) {
-                res.status(500).json({response: error, statusCode:500})
+                res.status(500).json({
+                    response: error,
+                    statusCode: 500
+                })
             }
         } else {
             res.json(body)
@@ -243,10 +262,10 @@ var status = function (req, res) {
 
 function set_session(session, key, value, callback) {
     session[key] = value;
-    session.save((err)=>{
+    session.save((err) => {
         callback()
-        if(!err)
-            console.log("Error "+err)
+        if (!err)
+            console.log("Error " + err)
     })
 }
 
