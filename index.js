@@ -138,9 +138,9 @@ var login_post_handler = function (req, res) {
                         h.base64img(b.response.profile, `.${img_path}`)
                         b.response.profile = img_path
                     }
+                    set_session(req.session, user_id, b.response)
                     set_session(req.session, 'access_token', access_token)
                     set_session(req.session, 'user_id', user_id)
-                    set_session(req.session, user_id, b.response)
                     res.json({response: "Successfull", statusCode: 200})
                 }else
                     res.json({response: "bla", statusCode: 400})
