@@ -160,8 +160,8 @@ var login_post_handler = function (req, res) {
                     }
                     res.json(body)
                 })
-            } catch (TypeError) {
-                res.status(500).json({response: "Not ok", statusCode:500})
+            } catch (error) {
+                res.status(500).json({response: error, statusCode:500})
             }
         } else {
             res.json(body)
