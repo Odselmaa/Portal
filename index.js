@@ -153,13 +153,11 @@ var login_post_handler = function (req, res) {
                             h.base64img(b.response.profile, `.${img_path}`)
                             b.response.profile = img_path
                         }
-                        set_session(s, 'access_token', access_token, () => {})
-                        set_session(s, 'user_id', user_id, () => {})
-                        set_session(s, user_id, b.response, () => {
-                            
-                            console.log(b)
-                            res.json(b)
-                        })
+                        set_session(s, 'access_token', access_token)
+                        set_session(s, 'user_id', user_id)
+                        set_session(s, user_id, b.response)
+                        res.json(b)
+
                     } else
                         res.json({
                             response: "ERROR",
@@ -260,13 +258,9 @@ var status = function (req, res) {
     res.json(response)
 }
 
-function set_session(session, key, value, callback) {
+function set_session(session, key, value) {
     session[key] = value;
-    session.save((err) => {
-        callback()
-        if (!err)
-            console.log("Error " + err)
-    })
+    session.save();
 }
 
 function send_message(chat_id, user_sender, body, access_token) {
