@@ -133,16 +133,16 @@ var login_post_handler = function (req, res) {
             set_session(req.session, 'user_id', user_id,  ()=>{})
             try {
                 u.get_profile(access_token.token, user_id, (r) => {
-                    console.log(r)
-                    body = r.body
+                    console.log(b)
+                    b = r.body
                     if (r.statusCode == 200 && r.headers['content-type']=='application/json') {
-                        if (body.response.profile != "") {
+                        if (b.response.profile != "") {
                             img_path = h.uploadDir(user_id)
                             h.base64img(body.response.profile, `.${img_path}`)
-                            body.response.profile = img_path
+                            b.response.profile = img_path
                         }
-                        set_session(req.session, user_id, body.response, ()=>{
-                            res.json(body)
+                        set_session(req.session, user_id, b.response, ()=>{
+                            res.json(b)
                         })
                     }else
                         res.json({ response: "ERROR", statusCode: r.statusCode })
@@ -240,7 +240,7 @@ function set_session(session, key, value, callback) {
     session.save((err)=>{
         callback()
         if(!err)
-            console.log(err)
+            console.log("Error "+err)
     })
 }
 
