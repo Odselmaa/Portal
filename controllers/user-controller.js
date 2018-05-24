@@ -7,8 +7,7 @@ let formidable = require('formidable');
 let path = require('path')
 let cache = require('../routes/cache-provider.js')
 let querystring = require('querystring');
-
-// var cache = cache_provider.cache
+const request = require('request');
 
 function update_user(payload, request, callback) {
     var user_id = payload.user_id
@@ -21,7 +20,7 @@ function update_user(payload, request, callback) {
         }
     };
 
-    h.send_request(options, function (error, response, body, req) {
+    request(options, function (error, response, body, req) {
         if (!error && body.statusCode == 200) {
             if ('profile' in payload) {
                 img_path = h.uploadDir(user_id)
@@ -111,7 +110,7 @@ module.exports = {
         var user_id = req.params.user_id
         var lang = req.params.language == undefined ? 'en' : req.params.language
 
-        if (user_id == req.session.user_id) {
+        if (user_id == req.session.access_token.user_id) {
             response = req.session[user_id]
             delete response['access_token']
             res.json({
@@ -130,14 +129,11 @@ module.exports = {
                     },
                 };
 
-                current_user = req.session[req.session.user_id]
+                current_user = req.session[req.session.access_token.user_id]
                 if (current_user.role._id == 1) fields.push("blocked")
-
-
-                h.send_request(options, function (error, response, body) {
-
+                request(options, function (error, response, body) {
+                    console.log(body, error, response)
                     if (!error && body.statusCode == 200) {
-
                         if (body.response.profile != "") {
                             user_id = body.response['_id']
                             img_path = h.uploadDir(user_id)
@@ -175,7 +171,7 @@ module.exports = {
 
         var fields = ['firstname', 'lastname', 'profile', 'department']
         var keys = {}
-        if (req.session[req.session.user_id].role['_id'] == 1) fields.push('blocked')
+        if (req.session[req.session.access_token.user_id].role['_id'] == 1) fields.push('blocked')
         if (query != undefined) keys.search_key = query;
         if (department != undefined) keys.department = department;
         if (ulang != undefined) keys.ulang = ulang;
@@ -193,7 +189,7 @@ module.exports = {
                 "Authorization": `Bearer ${req.session.access_token.token}`
             }
         };
-        h.send_request(options, function (error, response, body, req) {
+        request(options, function (error, response, body, req) {
             res.json(body);
         })
     },
@@ -225,7 +221,7 @@ module.exports = {
                 json: {}
             };
 
-            h.send_request(options, function (error, response, body) {
+            request(options, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     body.lastUpdate = new Date().getTime()
                     cache.instance().set(lastu_key, body, cache.TTL);
@@ -255,7 +251,7 @@ module.exports = {
                 json: {
                 }
             };
-            h.send_request(options, function (error, response, body) {
+            request(options, function (error, response, body) {
                 if (!error && body.statusCode == 200)
                     for (var i = 0; i < body.response.length; i++) {
                         if (body.response[i].profile != "") {
@@ -271,7 +267,7 @@ module.exports = {
     },
 
     add_friend_api: function (req, res) {
-        var user_id1 = req.session.user_id
+        var user_id1 = req.session.access_token.user_id
         var user_id2 = req.params.user_id2
         var options = {
             uri: `${urls.API_URL}user/${user_id1}/friend/${user_id2}`,
@@ -282,7 +278,7 @@ module.exports = {
             }
         };
 
-        h.send_request(options, function (error, response, body) {
+        request(options, function (error, response, body) {
             if (body.statusCode == 201) {
                 put2session(req.session, user_id1, 'friends', user_id2)
             }
@@ -290,7 +286,7 @@ module.exports = {
         })
     },
     unfriend_api: function (req, res) {
-        var user_id1 = req.session.user_id
+        var user_id1 = req.session.access_token.user_id
         var user_id2 = req.params.user_id2
         var options = {
             uri: `${urls.API_URL}user/${user_id1}/friend/${user_id2}`,
@@ -301,7 +297,7 @@ module.exports = {
             }
         };
 
-        h.send_request(options, function (error, response, body) {
+        request(options, function (error, response, body) {
             if (body.statusCode == 200) {
                 pop_session(req.session, user_id1, 'friends', user_id2)
             }
@@ -309,7 +305,7 @@ module.exports = {
         })
     },
     block_user_api: function (req, res) {
-        var admin_id = req.session.user_id
+        var admin_id = req.session.access_token.user_id
         var user_id = req.params.user_id
         var role = req.session[admin_id].role.name
         var blocked = req.body.blocked == 'true'
@@ -325,7 +321,7 @@ module.exports = {
                 }
             };
 
-            h.send_request(options, function (error, response, body) {
+            request(options, function (error, response, body) {
                 res.json(body);
             })
         } else {
@@ -394,7 +390,7 @@ module.exports = {
                 })
             } else {
                 payload = {}
-                payload.user_id = req.session.user_id
+                payload.user_id = req.session.access_token.user_id
                 payload.verified_email = email
                 cache.instance().set(token, payload, cache.CONFIRM_TTL);
                 res.json({
@@ -405,9 +401,9 @@ module.exports = {
         })
 
     },
-    get_profile : function(token, user_id) {
-        fields=["firstname", "lastname", "profile", "gender", "role",  "socials", "email", "languages", "department", "blocked", "country", "bio"] 
-
+    get_profile: function(token, user_id) {
+        fields = ["firstname", "lastname", "profile", "gender", "role", "socials", "friends","email", "languages", "department", "blocked", "country", "bio"]
+    
         var options = {
             uri: `${urls.API_URL}user/${user_id}?fields=${fields.join(',')}`,
             method: 'GET',
@@ -416,8 +412,15 @@ module.exports = {
                 "Authorization": `Bearer ${token}`
             }
         };
-        var promise = new Promise(function(resolve, reject) {
-            h.send_request(options, function (error, response, body) {
+        var promise = new Promise(function (resolve, reject) {
+            request(options, function (error, response, body) {
+                if (response.statusCode==200 && body.response.profile != "") {
+                    user_id = body.response['_id']
+                    img_path = h.uploadDir(user_id)
+                    h.base64img(body.response.profile, `.${img_path}`)
+                    body.response.profile = img_path
+                    console.log(img_path)
+                }
                 resolve(response)
             })
         });

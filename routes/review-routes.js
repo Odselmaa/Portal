@@ -3,7 +3,7 @@ var connection = require('./connection.js')
 var urls = require('../url')
 var body_parser = require("body-parser")
 var h = require('./helper.js')
-// var cache = require('./cache-provider.js')
+const m = require('../middleware.js')
 var router = connection.router
 
 router.use(body_parser.json())
@@ -66,7 +66,7 @@ function review_api(req, res){
     }
 
     delete payload.type
-    payload.author = req.session.user_id
+    payload.author = req.session.access_token.user_id
 
     var options = {
         uri: uri,
@@ -83,7 +83,7 @@ function review_api(req, res){
 
 function review_handler(req, res){
     var lang = req.params.language == undefined ? 'en' : req.params.language
-    var current_user_id = req.session.user_id
+    var current_user_id = req.session.access_token.user_id
     req.setLocale(lang);
     res.render('review', {
         current_user_id: current_user_id,

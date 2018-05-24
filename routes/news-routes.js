@@ -6,6 +6,7 @@ var h = require('./helper.js')
 var cache = require('./cache-provider.js')
 var i18n = require('../i18n/i18n.js')
 var router = connection.router
+const m = require('../middleware.js')
 
 router.use(body_parser.json())
 router.use(body_parser.urlencoded({
@@ -14,7 +15,7 @@ router.use(body_parser.urlencoded({
 router.use(i18n.i18n.init)
 
 router.get(['/news', '/news/:language(en|ru)'], (req, res) => {
-    var current_user_id = req.session.user_id
+    var current_user_id = req.session.access_token.user_id
     var lang = req.params.language == undefined ? 'en' : req.params.language
     req.setLocale(lang)
     res.render('news', {
@@ -29,7 +30,7 @@ router.get(['/news', '/news/:language(en|ru)'], (req, res) => {
 router.get(['/news/:news_id', '/news/:news_id/:language(en|ru)'], (req, res) => {
     var news_id = req.params.news_id
 
-    var current_user_id = req.session.user_id
+    var current_user_id = req.session.access_token.user_id
     var lang = req.params.language == undefined ? 'en' : req.params.language
     req.setLocale(lang)
     res.render('specific_news', {
@@ -42,7 +43,7 @@ router.get(['/news/:news_id', '/news/:news_id/:language(en|ru)'], (req, res) => 
 })
 
 router.get(['/newsfeed'], (req, res) => {
-    var current_user_id = req.session.user_id
+    var current_user_id = req.session.access_token.user_id
     var lang = req.params.language == undefined ? 'en' : req.params.language
     var tags = req.session[current_user_id].news_tags
 
@@ -57,7 +58,7 @@ router.get(['/newsfeed'], (req, res) => {
 })
 
 router.get(['/create/news', '/create/news/:language(en|ru)'], (req, res) => {
-    var current_user_id = req.session.user_id
+    var current_user_id = req.session.access_token.user_id
     var lang = req.params.language == undefined ? 'en' : req.params.language
     req.setLocale(lang)
     res.render('create_news', {

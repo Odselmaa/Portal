@@ -3,6 +3,7 @@ var app = connection.router
 var path = require('path');
 var formidable = require('formidable');
 var fs = require('fs');
+const m = require('../middleware.js')
 
 app.post('/upload', function(req, res){
 

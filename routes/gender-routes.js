@@ -3,8 +3,9 @@ var urls = require('../url.js')
 var h = require('./helper.js')
 var cache = require('./cache-provider.js')
 var router = connection.router
+const m = require('../middleware.js')
 
-router.get('/gender/:language(en|ru)', h.logMiddleware, (req, res) => {
+router.get('/gender/:language(en|ru)', m.logMiddleware, (req, res) => {
     var gender_key = `gender_${lang}`
     try {
         value = cache.instance().get(gender_key, true);

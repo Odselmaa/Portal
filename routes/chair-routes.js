@@ -2,10 +2,11 @@ var connection = require('./connection.js')
 var h = require('./helper.js')
 var router = connection.router
 var c = require('../controllers/chair-controller.js')
+const m = require('../middleware.js')
 
 var chair_handler = function(req, res){
     var lang = req.params.lang == undefined ? 'en' : req.params.lang
-    var current_user_id = req.session.user_id
+    var current_user_id = req.session.access_token.user_id
 
     var user = req.session[current_user_id]
     var role = user.role['_id']
@@ -21,8 +22,8 @@ var chair_handler = function(req, res){
     })
 }
 
-router.get('/api/chair/dep/:dep_id/:lang(en|ru)', h.logMiddleware,  c.chairs_api)
-router.get('/api/chair/:chair_id/:lang(en|ru)', h.logMiddleware,  c.chair_api)
-router.get(['/chair/:chair_id/:lang(en|ru)', '/chair/:chair_id'], h.logMiddleware,  chair_handler)
+router.get('/api/chair/dep/:dep_id/:lang(en|ru)', m.logMiddleware,  c.chairs_api)
+router.get('/api/chair/:chair_id/:lang(en|ru)', m.logMiddleware,  c.chair_api)
+router.get(['/chair/:chair_id/:lang(en|ru)', '/chair/:chair_id'], m.logMiddleware,  chair_handler)
 
 module.exports = router;

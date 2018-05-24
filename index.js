@@ -24,10 +24,10 @@ const u = require('./controllers/user-controller.js');
 const connection = require('./routes/connection.js')
 
 const i18n = require('./i18n/i18n.js')
-const h = require("./routes/helper.js")
+var h = require("./routes/helper.js")
 const urls = require('./url.js');
 const cache = require('./routes/cache-provider.js')
-
+const m = require('./middleware.js')
 var connectedUsers = {};
 
 app.use('/', user_routes);
@@ -81,7 +81,7 @@ cache.start(function (err) {
 var index_handler = function (req, res) {
     var lang = req.params.language == undefined ? 'en' : req.params.language
     req.setLocale(lang);
-    var current_user_id = req.session.user_id
+    var current_user_id = req.session.access_token.user_id
     var user = req.session[current_user_id]
     var role = user.role['_id']
     res.render('index', {
@@ -94,7 +94,7 @@ var index_handler = function (req, res) {
 var dashboard_handler = function (req, res) {
     var lang = req.params.language == undefined ? 'en' : req.params.language
     req.setLocale(lang);
-    var current_user_id = req.session.user_id
+    var current_user_id = req.session.access_token.user_id
     var user = req.session[current_user_id]
     var role = user.role['_id']
     if (role == 1) {
@@ -124,32 +124,34 @@ var login_post_handler = function (req, res) {
         method: 'POST',
         json: {
             payload: payload
-        }
+        },
+        headers: {}
     };
 
-    h.send_request(options, function (error, response, body) {
+    request(options, function (error, response, body) {
+        console.log(body)
         if (!error && body.statusCode == 200) {
-            set_session(req.session, user_id, b.response)
-            set_session(req.session, 'access_token', access_token)
-            
+            body.response.access_token['user_id'] = body.response.user_id
+            set_session(req.session, 'access_token', body.response.access_token)           
             res.json({body: "Successfull", statusCode: 200})
         } else {
-            res.json(body)
+            res.json({body: "Nope", statusCode: 400})
         }
-    })
+    });
+
+    
 }
 var logout_handler = function (req, res) {
 
 
     io.emit('logged_out', {
-        "user_id": req.session.user_id
+        "user_id": req.session.access_token.user_id
     })
-    delete connectedUsers[req.session.user_id];
+    delete connectedUsers[req.session.access_token.user_id];
     req.session.destroy(function (err) {
         console.log(err)
     })
-    req.session = null
-
+    // req.session = null
     res.redirect('/login')
 
 }
@@ -302,21 +304,21 @@ function get_socket(user_receiver) {
 }
 
 function get_role(req) {
-    var current_user_id = req.session.user_id
+    var current_user_id = req.session.access_token.user_id
     var user = req.session[current_user_id]
     var role_id = user.role['_id']
     return role_id
 }
-app.get('/', h.logMiddleware, index_handler)
+app.get('/', m.logMiddleware, index_handler)
 app.get('/status', status)
-app.get(["/dashboard", '/dashboard/:language(en|ru)'], h.logMiddleware, dashboard_handler)
+app.get(["/dashboard", '/dashboard/:language(en|ru)'], m.logMiddleware, dashboard_handler)
 app.get(["/login", '/login/:language(en|ru)'], login_handler)
 app.get(["/register", '/register/:language(en|ru)/'], register_handler)
 app.post("/login", login_post_handler)
 app.get("/logout", logout_handler)
 app.get("/register", register_handler)
 app.post("/register", register_post_handler)
-app.post("/messages", h.logMiddleware, msg_post_handler)
+app.post("/messages", m.logMiddleware, msg_post_handler)
 
 io.on('connection', (socket) => {
     socket.on("login", function (data) {
@@ -342,3 +344,6 @@ app.get("/test_token", (req, res) => {
     });
     res.send(req.session)
 })
+process.on('uncaughtException', function (err) {
+    console.log(err);
+}); 

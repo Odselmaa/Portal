@@ -5,6 +5,7 @@ var h = require('./helper.js')
 var urls = require('../url.js')
 var i18n = require('../i18n/i18n.js')
 var connection = require('./connection.js')
+const m = require('../middleware.js')
 
 var router = connection.router
 
@@ -14,7 +15,7 @@ router.use(body_parser.urlencoded({
 }))
 
 var chat_handler = function(req, res){
-    var user_sender_id = req.session.user_id
+    var user_sender_id = req.session.access_token.user_id
     var user_sender = req.session[user_sender_id]
     var lang = req.params.language == undefined ? 'en' : req.params.language
     req.setLocale(lang)
@@ -28,6 +29,6 @@ var chat_handler = function(req, res){
 
 router.get('/conversations', c.conversations_api);
 router.get(["/chat", "/chat/:language(en|ru)"], chat_handler)
-router.get("/messages", h.logMiddleware, c.msg_api)
+router.get("/messages", m.logMiddleware, c.msg_api)
 
 module.exports = router;

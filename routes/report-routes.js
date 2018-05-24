@@ -3,6 +3,7 @@ var urls = require('../url')
 var body_parser = require("body-parser")
 var h = require('./helper.js')
 var cache = require('./cache-provider.js')
+const m = require('../middleware.js')
 
 var router = connection.router
 router.use(body_parser.json())
@@ -11,9 +12,9 @@ router.use(body_parser.urlencoded({
 }))
 
 //for posting report 
-router.post('/r', h.logMiddleware, (req, res) => {
+router.post('/r', m.logMiddleware, (req, res) => {
   var body = req.body
-  var user_informed = req.session.user_id
+  var user_informed = req.session.access_token.user_id
   body["user_informed"] = user_informed
   var options = {
     uri: `${urls.API_URL}report`,
@@ -32,7 +33,7 @@ router.post('/r', h.logMiddleware, (req, res) => {
 })
 
 
-router.get('/r/:status', h.logMiddleware, (req, res) => {
+router.get('/r/:status', m.logMiddleware, (req, res) => {
   var status = req.params.status
   var report_key = `report_${status}`
   var limit = req.query.l == undefined ? 5 : parseInt(req.query.l)
@@ -64,7 +65,7 @@ router.get('/r/:status', h.logMiddleware, (req, res) => {
   }
 })
 
-router.get('/api/r', h.logMiddleware, (req, res) => {
+router.get('/api/r', m.logMiddleware, (req, res) => {
   var report_key = `all_report`
   try {
     value = cache.instance().get(report_key, true);
@@ -93,7 +94,7 @@ router.get('/api/r', h.logMiddleware, (req, res) => {
 })
 
 
-router.put('/r/:status', h.logMiddleware, (req, res) => {
+router.put('/r/:status', m.logMiddleware, (req, res) => {
   var status = req.params.status
 
   if ('id' in req.body) {
@@ -124,10 +125,10 @@ router.put('/r/:status', h.logMiddleware, (req, res) => {
 
 })
 
-router.get(['/report', '/report/:language(en|ru)'], h.logMiddleware, (req, res) => {
+router.get(['/report', '/report/:language(en|ru)'], m.logMiddleware, (req, res) => {
   var lang = req.params.language == undefined ? 'en' : req.params.language
     req.setLocale(lang);
-    var current_user_id = req.session.user_id
+    var current_user_id = req.session.access_token.user_id
     var user = req.session[current_user_id]
     var role = user.role['_id']
     res.render('report', 

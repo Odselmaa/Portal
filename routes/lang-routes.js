@@ -2,14 +2,15 @@ var connection = require('./connection.js')
 var urls = require('../url.js')
 var h = require('./helper.js')
 var cache = require('./cache-provider.js')
+const m = require('../middleware.js')
+
 var router = connection.router
 
-router.get(['/languages/:language(en|ru)'], h.logMiddleware, (req, res) => {
+router.get(['/languages/:language(en|ru)'], m.logMiddleware, (req, res) => {
     var lang = req.params.language == undefined ? 'en' : req.params.language
     var lang_key = `lang_${lang}`
     try {
         value = cache.instance().get(lang_key, true);
-        
         res.json(value)
     } catch (err) {
         var options = {
