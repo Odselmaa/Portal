@@ -3,6 +3,7 @@ const body_parser = require("body-parser")
 const request = require('request');
 const path = require('path')
 const app = express()
+const rp = require('request-promise')
 // const http = require('http').Server(app)
 const jwt = require('jsonwebtoken');
 const passport = require('passport')
@@ -127,17 +128,26 @@ var login_post_handler = function (req, res) {
         },
         headers: {}
     };
+    rp(options).then((r)=>{
+        console.log(r)
+        r.response.access_token['user_id'] = r.response.user_id
+        set_session(req.session, 'access_token', r.response.access_token)    
+        res.json({body: "Successfull", statusCode: 200})
 
-    request(options, function (error, response, body) {
-        console.log(body)
-        if (!error && body.statusCode == 200) {
-            body.response.access_token['user_id'] = body.response.user_id
-            set_session(req.session, 'access_token', body.response.access_token)           
-            res.json({body: "Successfull", statusCode: 200})
-        } else {
-            res.json({body: "Nope", statusCode: 400})
-        }
-    });
+    }).catch((error)=>{
+        console.log(error)
+        res.json({body: "Error", statusCode: 400})
+    })
+    // request(options, function (error, response, body) {
+    //     // console.log(body)
+    //     if (!error && body.statusCode == 200) {
+    //         body.response.access_token['user_id'] = body.response.user_id
+    //         set_session(req.session, 'access_token', body.response.access_token)           
+    //         res.json({body: "Successfull", statusCode: 200})
+    //     } else {
+           
+    //     }
+    // });
 
     
 }

@@ -86,7 +86,9 @@ var check_confirm_handler = (req, res) => {
       verified_email: value.verified_email,
       user_id: value.user_id
     }, req, (r) => {
+      console.log(r)
       if (r.body.statusCode == 200) {
+        
         message = "You are verified user, now you are able to see the university location!"
         cache.instance().del(token)
       } else {

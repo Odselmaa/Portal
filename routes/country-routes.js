@@ -21,7 +21,7 @@ router.get('/country/:language(en|ru)', m.logMiddleware, (request, res) => {
               }
         };
         h.send_request(options, function (error, response, body, req) {
-            // console.log(response)
+            console.log(response)
             if (!error && body.statusCode == 200) {
                 cache.instance().set(country_key, body, cache.TTL );
                 res.json(body)
