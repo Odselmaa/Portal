@@ -1,7 +1,10 @@
 var urls = require('./url')
 var u = require('./controllers/user-controller.js')
 const request = require('request');
- 
+
+function extend_token(req, res, url, access_token){
+    res.json({"bla":"bla"})
+}
 
 module.exports = {
 
