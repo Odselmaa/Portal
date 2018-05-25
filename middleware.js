@@ -15,7 +15,7 @@ module.exports = {
                 if (user.blocked) {
                     res.redirect('/blocked')
                 } else {
-                    expired_when = access_token['expired_when']['$date']
+                    expired_when = access_token['expired_when']
                     now = new Date().getTime()
                     if (expired_when > now) {
 
@@ -29,13 +29,14 @@ module.exports = {
                //get profile
                u.get_profile(access_token.token, user_id)
                .then((data)=>{
-                   if(data.statusCode==200){
-                        req.session[user_id] = data.body.response
-                        req.session.save()
-                        next()
-                   }else{
-                       res.redirect('/')
-                   }
+                   res.json(data)
+                //    if(data.statusCode==200){
+                //         req.session[user_id] = data.body.response
+                //         req.session.save()
+                //         next()
+                //    }else{
+                //        res.redirect('/')
+                //    }
 
                })
             }

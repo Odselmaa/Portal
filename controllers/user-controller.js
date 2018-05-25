@@ -132,7 +132,7 @@ module.exports = {
                 current_user = req.session[req.session.access_token.user_id]
                 if (current_user.role._id == 1) fields.push("blocked")
                 request(options, function (error, response, body) {
-                    console.log(body, error, response)
+                    // console.log(body, error, response)
                     if (!error && body.statusCode == 200) {
                         if (body.response.profile != "") {
                             user_id = body.response['_id']
@@ -414,14 +414,14 @@ module.exports = {
         };
         var promise = new Promise(function (resolve, reject) {
             request(options, function (error, response, body) {
+                // console.log("Aww")
                 if (response.statusCode==200 && body.response.profile != "") {
                     user_id = body.response['_id']
                     img_path = h.uploadDir(user_id)
                     h.base64img(body.response.profile, `.${img_path}`)
                     body.response.profile = img_path
-                    console.log(img_path)
                 }
-                resolve(response)
+                resolve(body.response)
             })
         });
         return promise;
