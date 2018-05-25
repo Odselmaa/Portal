@@ -32,14 +32,14 @@ module.exports = {
                //get profile
                u.get_profile(access_token.token, user_id)
                .then((data)=>{
-                   res.json(data)
-                //    if(data.statusCode==200){
-                //         req.session[user_id] = data.body.response
-                //         req.session.save()
-                //         next()
-                //    }else{
-                //        res.redirect('/')
-                //    }
+                //    res.json(data)
+                   if(data.statusCode==200){
+                        req.session[user_id] = data.body.response
+                        req.session.save()
+                        next()
+                   }else{
+                       res.redirect('/')
+                   }
 
                })
             }
