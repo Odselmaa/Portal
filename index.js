@@ -191,7 +191,7 @@ var register_post_handler = function (req, res) {
 }
 var msg_post_handler = function (req, res) {
     var session = req.session
-    var user_sender = session.user_id
+    var user_sender = session.access_token.user_id
     var body = req.body
 
     var user_receiver = req.body.user_receiver
