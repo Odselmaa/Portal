@@ -98,7 +98,7 @@ router.get('/api/news', (req, res) => {
             }
         };
         h.send_request(options, function (error, response, body) {
-            console.log(body)
+            
             res.json(body);
         })
     }else{

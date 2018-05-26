@@ -403,9 +403,10 @@ module.exports = {
 
     },
     get_profile: function(token, user_id) {
+        var f = user_fields.concat(['blocked'])
     
         var options = {
-            uri: `${urls.API_URL}user/${user_id}?fields=${user_fields.join(',')}`,
+            uri: `${urls.API_URL}user/${user_id}?fields=${f.join(',')}`,
             method: 'GET',
             json: {},
             headers: {
