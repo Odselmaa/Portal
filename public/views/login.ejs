@@ -58,10 +58,8 @@
         var message = { email: $("#inputEmail").val(), password: $("#inputPassword").val() }
         $.post('/login', message)
           .done(function (response) {
-            console.log(response)
             showResponse(response)
           }).fail((r)=>{
-              console.log(r)
           }).always((r)=>{
             
           })

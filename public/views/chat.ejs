@@ -154,12 +154,11 @@
                     
                     if (response.statusCode == 200) {
                         chat_array = response.response
-                        console.log(chat_array)
 
                         var activeness = "active"
                         $.each(chat_array, function (index, chat) {
                             chat_index[chat["_id"]] = index
-                            console.log(index, chat["_id"])
+                            
                             addContact(activeness, index)
                             if (index >= 0) {
                                 activeness = ""
@@ -191,9 +190,9 @@
                 var chat_id = message.chat_id
                 var body = message.body
                 var chat = chat_array[chat_index[chat_id]]
-                console.log(chat_array)
-                console.log(chat_index)
-                console.log(chat_id)
+                
+                
+                
 
 
                 var profile = chat["participants"]["profile"]
@@ -290,7 +289,7 @@
         }
 
         function sendMessage() {
-            console.log(current_chat_index)
+            
             var d = new Date();
             var body = {
                 "user_receiver": chat_array[current_chat_index]["participants"]["_id"],

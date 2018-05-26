@@ -49,7 +49,6 @@ module.exports = {
             };
     
             h.send_request(options, function (error, response, body, req) {
-                // console.log(body)
                 if (!error && body.statusCode == 200) {
                     cache.instance().set(dep_key, body, cache.TTL);
                     

@@ -384,7 +384,6 @@ module.exports = {
         var url = 'http://' + hostname + "/verify/";
         var email = req.body.email
         v.send_email(url, email, (error, info, token) => {
-            console.log(error)
             if (error) {
                 res.status(400).json({
                     response: "Error",

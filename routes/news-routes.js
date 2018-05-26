@@ -88,11 +88,6 @@ router.post('/api/news', (req, res) => {
 
 router.get('/api/news', (req, res) => {
     var tags = req.query.tags
-    // var limit = req.query.limit == undefined? 5: req.query.limit
-    // 
-    console.log(`${urls.ROOT_API_URL}${req.url}`
-)
-
     if(tags!=undefined || tags!=""){
         var options = {
             uri: `${urls.ROOT_API_URL}${req.url}`,

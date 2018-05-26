@@ -35,8 +35,6 @@ module.exports = {
                .then((data)=>{
                 //    res.json(data)
                    if(data.statusCode==200){
-                    console.log(data.response._id)
-
                         if (data.response.profile != "") {
                             user_id = data.response['_id']
                             img_path = h.uploadDir(user_id)

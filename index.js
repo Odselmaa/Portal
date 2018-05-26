@@ -129,7 +129,6 @@ var login_post_handler = function (req, res) {
         headers: {}
     };
     rp(options).then((r)=>{
-        console.log(r)
         r.response.access_token['user_id'] = r.response.user_id
         set_session(req.session, 'access_token', r.response.access_token)    
         res.json({body: "Successfull", statusCode: 200})
@@ -138,17 +137,6 @@ var login_post_handler = function (req, res) {
         console.log(error)
         res.json({body: "Error", statusCode: 400})
     })
-    // request(options, function (error, response, body) {
-    //     // console.log(body)
-    //     if (!error && body.statusCode == 200) {
-    //         body.response.access_token['user_id'] = body.response.user_id
-    //         set_session(req.session, 'access_token', body.response.access_token)           
-    //         res.json({body: "Successfull", statusCode: 200})
-    //     } else {
-           
-    //     }
-    // });
-
     
 }
 var logout_handler = function (req, res) {
