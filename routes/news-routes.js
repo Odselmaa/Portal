@@ -1,12 +1,13 @@
 
-var connection = require('./connection.js')
-var urls = require('../url')
 var body_parser = require("body-parser")
-var h = require('./helper.js')
+var connection = require('./connection.js')
 var cache = require('./cache-provider.js')
 var i18n = require('../i18n/i18n.js')
-var router = connection.router
 const m = require('../middleware.js')
+var urls = require('../url.js')
+var h = require('./helper.js')
+
+var router = connection.router
 
 router.use(body_parser.json())
 router.use(body_parser.urlencoded({
@@ -72,7 +73,7 @@ router.get(['/create/news', '/create/news/:language(en|ru)'], (req, res) => {
 router.post('/api/news', (req, res) => {
     payload = JSON.parse(req.body.payload) 
     var options = {
-        uri: `ROOT_API_URL${req.url}`,
+        uri: `${urls.ROOT_API_URL}${req.url}`,
         method: 'POST',
         json: { payload: payload},
         headers: {
@@ -89,9 +90,12 @@ router.get('/api/news', (req, res) => {
     var tags = req.query.tags
     // var limit = req.query.limit == undefined? 5: req.query.limit
     // 
+    console.log(`${urls.ROOT_API_URL}${req.url}`
+)
+
     if(tags!=undefined || tags!=""){
         var options = {
-            uri: `ROOT_API_URL${req.url}`,
+            uri: `${urls.ROOT_API_URL}${req.url}`,
             method: 'GET',
             json: {},
             headers: {
@@ -99,6 +103,7 @@ router.get('/api/news', (req, res) => {
             }
         };
         h.send_request(options, function (error, response, body) {
+            console.log(body)
             res.json(body);
         })
     }else{
@@ -109,7 +114,7 @@ router.get('/api/news', (req, res) => {
 router.put('/api/news', (req, res) => {
     body = JSON.parse(req.body.data)
     var options = {
-        uri: `ROOT_API_URL${req.url}`,
+        uri: `${urls.ROOT_API_URL}${req.url}`,
         method: 'PUT',
         json: {
             payload: body
@@ -132,7 +137,7 @@ router.put('/api/news', (req, res) => {
 
 router.get('/api/news/:news_id', (req, res) => {
     var options = {
-        uri: `ROOT_API_URL${req.url}`,
+        uri: `${urls.ROOT_API_URL}${req.url}`,
         method: 'GET',
         json: {},
         headers: {

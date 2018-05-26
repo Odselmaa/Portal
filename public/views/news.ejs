@@ -116,6 +116,7 @@
     
     $(() => {
         $.get('/api/news', (response) => {
+            console.log(response)
             if (response.statusCode == 200) {
                 setDataTable(response.response)
                 news = response.response
