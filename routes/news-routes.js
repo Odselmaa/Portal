@@ -72,7 +72,7 @@ router.get(['/create/news', '/create/news/:language(en|ru)'], (req, res) => {
 router.post('/api/news', (req, res) => {
     payload = JSON.parse(req.body.payload) 
     var options = {
-        uri: `http://localhost:3001${req.url}`,
+        uri: `${urls.API_URL}${req.url}`,
         method: 'POST',
         json: { payload: payload},
         headers: {
@@ -91,7 +91,7 @@ router.get('/api/news', (req, res) => {
     // 
     if(tags!=undefined || tags!=""){
         var options = {
-            uri: `http://localhost:3001${req.url}`,
+            uri: `${urls.API_URL}${req.url}`,
             method: 'GET',
             json: {},
             headers: {
@@ -132,7 +132,7 @@ router.put('/api/news', (req, res) => {
 
 router.get('/api/news/:news_id', (req, res) => {
     var options = {
-        uri: `http://localhost:3001${req.url}`,
+        uri: `${urls.API_URL}${req.url}`,
         method: 'GET',
         json: {},
         headers: {

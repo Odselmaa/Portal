@@ -139,9 +139,10 @@
 
         var chat_array = []
         var current_chat_index = 0;
+        var chat_index = {}
+
         $(() => {
             var socket = io()
-            var chat_index = {}
             socket.emit("login", {
                 user_sender: `<%= user_sender._id %>`
             });
@@ -153,10 +154,13 @@
                     
                     if (response.statusCode == 200) {
                         chat_array = response.response
+                        console.log(chat_array)
+
                         var activeness = "active"
                         $.each(chat_array, function (index, chat) {
                             chat_index[chat["_id"]] = index
-                            addContact(chat.participants, activeness, index)
+                            console.log(index, chat["_id"])
+                            addContact(activeness, index)
                             if (index >= 0) {
                                 activeness = ""
                             }
@@ -187,6 +191,11 @@
                 var chat_id = message.chat_id
                 var body = message.body
                 var chat = chat_array[chat_index[chat_id]]
+                console.log(chat_array)
+                console.log(chat_index)
+                console.log(chat_id)
+
+
                 var profile = chat["participants"]["profile"]
                 var username = chat["participants"]["firstname"]
                 newMessage(body, "sent", profile)
@@ -216,7 +225,9 @@
             }
         });
 
-        function addContact(participants, activeness, index) {
+        function addContact(activeness, index) {
+
+            participants = chat_array[index].participants
             var chat_title = ""
             var profile = "/images/user.png"
             var ext = 'data:image/png;base64,'
@@ -279,6 +290,7 @@
         }
 
         function sendMessage() {
+            console.log(current_chat_index)
             var d = new Date();
             var body = {
                 "user_receiver": chat_array[current_chat_index]["participants"]["_id"],
@@ -286,11 +298,9 @@
                 "chat_id": chat_array[current_chat_index]["_id"],
                 "created": d.getTime()
             }
-            // receiveMessage(body)
             $.post(url = "/messages", body)
                 .done(function (response) {
-                    
-                })
+            })
         }
 
         function getSetMessages(index) {
