@@ -9,6 +9,8 @@ let cache = require('../routes/cache-provider.js')
 let querystring = require('querystring');
 const request = require('request');
 const rp = require('request-promise')
+const user_fields = ["firstname", "lastname", "profile", "gender", "role", "socials", "email", "languages", "department", "chair", "news_tags", "country"]
+
 
 function update_user(payload, request, callback) {
     var user_id = payload.user_id
@@ -120,9 +122,8 @@ module.exports = {
             })
         } else {
             if (user_id != undefined) {
-                fields = ["firstname", "lastname", "profile", "gender", "role", "socials", "email", "languages", "department", "country"]
                 var options = {
-                    uri: `${urls.API_URL}user/${user_id}?lang=${lang}&fields=${fields.join(',')}`,
+                    uri: `${urls.API_URL}user/${user_id}?lang=${lang}&fields=${user_fields.join(',')}`,
                     method: 'GET',
                     json: {},
                     headers: {
@@ -403,30 +404,15 @@ module.exports = {
 
     },
     get_profile: function(token, user_id) {
-        fields = ["firstname", "lastname", "profile", "gender", "role", "socials", "friends", "email", "languages", "department", "blocked", "country", "bio"]
     
         var options = {
-            uri: `${urls.API_URL}user/${user_id}?fields=${fields.join(',')}`,
+            uri: `${urls.API_URL}user/${user_id}?fields=${user_fields.join(',')}`,
             method: 'GET',
             json: {},
             headers: {
                 "Authorization": `Bearer ${token}`
             }
         };
-        // var promise = new Promise(function (resolve, reject) {
-        //     request(options, function (error, response, body) {
-        //         // console.log(response.body)
-        //         if (response.statusCode==200 && body.response.profile != "") {
-        //             user_id = body.response['_id']
-        //             img_path = h.uploadDir(user_id)
-        //             h.base64img(body.response.profile, `.${img_path}`)
-        //             body.response.profile = img_path
-        //         }
-        //         resolve(response)
-        //     })
-        // });
-        // return promise;
-
         return rp(options) 
     },
     update_user: update_user
