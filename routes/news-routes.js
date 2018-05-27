@@ -87,8 +87,14 @@ router.post('/api/news', (req, res) => {
 
 
 router.get('/api/news', (req, res) => {
-    var tags = req.query.tags
-    if(tags!=undefined || tags!=""){
+    // console.log(tags)
+    var news_key = req.url
+    try {
+        // console.log(req.url)
+        value = cache.instance().get(news_key, true);
+        res.json(value);
+    }catch(err){
+        // if(tags!=undefined || tags!=""){
         var options = {
             uri: `${urls.ROOT_API_URL}${req.url}`,
             method: 'GET',
@@ -98,11 +104,12 @@ router.get('/api/news', (req, res) => {
             }
         };
         h.send_request(options, function (error, response, body) {
-            
+            // console.log(body)
+            if(response!=undefined && response.statusCode==200)
+                cache.instance().set(news_key, body, cache.TTL );
+
             res.json(body);
         })
-    }else{
-        res.json({response:[], statusCode: 200});
     }
 })
 

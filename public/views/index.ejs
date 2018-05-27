@@ -25,48 +25,103 @@
 
         <div class="content-wrapper">
             <div class="container-fluid">
-               <h2> Main things </h2>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <a href="/university">University structure</a>
+                <!--  <h2> Main things </h2>-->
+                <div class=row>
+                    <div class="col-sm-10">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="card border-0">
+                                    <img class="card-img-top" src="/public/images/university.jpg" alt="Card image cap">
+
+                                    <div class="card-body p-2">
+
+                                        <h5 class="card-title">University strcuture</h5>
+                                        <p class="card-text">Faculties, chairs</p>
+                                    </div>
+                                </div>
                             </div>
+                            <div class="col-sm-6">
+                                <div class="card  border-0">
+                                    <img class="card-img-top" src="/public/images/location.png" alt="Card image cap">
+
+                                    <div class="card-body p-2">
+
+                                        <h5 class="card-title">Building maps</h5>
+                                        <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                        <div class="row p-1 mt-5" id="news">
+                            <h3 class="ml-3">News</h3>
+
                         </div>
                     </div>
-                    <div class="col-sm-6">
-                        <div class="card">
-                            <div class="card-body">
-                                    <a href="/location/<%=lang%>">Location</a>
-                            </div>
-                        </div>
+                    <div class="col-sm-2 border-left">
+                        Contact
                     </div>
                 </div>
-                <div class="row mt-4">
-                        <div class="col-sm-6">
-                            <div class="card">
-                                <div class="card-body">
-                                        <a href="/newsfeed">University news</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="card">
-                                <div class="card-body">
-                                        <a href="/helpdesk">Help desk</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
             </div>
-
-
         </div>
+        <script src="/vendor/jquery/jquery.min.js"></script>
+
         <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
         <!-- Core plugin JavaScript-->
         <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
         <!-- Custom scripts for all pages-->
         <script src="/js/sb-admin.min.js"></script>
+        <script>
+            $(() => {
+
+                $.get('/api/news?limit=6', (response) => {
+                    console.log(response)
+
+                    if (response.statusCode == 200) {
+                        renderNews(response.response)
+                    } else {
+                        alert("Something went wrong!")
+
+                    }
+                })
+            })
+
+            function renderNews(news_list) {
+                item_per_row = 3;
+                elements = ``
+                index = 0
+                row = news_list.length % item_per_row == 0 ? news_list.length / item_per_row : news_list.length /
+                    item_per_row + 1
+                for (var i = 0; i < row; i++) {
+                    if(i > 0) elements += "<div class='row mt-3'>"
+                    else elements += "<div class='row'>"
+                    for (var j = 0; j < item_per_row; j++) {
+                        t = ""
+                        $.each(news_list[index].tags, (i, tag)=>{
+                            t += `<a href="/api/news?tags=${tag}" class="btn btn-outline-primary pb-0 pt-0 mr-1">${tag}</a>`
+                        })
+                        elements +=
+                            `<div class='col-sm-4'>
+                                <div class="card border-0">
+                                    <div class="card-body">
+                                    <h5 class="card-title">${news_list[index].title}
+                                    </h5>
+                                    <p class="card-text">${news_list[index].body.substring(0, 100)}...</p>
+                                    ${t}
+                                    </div>
+                                </div>
+                            </div>`
+                        if (index == news_list.length - 1) {
+                            break;
+                        }
+                        index++;
+
+                    }
+                    elements += "</div>"
+                }
+                $("#news").append(elements)
+            }
+        </script>
 </body>
 
 </html>

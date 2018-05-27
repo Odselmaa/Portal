@@ -595,3 +595,7 @@ However, delay the fade out process for 2.5 seconds */
 .error{
   color: #dc3545
 }
+.card-img-top{
+  object-fit: cover;
+  height: 180px;
+}
