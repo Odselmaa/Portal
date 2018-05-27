@@ -9,7 +9,7 @@ let cache = require('../routes/cache-provider.js')
 let querystring = require('querystring');
 const request = require('request');
 const rp = require('request-promise')
-const user_fields = ["firstname", "lastname", "profile", "gender", "role", "socials", "email", "languages", "department", "chair", "news_tags", "country"]
+var user_fields = ["firstname", "lastname", "profile", "gender", "role", "socials", "email", "languages", "department", "chair", "news_tags", "country"]
 
 
 function update_user(payload, request, callback) {
@@ -122,8 +122,12 @@ module.exports = {
             })
         } else {
             if (user_id != undefined) {
+                current_user = req.session[req.session.access_token.user_id]
+                if (current_user.role._id == 1) 
+                    var fields = user_fields.concat(["blocked"])
+
                 var options = {
-                    uri: `${urls.API_URL}user/${user_id}?lang=${lang}&fields=${user_fields.join(',')}`,
+                    uri: `${urls.API_URL}user/${user_id}?lang=${lang}&fields=${fields.join(',')}`,
                     method: 'GET',
                     json: {},
                     headers: {
@@ -131,8 +135,7 @@ module.exports = {
                     },
                 };
 
-                current_user = req.session[req.session.access_token.user_id]
-                if (current_user.role._id == 1) fields.push("blocked")
+
                 request(options, function (error, response, body) {
                     // console.log(body, error, response)
                     if (!error && body.statusCode == 200) {

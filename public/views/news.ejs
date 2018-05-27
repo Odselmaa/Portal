@@ -232,7 +232,7 @@
                 _id: n._id
             })
             $.ajax({
-                url: '/api/news',
+                url: `/api/news/${n._id}`,
                 type: 'PUT',
                 data: {
                     'data': data
