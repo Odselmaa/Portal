@@ -143,9 +143,9 @@
                             `<div class='col-sm-4'>
                                 <div class="card border-0">
                                     <div class="card-body">
-                                    <h5 class="card-title">${news_list[index].title}
+                                   <a href="/news/${news_list[index]._id}"><h5 class="card-title">${news_list[index].title}</a>
                                     </h5>
-                                    <p class="card-text">${news_list[index].body.substring(0, 100)}...</p>
+                                    <a href="/news/${news_list[index]._id}"><p class="card-text">${news_list[index].body.substring(0, 100)}...</p></a>
                                     ${t}
                                     </div>
                                 </div>
