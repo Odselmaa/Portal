@@ -608,6 +608,9 @@ However, delay the fade out process for 2.5 seconds */
 .gray{
   color: #aaa
 }
+.dark-gray{
+  color: #333
+}
 .f-13{
   font-size: 13px
 }
