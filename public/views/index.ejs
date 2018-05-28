@@ -69,18 +69,24 @@
                                 <div>Tel. 8 (499) 263-6391</div>
                                 <div>Fax (499) 267-4844</div>
                                 <div>E-mail bauman@bmstu.ru</div>
-         
+
                             </div>
                             <div class="col-sm-4 f-13">
                                 <h5>FMOP</h5>
                                 <div>Tel. 8 (499) 267 00 82</div>
                                 <div class="row ">
-                                        <div class="col">
-                                           <h6><a href="https://vk.com/public140853361"> <i class="fa fa-vk" style="color:#4c75a3"></i></a> 
-                                            <a href="https://www.facebook.com/groups/1430811973892911/" class="ml-2"> <i class="fa fa-facebook-f" style="color:#3B5998"></i></a></h6>
-                                        </div>
-                                        
+                                    <div class="col">
+                                        <h6>
+                                            <a href="https://vk.com/public140853361">
+                                                <i class="fa fa-vk" style="color:#4c75a3"></i>
+                                            </a>
+                                            <a href="https://www.facebook.com/groups/1430811973892911/" class="ml-2">
+                                                <i class="fa fa-facebook-f" style="color:#3B5998"></i>
+                                            </a>
+                                        </h6>
                                     </div>
+
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -143,9 +149,9 @@
                             `<div class='col-sm-4'>
                                 <div class="card border-0">
                                     <div class="card-body">
-                                   <a href="/news/${news_list[index]._id}"><h5 class="card-title">${news_list[index].title}</a>
+                                        <h5 class="card-title"><a href="/news/${news_list[index]._id}">${news_list[index].title}</a>
                                     </h5>
-                                    <a href="/news/${news_list[index]._id}"><p class="card-text">${news_list[index].body.substring(0, 100)}...</p></a>
+                       <p class="card-text"> <a href="/news/${news_list[index]._id}">${news_list[index].body.substring(0, 100)}...</a></p>
                                     ${t}
                                     </div>
                                 </div>
