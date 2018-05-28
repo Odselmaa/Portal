@@ -602,9 +602,12 @@ However, delay the fade out process for 2.5 seconds */
 }
 
 #news .card .card-text, #news .card a{
-  font-size: 13px
+  font-size: 14px
 }
 
 .gray{
-  color: #777
+  color: #aaa
+}
+.f-13{
+  font-size: 13px
 }

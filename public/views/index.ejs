@@ -26,8 +26,8 @@
         <div class="content-wrapper">
             <div class="container-fluid">
                 <!--  <h2> Main things </h2>-->
-                <div class=row>
-                    <div class="col-sm-10">
+                <div class="row pr-2">
+                    <div class="col-sm-12">
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="card border-0">
@@ -52,16 +52,53 @@
                                 </div>
                             </div>
                         </div>
-                       
+
                         <div class="row p-1 mt-5" id="news">
                             <h1 class="ml-3 gray">News</h1>
 
                         </div>
+                        <div class="row border-top mt-4 ml-3 mr-3">
+                            </br>
+                        </div>
+                        <div class="row p-3" id="news">
+                            <div class="col-sm-4 f-13">
+                                <h5> Main building</h5>
+                                <div> ul. Baumanskaya 2-ya, 5/1, Moscow</div>
+                                <div>Postcode: 105005</div>
+
+                                <div>Tel. 8 (499) 263-6391</div>
+                                <div>Fax (499) 267-4844</div>
+                                <div>E-mail bauman@bmstu.ru</div>
+         
+                            </div>
+                            <div class="col-sm-4 f-13">
+                                <h5>FMOP</h5>
+                                <div>Tel. 8 (499) 267 00 82</div>
+                                <div class="row ">
+                                        <div class="col">
+                                           <h6><a href="https://vk.com/public140853361"> <i class="fa fa-vk" style="color:#4c75a3"></i></a> 
+                                            <a href="https://www.facebook.com/groups/1430811973892911/" class="ml-2"> <i class="fa fa-facebook-f" style="color:#3B5998"></i></a></h6>
+                                        </div>
+                                        
+                                    </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-sm-2 border-left">
+
+                    <!-- <div class="col-sm-2 border-left">
                        <h5 class="text-center mr-3" style="color:#555">Contact</h5>
+                       t is a long established fact that a reader will be distracted by the readable 
+                       content of a page when looking at its layout. The point of using Lorem Ipsum
+                       is that it has a more-or-less normal distribution of letters, as opposed
+                        to using 'Content here, content here', making it look like readable English.
                        <h5 class="text-center mr-3" style="color:#555">FAQ</h5>
-                    </div>
+                      
+                          Many desktop publishing packages and web page editors now use 
+                       Lorem Ipsum as their default model text, and a search for 'lorem ipsum' 
+                       will uncover many web sites still in their infancy. Various versions have 
+                       evolved over the years, sometimes by accident, sometimes on purpose 
+                       (injected humour and the like).
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -94,12 +131,13 @@
                 row = news_list.length % item_per_row == 0 ? news_list.length / item_per_row : news_list.length /
                     item_per_row + 1
                 for (var i = 0; i < row; i++) {
-                    if(i > 0) elements += "<div class='row mt-3'>"
+                    if (i > 0) elements += "<div class='row mt-3'>"
                     else elements += "<div class='row'>"
                     for (var j = 0; j < item_per_row; j++) {
                         t = ""
-                        $.each(news_list[index].tags, (i, tag)=>{
-                            t += `<a href="/api/news?tags=${tag}" class="btn btn-outline-primary pb-0 pt-0 mr-1">${tag}</a>`
+                        $.each(news_list[index].tags, (i, tag) => {
+                            t +=
+                                `<a href="/api/news?tags=${tag}" class="btn btn-outline-primary pb-0 pt-0 mr-1">${tag}</a>`
                         })
                         elements +=
                             `<div class='col-sm-4'>
