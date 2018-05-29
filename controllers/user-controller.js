@@ -127,7 +127,8 @@ module.exports = {
                 current_user = req.session[req.session.access_token.user_id]
                 if (current_user.role._id == 1) 
                     var fields = user_fields.concat(["blocked"])
-
+                else
+                    var fields = user_fields
                 var options = {
                     uri: `${urls.API_URL}user/${user_id}?lang=${lang}&fields=${fields.join(',')}`,
                     method: 'GET',
