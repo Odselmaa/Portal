@@ -2,6 +2,8 @@ let h = require('../routes/helper.js')
 let urls = require('../url')
 let fs = require('fs');
 let sharp = require('sharp')
+let moment = require('moment')
+
 let v = require('./verification-controller.js')
 let formidable = require('formidable');
 let path = require('path')
@@ -134,11 +136,14 @@ module.exports = {
                         "Authorization": `Bearer ${req.session.access_token.token}`
                     },
                 };
+                var startDate = moment();
 
 
                 request(options, function (error, response, body) {
                     // console.log(body, error, response)
                     if (!error && body.statusCode == 200) {
+                        var endDate = moment();
+                        console.log('Request took: ' + endDate.diff(startDate)/1000 + response);
                         if (body.response.profile != "") {
                             user_id = body.response['_id']
                             img_path = h.uploadDir(user_id)
