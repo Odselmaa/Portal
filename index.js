@@ -10,6 +10,8 @@ const passport = require('passport')
 const promise = require('promise')
 const morgan = require('morgan')
 //imported routes
+const test_routes = require('./routes/test-routes.js');
+
 const user_routes = require('./routes/user-routes.js');
 const department_routes = require('./routes/department-routes.js');
 const chair_routes = require('./routes/chair-routes.js');
@@ -30,6 +32,7 @@ const urls = require('./url.js');
 const cache = require('./routes/cache-provider.js')
 const m = require('./middleware.js')
 var connectedUsers = {};
+app.use('/', test_routes);
 
 app.use('/', user_routes);
 app.use('/', department_routes);
@@ -42,6 +45,7 @@ app.use('/', lang_routes);
 app.use('/', news_routes);
 app.use('/', chat_routes);
 app.use('/', review_routes);
+
 app.use(connection.session)
 app.use(i18n.i18n.init);
 app.use(express.static(__dirname))
@@ -129,6 +133,7 @@ var login_post_handler = function (req, res) {
         headers: {}
     };
     rp(options).then((r)=>{
+        console.log(r)
         r.response.access_token['user_id'] = r.response.user_id
         set_session(req.session, 'access_token', r.response.access_token)    
         res.json({body: "Successfull", statusCode: 200})
@@ -136,12 +141,10 @@ var login_post_handler = function (req, res) {
     }).catch((error)=>{
         console.log(error)
         res.json({body: "Error", statusCode: 400})
-    })
-    
+    })    
 }
+
 var logout_handler = function (req, res) {
-
-
     io.emit('logged_out', {
         "user_id": req.session.access_token.user_id
     })
