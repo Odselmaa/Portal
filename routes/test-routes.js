@@ -10,7 +10,6 @@ function makeRequest(options) {
         var startDate = moment();
         request(options, function (error, response, body) {
             var endDate = moment();
-            console.log(startDate.get('second') - endDate.get('second'))
             diff = endDate.diff(startDate) / 1000
             sum_time += diff
             console.log('Request took: ' + diff + " " + response);
@@ -35,11 +34,12 @@ var test_handler = function(req, res){
         promises.push(makeRequest(options));
     }
     Promise.all(promises).then(function(values) {
-        console.log(values);
+        console.log(arrSum(values)/number)
     });
 
     res.send("OK")
 }
+const arrSum = arr => arr.reduce((a,b) => a + b, 0)
 
 router.get('/test',test_handler)
 
