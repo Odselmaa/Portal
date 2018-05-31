@@ -13,7 +13,7 @@ function makeRequest(options) {
             diff = endDate.diff(startDate) / 1000
             sum_time += diff
             console.log('Request took: ' + diff + " " + response);
-            resolve(diff)
+            resolve({start: startDate, end: endDate})
         });
     })
     return promise
@@ -34,7 +34,9 @@ var test_handler = function(req, res){
         promises.push(makeRequest(options));
     }
     Promise.all(promises).then(function(values) {
-        console.log(arrSum(values)/number)
+        end = values[values.length-1].endDate
+        start = values[values.length-1].startDate
+        console.log((end - start)/number)
     });
 
     res.send("OK")
