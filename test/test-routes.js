@@ -12,18 +12,26 @@ var options = {
 }
 
 function makeRequest(options) {
-    var startDate = moment();
-    request(options, function (error, response, body) {
-        var endDate = moment();
-        diff = endDate.diff(startDate) / 1000
-        sum_time += diff
-        console.log('Request took: ' + diff + " " + response);
-    });
+    var promise = new Promise((resolve, reject)=>{
+        var startDate = moment();
+        request(options, function (error, response, body) {
+            var endDate = moment();
+            diff = endDate.diff(startDate) / 1000
+            sum_time += diff
+            console.log('Request took: ' + diff + " " + response);
+            resolve(diff)
+        });
+    })
+    return promise
 }
 
 function test_100(){
+    var promises = []
     for (var i = 0; i < 100; i++) {
-        makeRequest(options);
+        promises.push(makeRequest(options));
     }
+    Promise.all(promises).then(function(values) {
+        console.log(values);
+    });
 }
 
