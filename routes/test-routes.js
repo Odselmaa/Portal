@@ -24,7 +24,9 @@ var test_handler = function(req, res){
         uri: url.API_URL + 'user/5a63ac19b1cd8e29bf0c0c77?&fields=firstname,lastname,blocked,department,profile',
         headers: {
             "Authorization": "Bearer " + req.session.access_token.token
-        }
+        },
+        timeout: 1000* 100
+
     }
 
     var promises = []
