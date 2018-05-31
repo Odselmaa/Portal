@@ -6,13 +6,17 @@ var url = require('../url.js')
 var sum_time = 0
 
 function makeRequest(options) {
-    var startDate = moment();
-    request(options, function (error, response, body) {
-        var endDate = moment();
-        diff = endDate.diff(startDate) / 1000
-        sum_time += diff
-        console.log('Request took: ' + diff + " " + response);
-    });
+    var promise = new Promise((resolve, reject)=>{
+        var startDate = moment();
+        request(options, function (error, response, body) {
+            var endDate = moment();
+            diff = endDate.diff(startDate) / 1000
+            sum_time += diff
+            console.log('Request took: ' + diff + " " + response);
+            resolve(diff)
+        });
+    })
+    return promise
 }
 
 var test_handler = function(req, res){
@@ -24,9 +28,14 @@ var test_handler = function(req, res){
             "Authorization": "Bearer " + req.session.access_token.token
         }
     }
-    for (var i = 0; i < number; i++) {
-        makeRequest(options);
+    
+    var promises = []
+    for (var i = 0; i < 100; i++) {
+        promises.push(makeRequest(options));
     }
+    Promise.all(promises).then(function(values) {
+        console.log(values);
+    });
 
     res.send("OK")
 }
