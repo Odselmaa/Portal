@@ -28,9 +28,9 @@ var test_handler = function(req, res){
             "Authorization": "Bearer " + req.session.access_token.token
         }
     }
-    
+
     var promises = []
-    for (var i = 0; i < 100; i++) {
+    for (var i = 0; i < number; i++) {
         promises.push(makeRequest(options));
     }
     Promise.all(promises).then(function(values) {
