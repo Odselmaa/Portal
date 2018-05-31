@@ -37,6 +37,7 @@ var test_handler = function(req, res){
         end = values[values.length-1].end
         start = values[0].start
         console.log((end - start)/number)
+        console.log(values)
     });
 
     res.send("OK")
