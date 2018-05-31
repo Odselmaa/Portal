@@ -34,8 +34,8 @@ var test_handler = function(req, res){
         promises.push(makeRequest(options));
     }
     Promise.all(promises).then(function(values) {
-        end = values[values.length-1].endDate
-        start = values[values.length-1].startDate
+        end = values[values.length-1].end
+        start = values[0].start
         console.log((end - start)/number)
     });
 
