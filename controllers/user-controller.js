@@ -11,17 +11,17 @@ let cache = require('../routes/cache-provider.js')
 let querystring = require('querystring');
 const request = require('request');
 const rp = require('request-promise')
-var user_fields = ["firstname", "lastname", "profile", "friends","gender", "role", "socials", "email", "languages", "department", "chair", "news_tags", "country"]
+var user_fields = ["firstname", "lastname", "profile", "friends","gender", "role", "socials", "email", "languages", "department", "chair", "news_tags", "country", 'bio']
+var update_user_fields = ["firstname", "lastname", "gender", "role", "socials", "email", "languages", "department", "chair", "news_tags", "country", 'bio']
 
-
-function update_user(payload, request, callback) {
+function update_user(payload, fields, request, token, callback) {
     var user_id = payload.user_id
     var options = {
         uri: `${urls.API_URL}user/${user_id}`,
         method: 'PUT',
-        json: payload,
+        json: {payload: payload, fields: fields, lang: 'en'},
         headers: {
-            "Authorization": `Bearer ${request.session.access_token.token}`
+            "Authorization": `Bearer ${token}`
         }
     };
 
@@ -32,18 +32,22 @@ function update_user(payload, request, callback) {
                 h.base64img(payload.profile, `..${img_path}`)
                 payload.profile = img_path
             }
-            for (const [key, value] of Object.entries(payload)) {
-                request.session[user_id][key] = value
+            console.log(body)
+            for (const [key, value] of Object.entries(body['updated_user'])) {
+                if(key!='profile')
+                    request.session[user_id][key] = value
             }
             request.session.save()
         }
         callback(response)
     })
 }
+
 function set_session(session, key, value) {
     session[key] = value;
     session.save()
 }
+
 function resize(user) {
     var promise = new Promise(function (resolve, reject) {
         img_path = path.join(__dirname, `../${h.uploadDir(user.user_id)}`)
@@ -367,17 +371,25 @@ module.exports = {
         });
 
         form.on('end', function () {
+            const token = req.session.access_token.token
+            // var fields = []
+            // for(var k in user){
+            //     fields.push(k)
+            // }
+
             if ('profile' in user && user.profile != "") {
                 resize(user)
                     .then(convert)
                     .then(delete_old)
                     .then((user) => {
-                        update_user(user, req, (r) => {
+                        update_user(user, user_fields,req, token, (r) => {
                             res.json(r)
                         })
                     })
             } else {
-                update_user(user, req, (r) => {
+                update_user(user, user_fields, req, token, (r) => {
+                    console.log(r.body)
+
                     res.json(r.body)
                 })
             }

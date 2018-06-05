@@ -168,15 +168,14 @@ var register_post_handler = function (req, res) {
         },
     };
     h.send_request(options, function (error, response, body, req) {
+        console.log(body)
         if (!error && response.statusCode == 201) {
             res.status(201).json({
                 'success': 'Successfully registered, please login',
                 'statusCode': 201
             })
         } else {
-            var payload = response.body
-            payload['statusCode'] = response.statusCode
-            res.json(payload)
+            res.json(body)
         }
     })
 }

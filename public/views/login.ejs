@@ -75,12 +75,11 @@
         window.location.href = '/'
       } else if (response.statusCode == 404) {
         $('#response').html(`<div class="alert alert-danger" role="alert">
-                ${response.body}
+          Email or password is wrong!
                 </div>`)
       } else {
         $('#response').html(`<div class="alert alert-danger" role="alert">
-                Something went wrong!
-                </div>`)
+          ${response.body}                </div>`)
       }
     }
 

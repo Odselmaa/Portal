@@ -35,7 +35,7 @@ module.exports = {
                .then((data)=>{
                 //    res.json(data)
                    if(data.statusCode==200){
-                        if (data.response.profile != "") {
+                        if (data.response.profile != "" && data.response.profile!=undefined) {
                             user_id = data.response['_id']
                             img_path = h.uploadDir(user_id)
                             h.base64img(data.response.profile, `.${img_path}`)

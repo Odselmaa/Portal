@@ -56,13 +56,13 @@
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active p-3 mt-2" id="personal" role="tabpanel" aria-labelledby="personal-tab">
                 <div class="row pr-5">
-                    <div class="col-md-7">
+                    <form id="formPersonal" class="col-md-7">
                         <div class="form-group row">
                             <label for="inputPassword" class="col-sm-3 col-form-label">
                                 <%=__('FIRSTNAME')%>
                             </label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="inputFirstname" value="<%=user.firstname%>">
+                                <input type="text" class="form-control" id="inputFirstname" value="<%=user.firstname%>" name="firstname">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -70,7 +70,7 @@
                                 <%=__('LASTNAME')%>
                             </label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="inputLastname" value="<%=user.lastname%>">
+                                <input type="text" class="form-control" id="inputLastname" value="<%=user.lastname%>" name="lastname">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -78,8 +78,8 @@
                                 <%=__('GENDER')%>
                             </label>
                             <div class="col-sm-9">
-                                <select id="selectGender" class="form-control custom-select">
-                                    <option selected>
+                                <select id="selectGender" class="form-control custom-select" name="gender">
+                                    <option selected value="">
                                         <%=__('CHOOSE')%>
                                     </option>
                                 </select>
@@ -91,8 +91,8 @@
                                 <%=__('COUNTRY')%>
                             </label>
                             <div class="col-sm-9">
-                                <select id="selectCountry" class="form-control custom-select">
-                                    <option selected>
+                                <select id="selectCountry" class="form-control custom-select" name="country">
+                                    <option selected  value="">
                                         <%=__('CHOOSE')%>
                                     </option>
                                 </select>
@@ -106,8 +106,8 @@
                             <div class="col-sm-9">
                                 <div id="chips">
                                 </div>
-                                <select id="selectLanguages" class="form-control custom-select">
-                                    <option selected>
+                                <select id="selectLanguages" class="form-control custom-select" name="languages">
+                                    <option selected  value="">
                                         <%=__('CHOOSE')%>
                                     </option>
                                 </select>
@@ -119,38 +119,39 @@
                                 <%=__('BIO')%>
                             </label>
                             <div class="col-sm-9">
-                                <textarea class="form-control" id="textareaBio" rows="3" placeholder="Write about yourself">
+                                <textarea class="form-control" id="textareaBio" rows="3" name="bio" placeholder="Write about yourself">
                                     <%=user.bio%>
                                 </textarea>
                             </div>
                         </div>
-                    </div>
+                    </form>
                     <!-- <div class="col-md-offset-1"></div> -->
                     <div class="col-md-4 text-center">
                         <% if(user.profile!=""){%>
                             <img src="<%=user.profile%>" class="center-cropped" id="imgProfile" style="width:90%">
                             <% } else {%>
-                                <img src="/images/user.png" class="center-cropped" id="imgProfile" style="width:90%">
-                                <% } %>
-                                    <label class="btn btn-outline-primary btn-file mt-3" style="width:90%">
-                                        <%=__('UPLOAD')%>
-                                            <input type="file" id="fileImg" onchange="readURL(this);" style="display: none;">
-                                    </label>
-                                    <!-- <button class="btn btn-outline-primary mt-2" style="width:90%">Upload photo</button> -->
-                                    <div class="progress mx-auto d-none" style="width:90%">
-                                        <div class="progress-bar" role="progressbar"></div>
-                                    </div>
+                            <img src="/images/user.png" class="center-cropped" id="imgProfile" style="width:90%">
+                            <% } %>
+                        <label class="btn btn-outline-primary btn-file mt-3" style="width:90%">
+                            <%=__('UPLOAD')%>
+                                <input type="file" id="fileImg" onchange="readURL(this);" style="display: none;">
+                        </label>
+                        <!-- <button class="btn btn-outline-primary mt-2" style="width:90%">Upload photo</button> -->
+                        <div class="progress mx-auto d-none" style="width:90%">
+                            <div class="progress-bar" role="progressbar"></div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="tab-pane fade  p-3 mt-2" id="background" role="tabpanel" aria-labelledby="background-tab">
+               <form id="formEducation">
                 <div class="form-group row">
                     <label for="inputState" class="col-sm-2 col-form-label">
                         <%=__('FACULTY')%>
                     </label>
                     <div class="col-sm-6">
-                        <select id="selectDepartment" class="form-control custom-select">
-                            <option selected>
+                        <select id="selectDepartment" name="department" class="form-control custom-select">
+                            <option selected value="">
                                 <%=__('CHOOSE')%>
                             </option>
                         </select>
@@ -161,23 +162,24 @@
                         <%=__('CHAIR')%>
                     </label>
                     <div class="col-sm-6">
-                        <select id="selectChair" class="form-control custom-select">
+                        <select id="selectChair" name="chair" class="form-control custom-select">
                             <option selected>
                                 <%=__('CHOOSE')%>
                             </option>
                         </select>
                     </div>
                 </div>
+                </form>
             </div>
             <div class="tab-pane fade   p-3 mt-2" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                 <div class="row">
-                    <div class="col-md-9">
+                    <form class="col-md-9" id="formContacts">
                         <div class="form-group row">
                             <label for="inputPassword" class="col-sm-3 col-form-label">
                                 <%=__('EMAIL')%>
                             </label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="inputEmail" placeholder="name@example.com" value="<%=user.email%>">
+                                <input type="text" class="form-control" id="inputEmail" placeholder="name@example.com" name="email" value="<%=user.email%>">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -185,39 +187,39 @@
                                 <%=__('PHONE')%>
                             </label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="inputPhone" value="<%=user.phone%>">
+                                <input type="text" class="form-control" id="inputPhone"  name="phone" value="<%=user.phone%>">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="inputPassword" class="col-sm-3 col-form-label">Facebook</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="inputFB" placeholder="" value="<%=user.socials.facebook%>">
+                                <input type="text" class="form-control" id="inputFB" data = "socials"  name="fb" placeholder="" value="<%=user.socials.facebook%>">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="inputPassword" class="col-sm-3 col-form-label">Google</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="inputGoogle" value="<%=user.socials.google%>">
+                                <input type="text" class="form-control" id="inputGoogle" data = "socials" name="google" value="<%=user.socials.google%>">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="inputPassword" class="col-sm-3 col-form-label">Vk</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="inputVk" placeholder="" value="<%=user.socials.vk%>">
+                                <input type="text" class="form-control" id="inputVk" data = "socials" placeholder="" name="vk" value="<%=user.socials.vk%>">
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
             <div class="tab-pane fade  p-3 mt-2" id="news" role="tabpanel" aria-labelledby="news-tab">
-                <div class="form-group row">
+                <form   id="formNews" class="form-group row">
                     <label for="inputState" class="col-sm-2 col-form-label">
                         Tags
                     </label>
                     <div class="col-sm-10">
-                        <input type="text" id="inputTags" width="100%" class="form-control" value="" data-role="tagsinput">
+                        <input type="text" id="inputTags" width="100%" class="form-control" value="" name="news_tags" data-role="tagsinput">
                     </div>
-                </div>
+                </form>
             </div>
             <div class="tab-pane fade  p-3 mt-2 mb-5" id="verify" role="tabpanel" aria-labelledby="verify-tab">
                 <div class="row d-none" id="alertConfirmation">
@@ -288,6 +290,7 @@
         var user_langs = [];
         var languages = [];
         var file_changed = false;
+        var data = {}
 
         "<% if(user.languages){%>"
         "<% for (var i=0, len=user.languages.length; i<len; i++) { %>"
@@ -328,25 +331,29 @@
         })
 
         function set_department(items) {
-            departments = items
+            data['department'] = items
+            var myDepartment =  <%- JSON.stringify(user.department) %>
             $.each(items, (i, v) => {
-                if (v["_id"] == "<%=user.department['_id']%>") {
-                    // 
-                    $("#selectDepartment").append(
-                        `<option selected id="${v["_id"]}">${v.code} | ${v.name}</option>`
-                    )
-                    get_chair(v["_id"])
-                } else
-                    $("#selectDepartment").append(
-                        `<option id="${v["_id"]}">${v.code} | ${v.name}</option>`
-                    )
+                
+                    if(myDepartment!=undefined && v["_id"] == myDepartment._id) {
+                    
+                        $("#selectDepartment").append(
+                            `<option selected id="${v["_id"]}">${v.code} | ${v.name}</option>`
+                        )
+                        get_chair(v["_id"])
+                    } else{
+                        $("#selectDepartment").append(
+                            `<option id="${v["_id"]}">${v.code} | ${v.name}</option>`
+                        )
+                    }
+                
             })
         }
 
         function set_chair(items) {
             $("#selectChair").find('option').not(':first').remove();
-            chairs = items
-            $.each(chairs, (i, v) => {
+            data['chair'] = items
+            $.each(items, (i, v) => {
                 if (c == v["_id"]) {
                     $("#selectChair").append(
                         `<option selected id="${v["_id"]}">${v.code.toUpperCase()} | ${v.name}</option>`
@@ -359,9 +366,12 @@
             })
         }
 
-        function set_country(countries) {
-            $.each(countries, (i, v) => {
-                if ("<%=user.country['_id']%>" == v["_id"]) {
+        function set_country(items) {
+            data['country'] = items
+
+            var myCountry = <%- JSON.stringify(user.country) %>
+            $.each(items, (i, v) => {
+                if(myCountry!=undefined && v["_id"] == myCountry._id) {
                     $("#selectCountry").append(
                         `<option selected id="${v["_id"]}">${v.name}</option>`
                     )
@@ -374,21 +384,25 @@
             })
         }
 
-        function set_gender(genders) {
-            $.each(genders, (i, v) => {
-                if ("<%=user.gender['_id']%>" == v["_id"]) $(
-                    "#selectGender").append(
-                    `<option selected id="${v["_id"]}">${v.name}</option>`
-                )
-                else $("#selectGender").append(
+        function set_gender(items) {
+            data['gender'] = items
+
+            var myGender =  <%- JSON.stringify(user.gender) %>
+            $.each(items, (i, v) => {
+                if(myGender!=undefined && v["_id"] == myGender._id) {
+                    $("#selectGender").append(
+                        `<option selected id="${v["_id"]}">${v.name}</option>`
+                    )
+                }else $("#selectGender").append(
                     `<option id="${v["_id"]}">${v.name}</option>`
                 )
             })
         }
 
-        function set_languages(langs) {
-            languages = langs
-            $.each(languages, (i, v) => {
+        function set_languages(items) {
+            data['languages'] = items
+
+            $.each(items, (i, v) => {
                 $("#selectLanguages").append(
                     `<option id="${v["_id"]}" data="${i}">${v.name}</option>`
                 )
@@ -402,6 +416,7 @@
         }
 
         function get_chair(id) {
+            console.log(id)
             get_data(`/api/chair/dep/${id}/<%=lang%>`, set_chair, inform_error)
         }
 
@@ -487,91 +502,51 @@
 
         function handle_save() {
             $("#btnSave").click(() => {
+                payload = {socials:{}}
                 //personal info
-                var firstname = $("#inputFirstname").val()
-                var lastname = $("#inputLastname").val()
-                var gender = $('#selectGender').find(":selected").attr("id")
-                var country = $("#selectCountry").find(":selected").attr("id")
-                // 
-                var bio = $("#textareaBio").val()
-                //background scene
-                var dep_index = $('#selectDepartment').find(":selected").index()
-                var deprt = departments[dep_index - 1]
-                // 
-
-                var chair_index = $("#selectChair").find(":selected").index()
-                var chair = chairs[chair_index - 1]
-
-                //contacts
-                var email = $('#inputEmail').val()
-                var phone = $('#inputPhone').val()
-                var fb = $('#inputFB').val()
-                var google = $('#inputGoogle').val()
-                var vk = $('#inputVk').val()
-                var tags = $('#inputTags').tagsinput('items')
-
-                var user = {}
-
-                if (firstname != "<%=user.firstname%>") user.firstname = firstname
-                if (lastname != "<%=user.lastname%>") user.lastname = lastname
-                if (country != "<%=user.country['_id']%>") user.country = country
-                if (gender != parseInt("<%=user.gender['_id']%>")) user.gender = parseInt(
-                    gender)
-
-                user.bio = bio
-                if (deprt._id != "<%=user.department['_id']%>" && deprt != undefined) user.department =
-                    deprt
-                if (c._id != chair._id && chair != undefined) user.chair = chair
-                if (email != "<%=user.email%>") user.email = email
-                if (phone != "<%=user.phone%>") user.phone = phone
-                if (google != "<%=user.socials.google%>")
-                    if ("socials" in user)
-                        user.socials['google'] = google
-                else
-                    user.socials = {
-                        google: google
-                    }
-
-                if (fb != "<%=user.socials.fb%>")
-                    if ("socials" in user)
-                        user.socials['fb'] = fb
-                else
-                    user.socials = {
-                        fb: fb
-                    }
-
-                if (vk != "<%=user.socials.vk%>")
-                    if ("socials" in user)
-                        user["socials"]["vk"] = vk
-                else
-                    user["socials"] = {
-                        vk: vk
-                    }
-
-                var langs = []
-                var childs = $("div#chips").children('div')
-
-                $.each(childs, (i, node) => {
-                    var index = $(node).attr('data')
-                    langs.push(index)
-                })
-                
-                if (isEqual(langs, user_langs) == false) {
-                    tmp = []
-                    $.each(childs, (i, node) => {
-                        var index = parseInt($(node).attr('id'))
-                        tmp.push(languages[index])
+                var forms = ["#formPersonal", '#formEducation', "#formContacts"]
+                $.each(forms, (i, form)=>{
+                    raw_payload = $(form).serializeArray()
+                    $.each(raw_payload, (i, el)=>{
+                        if($.inArray(el.name, ['fb', 'google', 'vk'])>-1){
+                            payload.socials[el.name] = el.value
+                        }else
+                            payload[el.name] = el.value
                     })
-                    user_langs = langs
-                    user["languages"] = tmp
-                }
-                user.news_tags = tags
-                if ($.isEmptyObject(user) == false || file_changed) {
-                    upload(user)
-                }
+                })
+
+                $.each(forms, (i, form)=>{
+                    $.each($(form).find('select'), (i, item)=>{
+                        selected_item = $(item).find(":selected")
+                        // console.log($(item).attr('name'), selected_item.attr('id'))
+                        value = selected_item.attr('id')
+                        name = $(item).attr('name')
+                        if(name=='languages'){
+                           chips = $("#chips").find("div.chip")
+                           payload[name] = getAttrs(chips, 'data')
+        
+                        }else{
+
+                            selected_index = selected_item.index() - 1
+                            selected_index >= 0 ? payload[name] = $.isNumeric(value) ? parseInt(value): value :  payload[name] = undefined
+                            console.log(selected_index, value, name)
+                        }
+                    })
+                })
+                payload['news_tags'] = $("#inputTags").tagsinput('items')
+                console.log(payload)
+
+                upload(payload)
             })
 
 
+        }
+        function getAttrs(el, attr){
+            items = []
+            $.each(el, (i, val)=>{
+                items.push($(val).attr(attr))
+            })
+            return items
         }
 
         function handle_confirm() {
