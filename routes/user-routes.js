@@ -94,7 +94,7 @@ var setting_handler = function (req, res) {
 var check_confirm_handler = (req, res) => {
   token = req.params.token
   var message = ""
-  var access_token = req.access_token.token
+  var access_token = req.session.access_token.token
   try {
     value = cache.instance().get(token, true);
     u.update_user({
