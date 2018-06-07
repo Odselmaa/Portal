@@ -11,7 +11,7 @@ let cache = require('../routes/cache-provider.js')
 let querystring = require('querystring');
 const request = require('request');
 const rp = require('request-promise')
-var user_fields = ["firstname", "lastname", "profile", "friends","gender", "role", "socials", "email", "languages", "department", "chair", "news_tags", "country", 'bio']
+var user_fields = ["firstname", "lastname", "profile", "friends","gender", "role", "socials", "email", "languages", "department", "chair", "news_tags", "country", 'bio', 'verified_email']
 var update_user_fields = ["firstname", "lastname", "gender", "role", "socials", "email", "languages", "department", "chair", "news_tags", "country", 'bio', 'friends', 'verified_email']
 
 function update_user(payload, request, token, callback) {
