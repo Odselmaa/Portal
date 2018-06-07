@@ -367,25 +367,24 @@
                         profile = item.profile
                     var department = '';
                     console.log(item)
-                    if (item!=undefined && 'department' in item) {
+                    if (typeof item === 'object' && 'department' in item) {
                         department = item.department.code;
                     }
                     $('#friend-list').append(
                         `<li class="list-group-item">
-                                        <div class="media">
-                                            <div class="media-left">
-                                                <img class="media-object profile" src=${profile} alt="...">
-                                            </div>
-                                            <div class="media-body ml-2">
-                                                <a href="/user/${item['_id']}/<%=lang%>">${item.firstname} ${item.lastname}</a>           
-                                                <a href="/m/${item['_id']}"><i class="fa fa-comment text-secondary pull-right"></i></a>
-                                            </br>
-                                            ${department}
-
-                                                </div>
-                                            </div>
-                                                </li>
-                                            `
+                            <div class="media">
+                                <div class="media-left">
+                                    <img class="media-object profile" src=${profile} alt="...">
+                                </div>
+                                <div class="media-body ml-2">
+                                    <a href="/user/${item['_id']}/<%=lang%>">${item.firstname} ${item.lastname}</a>           
+                                    <a href="/m/${item['_id']}"><i class="fa fa-comment text-secondary pull-right"></i></a>
+                                </br>
+                                ${department}
+                                </div>
+                            </div>
+                        </li>
+                        `
                     )
                 })
 
