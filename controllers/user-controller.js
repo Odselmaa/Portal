@@ -14,12 +14,12 @@ const rp = require('request-promise')
 var user_fields = ["firstname", "lastname", "profile", "friends","gender", "role", "socials", "email", "languages", "department", "chair", "news_tags", "country", 'bio']
 var update_user_fields = ["firstname", "lastname", "gender", "role", "socials", "email", "languages", "department", "chair", "news_tags", "country", 'bio']
 
-function update_user(payload, fields, request, token, callback) {
+function update_user(payload, request, token, callback) {
     var user_id = payload.user_id
     var options = {
         uri: `${urls.API_URL}user/${user_id}`,
         method: 'PUT',
-        json: {payload: payload, fields: fields, lang: 'en'},
+        json: {payload: payload, fields: update_user_fields, lang: 'en'},
         headers: {
             "Authorization": `Bearer ${token}`
         }
@@ -382,12 +382,12 @@ module.exports = {
                     .then(convert)
                     .then(delete_old)
                     .then((user) => {
-                        update_user(user, user_fields,req, token, (r) => {
+                        update_user(user,req, token, (r) => {
                             res.json(r)
                         })
                     })
             } else {
-                update_user(user, user_fields, req, token, (r) => {
+                update_user(user, req, token, (r) => {
                     console.log(r.body)
 
                     res.json(r.body)
