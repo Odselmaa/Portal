@@ -38,6 +38,19 @@ var filter_handler = function (req, res) {
     role: req.session[current_user_id].role['_id']
   })
 }
+
+function is_in_friend(friends, friend_id){
+  var isFriend = false
+  for(var i=0;i<friends.length;i++){
+    if(friends[i]._id==friend_id){
+      isFriend = true
+      break
+
+    }
+  }
+  return isFriend
+}
+
 var user_handler = function (req, res) {
   var user_id = req.params.user_id
   if (user_id != undefined) {
@@ -46,7 +59,8 @@ var user_handler = function (req, res) {
     user = req.session[req.session.access_token.user_id]
 
     var friends = req.session[req.session.access_token.user_id].friends;
-    var is_friend = friends.includes(user_id)
+    var is_friend = is_in_friend(friends, user_id)
+    console.log(friends)
     var is_verified = user.verified_email != undefined
 
     req.setLocale(lang)
