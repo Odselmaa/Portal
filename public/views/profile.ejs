@@ -366,7 +366,8 @@
                     if (!isEmpty(item.profile))
                         profile = item.profile
                     var department = '';
-                    if ('department' in item) {
+                    console.log(item)
+                    if (item!=undefined && 'department' in item) {
                         department = item.department.code;
                     }
                     $('#friend-list').append(
