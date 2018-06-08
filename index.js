@@ -159,6 +159,7 @@ var logout_handler = function (req, res) {
 var register_post_handler = function (req, res) {
     var payload = req.body
     payload.role = 2
+    payload.profile = ''
     var my_token = jwt.sign(payload, 'f*ckyou');
     var options = {
         uri: `${urls.API_URL}user`,
