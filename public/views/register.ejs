@@ -57,8 +57,9 @@
           <a class="d-block small" href="/forgot-password">Forgot Password?</a>
         </div>
       </div>
+      <div id='response' class="d-none"></div>
+
     </div>
-    <div id='response'></div>
 
   </div>
   <!-- Bootstrap core JavaScript-->
@@ -69,6 +70,8 @@
   <script>
     $(() => {
       $("#btnRegister").click(() => {
+        $('#response').addClass('d-none').removeClass('d-block')
+
         formData = $("#formRegister").serializeArray()
         payload = {}
         $.each(formData, (i, item) => {
@@ -97,6 +100,7 @@
           Something went wrong, try again!
                 </div>`)
       }
+      $('#response').addClass('d-block')
     }
   </script>
 </body>
