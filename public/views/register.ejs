@@ -86,12 +86,11 @@
     function showResponse(response) {
       if (response.statusCode == 201) {
         $('#response').html(`<div class="alert alert-success" role="alert">
-                ${response.body}
+                Successfully registered! Please <a href="/login">login</a>.
                 </div>`)
-        window.location.href = '/'
-      } else if (response.statusCode == 404) {
+      } else if (response.statusCode == 409) {
         $('#response').html(`<div class="alert alert-danger" role="alert">
-                Email or password is wrong!
+                Email is already registered!
                 </div>`)
       } else {
         $('#response').html(`<div class="alert alert-danger" role="alert">
