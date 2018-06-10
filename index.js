@@ -83,6 +83,16 @@ cache.start(function (err) {
     if (err) console.error(err);
 });
 
+
+app.get("/test_token", (req, res) => {
+    // async
+    cache.instance().keys(function (err, mykeys) {
+        if (!err) {
+        }
+    });
+    res.send(req.session)
+})
+
 var index_handler = function (req, res) {
     var lang = req.params.language == undefined ? 'en' : req.params.language
     req.setLocale(lang);
@@ -90,6 +100,33 @@ var index_handler = function (req, res) {
     var user = req.session[current_user_id]
     var role = user.role['_id']
     res.render('index', {
+        lang: lang,
+        current_user_id: current_user_id,
+        i18n: res,
+        role: role
+    })
+}
+
+var connection_handler = (socket) => {
+    socket.on("login", function (data) {
+        set_socket(data.user_sender, socket.id)
+        console.log("user connected", data)
+        io.emit('logged_in', {
+            "user_id": data.user_sender
+        })
+        io.emit('ok', "hey");
+    })
+    socket.on("logout", function (data) {
+        delete_socket(data.user_sender, socket.id)
+    })
+}
+var structure_handler = (req, res)=>{
+    var lang = req.params.language == undefined ? 'en' : req.params.language
+    req.setLocale(lang);
+    var current_user_id = req.session.access_token.user_id
+    var user = req.session[current_user_id]
+    var role = user.role['_id']
+    res.render('structure', {
         lang: lang,
         current_user_id: current_user_id,
         i18n: res,
@@ -304,15 +341,18 @@ function get_socket(user_receiver) {
     return user_receiver in connectedUsers ? connectedUsers[user_receiver] : []
 }
 
-function get_role(req) {
-    var current_user_id = req.session.access_token.user_id
-    var user = req.session[current_user_id]
-    var role_id = user.role['_id']
-    return role_id
-}
+// function get_role(req) {
+//     var current_user_id = req.session.access_token.user_id
+//     var user = req.session[current_user_id]
+//     var role_id = user.role['_id']
+//     return role_id
+// }
+
+
 app.get('/', m.logMiddleware, index_handler)
 app.get('/status', status)
 app.get(["/dashboard", '/dashboard/:language(en|ru)'], m.logMiddleware, dashboard_handler)
+app.get("/structure/:language(en|ru)", m.logMiddleware, structure_handler)
 app.get(["/login", '/login/:language(en|ru)'], login_handler)
 app.get(["/register", '/register/:language(en|ru)/'], register_handler)
 app.post("/login", login_post_handler)
@@ -321,30 +361,7 @@ app.get("/register", register_handler)
 app.post("/register", register_post_handler)
 app.post("/messages", m.logMiddleware, msg_post_handler)
 
-io.on('connection', (socket) => {
-    socket.on("login", function (data) {
-        set_socket(data.user_sender, socket.id)
-        console.log("user connected", data)
-        io.emit('logged_in', {
-            "user_id": data.user_sender
-        })
-        io.emit('ok', "hey");
-    })
-    socket.on("logout", function (data) {
-        delete_socket(data.user_sender, socket.id)
-    })
-})
-
-app.get("/test_token", (req, res) => {
-    // async
-    cache.instance().keys(function (err, mykeys) {
-        if (!err) {
-
-            // [ "all", "my", "keys", "foo", "bar" ]
-        }
-    });
-    res.send(req.session)
-})
+io.on('connection', connection_handler)
 process.on('uncaughtException', function (err) {
     console.log(err);
 }); 

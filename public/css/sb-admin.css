@@ -614,3 +614,34 @@ However, delay the fade out process for 2.5 seconds */
 .f-13{
   font-size: 13px
 }
+#ulDepCol1 li, #ulDepCol2 li{
+  font-size: 10 px
+}
+
+/* ul.black-box li{
+
+} */
+ul.black-box li h4{
+  min-width: 60px;
+  background-color: #4F575E;
+  color: #fff;
+  text-align: center;
+
+}
+ul.black-box li h4:hover{
+  /* min-width: 60px; */
+  background-color: #fff;
+  /* text-align: center; */
+  color: #4F575E;
+  border: 0.5px solid #4F575E;
+}
+#ulDepCol1 li.list-group-item.active, #ulDepCol2 li.list-group-item.active  {
+  z-index: 2;
+  background-color: #4F575E;
+  color: #fff;
+}
+#ulDepCol1 li.list-group-item.active a, #ulDepCol2 li.list-group-item.active a {
+  /* z-index: 2; */
+  /* background-color: #4F575E; */
+  color: #fff;
+}

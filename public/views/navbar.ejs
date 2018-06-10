@@ -52,6 +52,8 @@
                     </span>
                 </a>
             </li>
+            <% if(role==1){ %>
+
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
                 <a class="nav-link" href="/news">
                     <i class="fa fa-fw fa-newspaper-o"></i>
@@ -60,6 +62,8 @@
                     </span>
                 </a>
             </li>
+            <% } %>
+
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
                 <a class="nav-link" href="/review/<%=lang%>">
                     <i class="fa fa-fw fa-edit"></i>

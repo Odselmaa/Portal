@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>
+        <%= __('BMSTU_STUDENT_PORTAL')%>
+    </title>
+    <!-- Bootstrap core CSS-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+
+    <!-- Custom fonts for this template-->
+    <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- Page level plugin CSS-->
+    <link href="/css/friend.css" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/css/sb-admin.css" rel="stylesheet">
+
+</head>
+
+<body class="fixed-nav sticky-footer" id="page-top">
+    <% include navbar %>
+        <div class="content-wrapper">
+            <div class="container-fluid pl-4">
+                <h5>Departments</h5>
+                <div class="row ml-1">
+                    <ul class="list-inline black-box" id="ulDep">
+
+                    </ul>
+
+                </div>
+                <div class="row" id="listDep">
+                    <div class="col-sm-6">
+                        <ul class="list-group list-group-flush mt-3" id="ulDepCol1">
+                        </ul>
+                    </div>
+                    <div class="col-sm-6">
+                        <ul class="list-group list-group-flush mt-3" id="ulDepCol2">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="/vendor/jquery/jquery.min.js"></script>
+        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <script src="/js/sb-admin.min.js"></script>
+        <script src="/js/jquery-validate-min.js"></script>
+        <script>
+            var pre_index = -1
+            var pre_selector = undefined
+            $.get(`/api/dep/<%=lang%>`)
+                .done((r) => {
+                    if (r.statusCode == 200)
+                        showDepartment(r.response)
+                })
+
+            function showDepartment(items) {
+                $.each(items, (i, item) => {
+                    var col = "#ulDepCol1"
+                    if (i < items.length / 2)
+                        col = "#ulDepCol1"
+                    else
+                        col = "#ulDepCol2"
+
+                    $(col).append(
+                        `<li class="list-group-item "><a class="dark-gray" href="/department/${item._id}">${item.name}</a></li>`
+                    )
+                    $("#ulDep").append(
+                        `<li class="list-inline-item "><h4 class="p-3">${item.code.toUpperCase()}</h4></li>`
+                    )
+                })
+            }
+
+
+            // $("h4").hover(function () {
+            //     //on mouse enter 
+            // }, function () {
+            //     // on mouse leave
+            // });
+            $(document).on({
+                mouseenter: function () {
+                    var index = $(this).index() + 1
+                    var col1 = $("#ulDepCol1 li").length
+                    var selector = "#ulDepCol1"
+                    var selector_index = 0
+                    if(index > col1)
+                    {
+                        selector = "#ulDepCol2"
+                        selector_index = index - col1
+                    }else
+                        selector_index = index
+                    if(pre_index!=-1 && pre_selector)  $(`${pre_selector} li:nth-child(${pre_index})`).removeClass('active')
+                    pre_index = selector_index
+                    pre_selector = selector
+                    $(`${selector} li:nth-child(${selector_index})`).addClass('active')
+                    console.log(index, selector_index)
+                },
+                // mouseleave: function () {
+                // }
+            }, "#ulDep li");
+        </script>
+</body>
+
+
+</html>
