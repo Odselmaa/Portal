@@ -219,14 +219,14 @@ var register_post_handler = function (req, res) {
 }
 var msg_post_handler = function (req, res) {
     var session = req.session
-    var user_sender = session.access_token.user_id
     var body = req.body
 
+    var user_sender = session.access_token.user_id
     var user_receiver = req.body.user_receiver
-    var chat_title = session[user_sender].firstname
-    // 
+    
     var user = session[user_sender]
     var access_token = session.access_token.token
+    
     body["user_sender"] = user_sender
     body["chat_title"] = user['firstname'] + " " + user['lastname']
 
@@ -243,7 +243,7 @@ var msg_post_handler = function (req, res) {
         loop_do(get_socket(user_receiver), (s_id) => {
             io.to(s_id).emit('message', body)
         })
-        send_message(req.body.chat_id, user_sender, req.body.body)
+        send_message(req.body.chat_id, user_sender, req.body.body, access_token)
         res.sendStatus(200)
     }
 }
