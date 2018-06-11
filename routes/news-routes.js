@@ -82,7 +82,7 @@ router.post('/api/news', (req, res) => {
         }
     };
     h.send_request(options, function (error, response, body) {
-        if (body.statusCode == 200) {
+        if (body.statusCode == 201) {
             var key = '/api/news'
             delete_news_cache(key, ()=>{
                 res.json(body);
