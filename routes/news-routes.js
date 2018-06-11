@@ -122,6 +122,7 @@ router.get('/api/news', (req, res) => {
 
 router.put('/api/news/:news_id', (req, res) => {
     body = JSON.parse(req.body.data)
+    console.log(body)
     var options = {
         uri: `${urls.ROOT_API_URL}${req.url}`,
         method: 'PUT',
