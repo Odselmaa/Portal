@@ -190,6 +190,7 @@
         
     }
 
+
     function handleInput(e) {
         if (e.which == 13) {
             tag = $("#inputTag").val()
@@ -207,7 +208,25 @@
 
     function deleteNews(e) {
         index = $("table td button#btnDelete").index($(e.target))
-        
+        n = news[index]
+        console.log(n)
+        $.ajax({
+                url: `/api/news/${n._id}`,
+                type: 'DELETE',
+                data: {
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.statusCode == 200) {
+                        var myTable = $('#dataTableNews').DataTable();
+                        myTable.row( `:eq(${index})` ).delete( {
+                            title: 'Delete first row'
+                        } );
+                        alert("Deleted!")
+                    } else
+                        alert("Something went wrong!")
+                }
+            })
     }
 
     function saveNews() {

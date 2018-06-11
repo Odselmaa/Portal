@@ -149,6 +149,19 @@ router.get('/api/news/:news_id', (req, res) => {
     h.send_request(options, function (error, response, body) {
         res.json(body);
     })
+    
+}).delete('/api/news/:news_id', (req, res)=>{
+    var options = {
+        uri: `${urls.ROOT_API_URL}${req.url}`,
+        method: 'DELETE',
+        json: {},
+        headers: {
+            "Authorization": `Bearer ${req.session.access_token.token}`
+        }
+    };
+    h.send_request(options, function (error, response, body) {
+        res.json(body);
+    })
 })
 //exporting our routers
 module.exports = router;
