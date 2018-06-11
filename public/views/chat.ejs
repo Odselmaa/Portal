@@ -2,14 +2,10 @@
 <html class=''>
 
 <head>
-    <link rel="canonical" href="https://codepen.io/emilcarlsson/pen/ZOQZaV?limit=all&page=74&q=contact+" />
-    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300' rel='stylesheet' type='text/css'>
 
-    <script src="https://use.typekit.net/hoy3lrg.js"></script>
     <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css'>
-    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css'>
-    <style class="cp-pen-styles"></style>
     <link href="/css/chat.css" rel="stylesheet" type="text/css">
+    
     <script src="socket.io/socket.io.js"></script>
 </head>
 
@@ -76,6 +72,7 @@
                 </button>
             </div> -->
         </div>
+
         <div class="content">
             <div class="contact-profile">
                 <img src="/images/user.png" alt="" />
@@ -87,6 +84,7 @@
                 </div>
             </div>
             <div class="messages">
+                    <div class="loader"> </div>
                 <ul>
                 </ul>
             </div>
@@ -151,7 +149,6 @@
             socket.on('logged_out', userLoggedOut)
             $.get('/conversations', {})
                 .done(function (response) {
-                    
                     if (response.statusCode == 200) {
                         chat_array = response.response
 
@@ -167,6 +164,8 @@
                                 getSetMessages(index)
                             }
                         })
+                        toggleLoading(false);
+
                     } else {
                         alert("Something went wrong!")
                     }
@@ -302,7 +301,9 @@
             })
         }
 
-        function getSetMessages(index) {
+        function getSetMessages (index) {
+            toggleLoading(true);
+
             var payload = {
                 chat_id: chat_array[index]["_id"]
             };
@@ -311,11 +312,15 @@
             } else {
                 $.get(url = "/messages", payload)
                     .done(function (response) {
-                        
+                        toggleLoading(false);
+
                         if (response.statusCode == 200) {
                             chat_array[index]["msgs"] = response.body
                             setConversation(index)
                         }
+                    }).fail(()=>{
+                        toggleLoading(false);
+                        alert("Something went wrong! :((")
                     })
             }
         };
@@ -346,6 +351,7 @@
         }
 
         function setConversation(index) {
+            toggleLoading(true)
             var chat = chat_array[index]
             var msgs = chat["msgs"]
             var sent_or_reply = "sent";
@@ -371,6 +377,7 @@
             var username = msg["author"] == "<%=user_sender.id%>" ? "You" : chat.participants.firstname
 
             setPreview(index, msg.body, username)
+            toggleLoading(false)
 
         }
 
@@ -403,18 +410,18 @@
             // 
             $(`li#${index} .wrap span`).removeClass('offline')
             $(`li#${index} .wrap span`).addClass('online')
-
-            
-            
-
         }
 
         function userLoggedOut(data) {
             var index = getChatIndexByUser(data.user_id)
             $(`li#${index} .wrap span`).removeClass('online')
             $(`li#${index} .wrap span`).addClass('offline')
-
         }
+
+        function toggleLoading(on){
+            on ? $('.loader').removeClass('d-none'):$('.loader').addClass('d-none');
+        }
+
     </script>
 </body>
 

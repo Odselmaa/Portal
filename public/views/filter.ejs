@@ -25,9 +25,13 @@
 <body class="fixed-nav sticky-footer" id="page-top">
     <% include navbar %>
         <div class="content-wrapper">
+
             <div class="container-fluid">
+             <div class="loader d-none"></div>
+
                 <div class="row">
-                    <div class="col-9">
+
+                    <div class="col-sm-9">
                         <div class="card">
                             <div class="card-header">
                                 People
@@ -43,7 +47,7 @@
                         <p class='p-2 text-center text-muted' id="noResult">No result</p>
 
                     </div>
-                    <div class="col-3">
+                    <div class="col-sm-3">
                         <!-- <div>
                             <ul class="list-group" id="ulChoice">
                                 <li class="list-group-item active" id="liPeople" data-index=0>People</li>
@@ -138,7 +142,9 @@
                 </div>
               </div>
             </div>
+
           </div>
+
 
         <script src="/vendor/jquery/jquery.min.js"></script>
         <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -353,8 +359,9 @@
                 keys["country"] = selected_country
             }
 
-            function getUsers(q, s, l, keys) {
+            function getUsers (q, s, l, keys) {
                 $("#noResult").hide();
+                $(".loader").removeClass('d-none')
                 var str = ""
 
                 if ('dep' in keys && keys['dep'] != 0)
@@ -372,6 +379,8 @@
                 $.get(url).done((r) => {
                     
                     if (r.statusCode == 200) {
+                        $(".loader").addClass('d-none')
+
                         if (r.response.length == 0) {
                             $("#noResult").show()
                         } else {

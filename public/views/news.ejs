@@ -119,13 +119,11 @@
             if (response.statusCode == 200) {
                 setDataTable(response.response)
                 news = response.response
-                
             } else {
                 alert("Something went wrong!")
                 
             }
         })
-
     })
 
     $(document).on('click', "#btnEdit", editNews)
@@ -176,10 +174,6 @@
         n = news[index]
 
         $('#editModal').modal('show')
-
-     //   $("#inputTitle").empty()
-       // $("#inputBody").empty()
-       // $("#chips").empty()
 
         $("#inputTitle").val(n['title'])
         $("#inputBody").text(n['body'])
