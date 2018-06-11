@@ -1,4 +1,3 @@
-
 var body_parser = require("body-parser")
 var connection = require('./connection.js')
 var cache = require('./cache-provider.js')
@@ -71,21 +70,25 @@ router.get(['/create/news', '/create/news/:language(en|ru)'], (req, res) => {
 })
 
 router.post('/api/news', (req, res) => {
-    payload = JSON.parse(req.body.payload) 
+    payload = JSON.parse(req.body.payload)
     var options = {
         uri: `${urls.ROOT_API_URL}${req.url}`,
         method: 'POST',
-        json: { payload: payload},
+        json: {
+            payload: payload
+        },
         headers: {
             "Authorization": `Bearer ${req.session.access_token.token}`
         }
     };
     h.send_request(options, function (error, response, body) {
-        if(body.statusCode==200){
+        if (body.statusCode == 200) {
             var key = '/api/news'
-            cache.instance().del(key)
-        }
-        res.json(body);
+            delete_news_cache(key, ()=>{
+                res.json(body);
+            })
+        }else
+            res.json(body);
     })
 })
 
@@ -96,7 +99,7 @@ router.get('/api/news', (req, res) => {
         // console.log(req.url)
         value = cache.instance().get(news_key, true);
         res.json(value);
-    }catch(err){
+    } catch (err) {
         // if(tags!=undefined || tags!=""){
         var options = {
             uri: `${urls.ROOT_API_URL}${req.url}`,
@@ -108,8 +111,8 @@ router.get('/api/news', (req, res) => {
         };
         h.send_request(options, function (error, response, body) {
             // console.log(body)
-            if(response!=undefined && response.statusCode==200)
-                cache.instance().set(news_key, body, cache.TTL );
+            if (response != undefined && response.statusCode == 200)
+                cache.instance().set(news_key, body, cache.TTL);
 
             res.json(body);
         })
@@ -131,11 +134,13 @@ router.put('/api/news/:news_id', (req, res) => {
 
     delete body['_id']
     h.send_request(options, function (error, response, body1) {
-        if(body.statusCode==200){
+        if (body.statusCode == 200) {
             var key = '/api/news'
-            cache.instance().del(key)
-        }
-        res.json(body1);
+            delete_news_cache(key, ()=>{
+                res.json(body1);
+            })
+        }else
+            res.json(body1);
     })
     // res.json(body)
 })
@@ -152,8 +157,8 @@ router.get('/api/news/:news_id', (req, res) => {
     h.send_request(options, function (error, response, body) {
         res.json(body);
     })
-    
-}).delete('/api/news/:news_id', (req, res)=>{
+
+}).delete('/api/news/:news_id', (req, res) => {
     var options = {
         uri: `${urls.ROOT_API_URL}${req.url}`,
         method: 'DELETE',
@@ -163,12 +168,21 @@ router.get('/api/news/:news_id', (req, res) => {
         }
     };
     h.send_request(options, function (error, response, body) {
-        if(body.statusCode==200){
+        if (body.statusCode == 200) {
             var key = '/api/news'
-            cache.instance().del(key)
-        }
-        res.json(body);
+            delete_news_cache(key, ()=>{
+                res.json(body);
+            })
+        }else
+            res.json(body);
     })
 })
+
+function delete_news_cache(key, callback) {
+    cache.instance().del(key, function (err, count) {
+        callback()
+    });
+}
+
 //exporting our routers
 module.exports = router;
