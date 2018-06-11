@@ -207,6 +207,7 @@
     }
 
     function deleteNews(e) {
+        var myTable = $('#dataTableNews').DataTable();
         index = parseInt($(e.target).attr('data'))
         n = news[index]
         console.log(n)
@@ -218,10 +219,8 @@
                 dataType: 'json',
                 success: function (data) {
                     if (data.statusCode == 200) {
-                        var myTable = $('#dataTableNews').DataTable();
-                        myTable.row( `:eq(${index})` ).delete( {
-                            title: 'Delete first row'
-                        } );
+                       
+                        myTable.row(index).remove().draw()
                         alert("Deleted!")
                     } else
                         alert("Something went wrong!")
