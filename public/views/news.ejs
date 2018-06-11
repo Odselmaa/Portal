@@ -239,7 +239,7 @@
             n.body = body
             n.tags = tags
 
-            data = JSON.stringify(n)
+            data = JSON.stringify({title:title, body:body, tags:tags})
             console.log(data)
             
             $.ajax({
