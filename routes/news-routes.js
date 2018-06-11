@@ -93,8 +93,9 @@ router.post('/api/news', (req, res) => {
 })
 
 router.get('/api/news', (req, res) => {
-    // console.log(tags)
     var news_key = req.url
+    console.log(news_key)
+
     try {
         // console.log(req.url)
         value = cache.instance().get(news_key, true);
