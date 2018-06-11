@@ -177,9 +177,9 @@
 
         $('#editModal').modal('show')
 
-        $("#inputTitle").empty()
-        $("#inputBody").empty()
-        $("#chips").empty()
+     //   $("#inputTitle").empty()
+       // $("#inputBody").empty()
+       // $("#chips").empty()
 
         $("#inputTitle").val(n['title'])
         $("#inputBody").text(n['body'])
@@ -233,27 +233,20 @@
             title = $("#inputTitle").val()
             body = $("#inputBody").text()
     
-            var tags = []
-            var childs = $("div#chips").children('div')
-            $.each(childs, (i, node) => {
-                var tag = $(node).attr('data')
-                tags.push(tag)
-            })
+            var tags = $("#inputTag").tagsinput('items')
             n = news[index]
             n.title = title
             n.body = body
             n.tags = tags
-            data = JSON.stringify({
-                title: title,
-                body: body,
-                tags: tags,
-                _id: n._id
-            })
+
+            data = JSON.stringify(n)
+            console.log(data)
+            
             $.ajax({
                 url: `/api/news/${n._id}`,
                 type: 'PUT',
                 data: {
-                    'data': data
+                    data: data
                 },
                 dataType: 'json',
                 success: function (data) {
