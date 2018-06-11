@@ -164,7 +164,7 @@
                 targets: 4,
                 render: function (data, type, row, meta) {
                     return `<button class='btn btn-outline-primary' id='btnEdit' data="${meta.row}"><i class="fa fa-pencil"></i></button>
-                    <button class='btn btn-outline-danger' id='btnDelete'><i class="fa fa-trash"></i></button>`
+                    <button class='btn btn-outline-danger' id='btnDelete'  data="${meta.row}"><i class="fa fa-trash"></i></button>`
                 }
             }]
         })
@@ -207,7 +207,7 @@
     }
 
     function deleteNews(e) {
-        index = $("table td button#btnDelete").index($(e.target))
+        index = parseInt($(e.target).attr('data'))
         n = news[index]
         console.log(n)
         $.ajax({
