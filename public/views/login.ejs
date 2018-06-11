@@ -18,6 +18,8 @@
 
 <body class="bg-dark">
   <div class="container">
+      <div class="loader d-none"> </div>
+
     <div class="card card-login mx-auto mt-5">
       <div class="card-header"><%= __('LOGIN')%></div>
       <div class="card-body">
@@ -55,6 +57,8 @@
   <script>
     $(() => {
       $('#btnLogin').click(() => {
+        $('#btnLogin').addClass('disabled')
+        $('.loader').removeClass('d-none')
         var message = { email: $("#inputEmail").val(), password: $("#inputPassword").val() }
         $.post('/login', message)
           .done(function (response) {
@@ -81,6 +85,10 @@
         $('#response').html(`<div class="alert alert-danger" role="alert">
           ${response.body}                </div>`)
       }
+      $('.loader').addClass('d-none')
+
+      $('#btnLogin').removeClass('disabled')
+
     }
 
   </script>
