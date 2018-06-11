@@ -81,10 +81,13 @@ router.post('/api/news', (req, res) => {
         }
     };
     h.send_request(options, function (error, response, body) {
+        if(body.statusCode==200){
+            var key = '/api/news'
+            cache.instance().del(key)
+        }
         res.json(body);
     })
 })
-
 
 router.get('/api/news', (req, res) => {
     // console.log(tags)
@@ -128,9 +131,9 @@ router.put('/api/news/:news_id', (req, res) => {
 
     delete body['_id']
     h.send_request(options, function (error, response, body1) {
-        if (body1.statusCode == 200) {
-            
-            //   put2session(req.session, user_id1, 'friends', user_id2)
+        if(body.statusCode==200){
+            var key = '/api/news'
+            cache.instance().del(key)
         }
         res.json(body1);
     })
