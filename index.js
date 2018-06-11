@@ -236,7 +236,7 @@ var msg_post_handler = function (req, res) {
             loop_do(get_socket(user_receiver), (s_id) => {
                 io.to(s_id).emit('message', body)
             })
-            send_message(req.body.chat_id, user_sender, req.body.body, req.session.access_token.token)
+            send_message(req.body.chat_id, user_sender, req.body.body, access_token)
             res.sendStatus(200)
         })
     } else {
