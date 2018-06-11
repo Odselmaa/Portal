@@ -160,6 +160,10 @@ router.get('/api/news/:news_id', (req, res) => {
         }
     };
     h.send_request(options, function (error, response, body) {
+        if(body.statusCode==200){
+            var key = '/api/news'
+            cache.instance().del(key)
+        }
         res.json(body);
     })
 })
