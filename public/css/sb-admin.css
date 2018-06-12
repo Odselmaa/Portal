@@ -673,3 +673,20 @@ ul.black-box li h4:hover{
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.card-body-semi {
+  position: absolute;
+  background-color: #00000080;
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+  text-align: center;
+}
+.card-body-semi div{
+  top: 40%;
+  position: relative;
+  color: #dfdfdf;
+}
+.white{
+color: white;
+}

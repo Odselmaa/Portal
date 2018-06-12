@@ -23,7 +23,8 @@ const lang_routes = require('./routes/lang-routes.js');
 const news_routes = require('./routes/news-routes.js');
 const chat_routes = require('./routes/chat-routes.js');
 const review_routes = require('./routes/review-routes.js');
-const u = require('./controllers/user-controller.js');
+const tips_routes = require('./routes/tips-routes.js');
+
 const connection = require('./routes/connection.js')
 
 const i18n = require('./i18n/i18n.js')
@@ -45,6 +46,7 @@ app.use('/', lang_routes);
 app.use('/', news_routes);
 app.use('/', chat_routes);
 app.use('/', review_routes);
+app.use('/', tips_routes);
 
 app.use(connection.session)
 app.use(i18n.i18n.init);
