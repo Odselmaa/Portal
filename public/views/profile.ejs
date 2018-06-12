@@ -55,6 +55,8 @@
                                     <%= __('GENDER')%>: </div>
                                 <div id="birthday">
                                     <%= __('BIRTHDAY')%>:</div>
+                                    <div id="country">
+                                        <%= __('COUNTRY')%>:</div>
                                 </br>
 
                                 <!-- <h5>Activity</h5>
@@ -204,193 +206,194 @@
             </div>
         </div>
 
-        <script src="/vendor/jquery/jquery.min.js"></script>
-        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-        <script src="/js/sb-admin.min.js"></script>
-        <script src="/js/script.js"></script>
-        <script>
-            $(() => {
-                $.get('/u/<%=user_id%>/<%=lang%>', (response) => {
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/js/sb-admin.min.js"></script>
+    <script src="/js/script.js"></script>
+    <script>
+        $(() => {
+            $.get('/u/<%=user_id%>/<%=lang%>', (response) => {
 
-                    if (response.statusCode == 200) {
+                if (response.statusCode == 200) {
 
-                        var info = response.response;
-                        var friend_count = 'friends' in info ? info.friends.length : 0
-                        
-                        set_friends(info.friends)
+                    var info = response.response;
+                    var friend_count = 'friends' in info ? info.friends.length : 0
+                    
+                    set_friends(info.friends)
 
-                        //do something for successful response
+                    //do something for successful response
+                    $("#name").append(
+                        `<span id="name">${info.firstname + " " + info.lastname}</span>`
+                    );
+                    if (info.verified_email != undefined)
                         $("#name").append(
-                            `<span id="name">${info.firstname + " " + info.lastname}</span>`
-                        );
-                        if (info.verified_email != undefined)
-                            $("#name").append(
-                                `<i class="ml-1 blue fa fa-check-circle" style="color:#007bff;font-size: 20px"></i>`
-                            )
+                            `<i class="ml-1 blue fa fa-check-circle" style="color:#007bff;font-size: 20px"></i>`
+                        )
 
-                        $("#role").html(info.role.name);
-                        $("#contact").html(info.email);
-                        $("#friends").html(friend_count);
-                        if ("bio" in info)
-                            $("#bio").html(info.bio.trim())
-
-
-                        var languages = info.languages
-                        $.each(languages, (k, l) => {
-                            $("#languages").append(
-                                `<a href="/l/${l['_id']}">${l.name}</a></br>`);
-                        });
-
-                        var socials = info.socials
-                        $.each(socials, (key, social) => {
-                            $("#accounts").append(`<a href="${social}">${social}</a></br>`);
-                        });
-
-                        if ('department' in info && info.department != undefined && ('code' in info.department) &&
-                            info.role._id != 1)
-                            $("#role").append(
-                                ` of <a href="/department/${info.department.code}">${info.department.code}</a>`
-                            )
+                    $("#role").html(info.role.name);
+                    $("#contact").html(info.email);
+                    $("#friends").html(friend_count);
+                    if ("bio" in info)
+                        $("#bio").html(info.bio.trim())
+                    
+                    if('country' in info)
+                        $("#country").html(info.country.name)
 
 
-                        if ('gender' in info && info.gender != undefined)
-                            $("#gender").append(info.gender.name);
+                    var languages = info.languages
+                    $.each(languages, (k, l) => {
+                        $("#languages").append(
+                            `<a href="/l/${l['_id']}">${l.name}</a></br>`);
+                    });
+
+                    var socials = info.socials
+                    $.each(socials, (key, social) => {
+                        $("#accounts").append(`<a href="${social}">${social}</a></br>`);
+                    });
+
+                    if ('department' in info && info.department != undefined && ('code' in info.department) &&
+                        info.role._id != 1)
+                        $("#role").append(
+                            ` of <a href="/department/${info.department.code}">${info.department.code}</a>`
+                        )
 
 
-                        if (!isEmpty(info.profile)) {
-                            $("#profile-pic").attr('src', info.profile);
-                        }
-                        var lang = "<%=lang%>"
-                        var user_id = '<%=user_id%>'
-                        
-                        if (info.blocked)
-                            $("#name").append(
-                                "<h5><span class='badge badge-danger'>blocked</span></h5></br>")
+                    if ('gender' in info && info.gender != undefined)
+                        $("#gender").append(info.gender.name);
 
-                        $(".card-body").show();
-                        $(document).on('click', "#btnAddFriend", function () {
 
-                            $.post('/f/<%=user_id%>')
-                                .done(function (response) {
+                    if (!isEmpty(info.profile)) {
+                        $("#profile-pic").attr('src', info.profile);
+                    }
+                    var lang = "<%=lang%>"
+                    var user_id = '<%=user_id%>'
+                    
+                    if (info.blocked)
+                        $("#name").append(
+                            "<h5><span class='badge badge-danger'>blocked</span></h5></br>")
 
-                                    if (response.statusCode == 201) {
-                                        $("#btnFriendMode").html('Friends')
-                                        $("#btnAddFriend").replaceWith(
-                                            '<button class="dropdown-item" id="btnUnfriend">Unfriend</button>'
-                                        )
-                                    } else if (response.statusCode == 200) {
-                                        $("#btnFriendMode").html('Friends')
-                                        $("#btnUnfriend").replaceWith(
-                                            '<button class="dropdown-item" id="btnAddFriend">Add friend</button>'
-                                        );
-                                    } else {
-                                        alert("Something wrong!");
-                                    }
-                                })
-                        })
+                    $(".card-body").show();
+                    $(document).on('click', "#btnAddFriend", function () {
 
-                        $(document).on('click', "#btnUnfriend", function () {
+                        $.post('/f/<%=user_id%>')
+                            .done(function (response) {
 
-                            $.ajax({
-                                url: '/f/<%=user_id%>',
-                                method: 'delete',
-                            }).done(function (response) {
-
-                                if (response.statusCode == 200) {
-                                    $("#btnFriendMode").html('Add friend')
+                                if (response.statusCode == 201) {
+                                    $("#btnFriendMode").html('Friends')
+                                    $("#btnAddFriend").replaceWith(
+                                        '<button class="dropdown-item" id="btnUnfriend">Unfriend</button>'
+                                    )
+                                } else if (response.statusCode == 200) {
+                                    $("#btnFriendMode").html('Friends')
                                     $("#btnUnfriend").replaceWith(
                                         '<button class="dropdown-item" id="btnAddFriend">Add friend</button>'
-                                    )
+                                    );
                                 } else {
                                     alert("Something wrong!");
                                 }
-                            });
-                        })
+                            })
+                    })
+
+                    $(document).on('click', "#btnUnfriend", function () {
+
+                        $.ajax({
+                            url: '/f/<%=user_id%>',
+                            method: 'delete',
+                        }).done(function (response) {
+
+                            if (response.statusCode == 200) {
+                                $("#btnFriendMode").html('Add friend')
+                                $("#btnUnfriend").replaceWith(
+                                    '<button class="dropdown-item" id="btnAddFriend">Add friend</button>'
+                                )
+                            } else {
+                                alert("Something wrong!");
+                            }
+                        });
+                    })
 
 
 
+                } else {
+                    $("#not_success").html(response.response)
+                    $("#not_success").removeClass('d-none')
+                    $("#not_success").removeClass('d-block')
+
+                }
+
+            })
+
+        })
+
+        $('#msgModal').on('shown.bs.modal', function () {
+            $('#textAreaMsg').focus()
+        })
+
+        $("#btnSendReport").click(() => {
+            var desc = $("#textAreaReport").val();
+            $.post('/r', {
+                    desc: desc,
+                    user_id: "<%=user_id%>"
+                })
+                .done((r) => {
+                    if (r.statusCode == 200) {
+                        $('#reportModal').modal('hide');
+                        showSnackbar("snackbarReport")
                     } else {
-                        $("#not_success").html(response.response)
-                        $("#not_success").removeClass('d-none')
-                        $("#not_success").removeClass('d-block')
-
+                        alert("Something went wrong, try again")
                     }
-
                 })
+        })
 
-            })
+        $("#btnSendMsg").click(() => {
+            var message = $("#textAreaMsg").val();
+            $.post('/messages', {
+                    body: message,
+                    user_receiver: "<%=user_id%>"
+                })
+                .done(function (response) {
+                    $('#msgModal').modal('hide');
+                    showSnackbar("snackbarConv")
+                })
+        })
 
-            $('#msgModal').on('shown.bs.modal', function () {
-                $('#textAreaMsg').focus()
-            })
+        function isEmpty(str) {
+            return (!str || 0 === str.length);
+        }
 
-            $("#btnSendReport").click(() => {
-                var desc = $("#textAreaReport").val();
-                $.post('/r', {
-                        desc: desc,
-                        user_id: "<%=user_id%>"
-                    })
-                    .done((r) => {
-                        if (r.statusCode == 200) {
-                            $('#reportModal').modal('hide');
-
-                            showSnackbar("snackbarReport")
-
-                        } else {
-                            alert("Something went wrong, try again")
-                        }
-                    })
-            })
-
-            $("#btnSendMsg").click(() => {
-                var message = $("#textAreaMsg").val();
-                $.post('/messages', {
-                        body: message,
-                        user_receiver: "<%=user_id%>"
-                    })
-                    .done(function (response) {
-                        $('#msgModal').modal('hide');
-                        showSnackbar("snackbarConv")
-                    })
-            })
-
-            function isEmpty(str) {
-                return (!str || 0 === str.length);
-            }
-
-            function set_friends(friends) {
-                // if(friends!=undefined)
-                $.each(friends, function (index, item) {
-                    var profile = '/images/user.png'
-                    if (!isEmpty(item.profile))
-                        profile = item.profile
-                    var department = '';
-                    console.log(item)
-                    if (typeof item === 'object' && 'department' in item) {
-                        department = item.department.code;
-                    }
-                    $('#friend-list').append(
-                        `<li class="list-group-item">
-                            <div class="media">
-                                <div class="media-left">
-                                    <img class="media-object profile" src=${profile} alt="...">
-                                </div>
-                                <div class="media-body ml-2">
-                                    <a href="/user/${item['_id']}/<%=lang%>">${item.firstname} ${item.lastname}</a>           
-                                    <a href="/m/${item['_id']}"><i class="fa fa-comment text-secondary pull-right"></i></a>
-                                </br>
-                                ${department}
-                                </div>
+        function set_friends(friends) {
+            // if(friends!=undefined)
+            $.each(friends, function (index, item) {
+                var profile = '/images/user.png'
+                if (!isEmpty(item.profile))
+                    profile = item.profile
+                var department = '';
+                console.log(item)
+                if (typeof item === 'object' && 'department' in item) {
+                    department = item.department.code;
+                }
+                $('#friend-list').append(
+                    `<li class="list-group-item">
+                        <div class="media">
+                            <div class="media-left">
+                                <img class="media-object profile" src=${profile} alt="...">
                             </div>
-                        </li>
-                        `
-                    )
-                })
+                            <div class="media-body ml-2">
+                                <a href="/user/${item['_id']}/<%=lang%>">${item.firstname} ${item.lastname}</a>           
+                                <a href="/m/${item['_id']}"><i class="fa fa-comment text-secondary pull-right"></i></a>
+                            </br>
+                            ${department}
+                            </div>
+                        </div>
+                    </li>
+                    `
+                )
+            })
 
-            }
-            //getting user's friend list
-        </script>
+        }
+        //getting user's friend list
+    </script>
 </body>
 
 </html>
