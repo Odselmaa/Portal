@@ -649,7 +649,7 @@ ul.black-box li h4:hover{
 .loader {
   border: 10px solid #f3f3f3;
   border-radius: 50%;
-  border-top: 10px solid #3498db;
+  border-top: 10px solid #007bff;
   width: 80px;
   height: 80px;
   -webkit-animation: spin 2s linear infinite; /* Safari */

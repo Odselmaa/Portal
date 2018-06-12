@@ -14,10 +14,14 @@
   <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <!-- Custom styles for this template-->
   <link href="css/sb-admin.css" rel="stylesheet">
+  <link href="css/register.css" rel="stylesheet">
+
 </head>
 
 <body class="bg-dark">
   <div class="container">
+    <div class="loader d-none"></div>
+
     <div class="card card-register mx-auto mt-5">
       <div class="card-header">Register an Account</div>
       <div class="card-body">
@@ -27,31 +31,32 @@
               <div class="col-md-6">
                 <label for="exampleInputName">First name</label>
                 <input class="form-control" id="exampleInputName" type="text" aria-describedby="nameHelp" name="firstname" placeholder="Enter first name">
+                <small id="valfirstname" class="d-none">Required</small>
               </div>
               <div class="col-md-6">
                 <label for="exampleInputLastName">Last name</label>
                 <input class="form-control" id="exampleInputLastName" type="text" aria-describedby="nameHelp" name="lastname" placeholder="Enter last name">
+                <small id="vallastname" class="d-none">Required</small>
+
               </div>
             </div>
           </div>
           <div class="form-group">
             <label for="exampleInputEmail1">Email address</label>
             <input class="form-control" id="exampleInputEmail1" type="email" aria-describedby="emailHelp" name="email" placeholder="Enter email">
+            <small id="valemail" class="d-none">Required</small>
           </div>
           <div class="form-group">
             <div class="form-row">
-              <div class="col-md-6">
-                <label for="exampleInputPassword1">Password</label>
-                <input class="form-control" id="exampleInputPassword1" type="password" placeholder="Password" name="password">
-              </div>
-              <div class="col-md-6">
-                <label for="exampleConfirmPassword">Confirm password</label>
-                <input class="form-control" id="exampleConfirmPassword" type="password" placeholder="Confirm password">
-              </div>
+              <label for="exampleInputPassword1">Password</label>
+              <input class="form-control" id="password" type="password" placeholder="Password" name="password">
+              <small id="valpassword" class="d-none">Required</small>
             </div>
           </div>
+
           <a class="btn btn-primary btn-block" href="#" id="btnRegister">Register</a>
         </form>
+
         <div class="text-center">
           <a class="d-block small mt-3" href="/login">Login Page</a>
           <a class="d-block small" href="/forgot-password">Forgot Password?</a>
@@ -70,38 +75,78 @@
   <script>
     $(() => {
       $("#btnRegister").click(() => {
-        $('#response').addClass('d-none').removeClass('d-block')
-
-        formData = $("#formRegister").serializeArray()
-        payload = {}
-        $.each(formData, (i, item) => {
-          payload[item['name']] = item['value']
-        })
-        $.post('/register', payload)
-          .done((r) => {
-            showResponse(r)
-          }).fail((r)=>{
-            console.log(r)
-        })
+        if (validate())
+          sendData()
       })
     })
 
+    function sendData() {
+      $('#response').addClass('d-none').removeClass('d-block')
+      $('.loader').removeClass('d-none')
+
+      formData = $("#formRegister").serializeArray()
+      payload = {}
+      $.each(formData, (i, item) => {
+        payload[item['name']] = item['value']
+      })
+      $.post('/register', payload)
+        .done((r) => {
+          showResponse(r)
+        }).fail((r) => {
+          console.log(r)
+        }).always(() => {
+          $('.loader').addClass('d-none')
+        })
+    }
+
     function showResponse(response) {
       if (response.statusCode == 201) {
-        $('#response').html(`<div class="alert alert-success" role="alert">
+        $('#response').html(
+          `<div class="alert alert-success" role="alert">
                 Successfully registered! Please <a href="/login">login</a>.
-                </div>`)
+                </div>`
+        )
       } else if (response.statusCode == 409) {
-        $('#response').html(`<div class="alert alert-danger" role="alert">
+        $('#response').html(
+          `<div class="alert alert-danger" role="alert">
                 Email is already registered!
-                </div>`)
+                </div>`
+        )
       } else {
-        $('#response').html(`<div class="alert alert-danger" role="alert">
+        $('#response').html(
+          `<div class="alert alert-danger" role="alert">
           Something went wrong, try again!
-                </div>`)
+                </div>`
+        )
       }
       $('#response').addClass('d-block')
     }
+
+    function validate() {
+      var formData = $("#formRegister").serializeArray()
+      var isValid = true
+      $.each(formData, (i, item) => {
+        if (item.value == "") {
+          isValid = false
+          $("#val" + item.name).val('Required!').removeClass("d-none")
+        } else {
+          if (item.name == "email" ) {
+            if(validateEmail(item.value)){
+              $("#val" + item.name).addClass("d-none")
+            }else{
+              $("#val" + item.name).html('Enter valid email!').removeClass("d-none")
+              isValid = false
+            }
+          }else
+            $("#val" + item.name).addClass("d-none")
+        }
+      })
+      return isValid
+    }
+    function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
   </script>
 </body>
 
