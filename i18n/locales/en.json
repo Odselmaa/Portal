@@ -78,7 +78,6 @@
 	"IU": "IU",
 	"E": "E",
 	"RUSSIAN_LANG": "Russian language",
-
 	"NEWS": "News",
 	"TITLE": "Title",
 	"BODY": "Body",
@@ -90,5 +89,189 @@
 	"CLOSE": "Close",
 	"BODT": "BODT",
 	"CHAIRS": "Chairs",
-	"REVIEW": "Review"
+	"REVIEW": "Review",
+	"pre": {
+		"title": "Pre-Departure Checklist",
+		"content": [
+			{
+				"content": [
+					"Apply for and receive a student visa at a Russian consulate or visa center in your home country (single-entry visa; 90 days duration)",
+					"Check in your application whether you need dormitory accommodation",
+					"Request a buddy at the StudentPortal and contact with him/her",
+					"Join our Social Network Group <a href='https://www.facebook.com/groups/1430811973892911/'>(https://www.facebook.com/groups/1430811973892911/)</a>",
+					"Check that the date of your departure does not precede the start date of your visa",
+					"Check Russian customs regulations and your airline luggage regulations",
+					"Check your bank the maximum cash amount you can withdraw in Russia",
+					"Check how to get to the city from the airport (Aeroexpress trains, taxi)",
+					"Check directions to the BMSTU dormitory or any other place of accommodation",
+					"Make sure to have enough battery power supply on all your devices upon arrival to Moscow"
+				],
+				"title": "Steps to take before you leave your country",
+				"type": "list"
+			},
+			{
+				"content": [
+					"<img style='width:25px' src='https://png.icons8.com/doodle/50/000000/passport.png'> Valid passport with visa ",
+					"Photocopies to have in your carry-on luggage: passport ID page, passport visa page.",
+					"<img style='width:25px' src='https://png.icons8.com/doodle/50/000000/graduation-scroll.png'> Full-degree students only: legalized original diploma and transcript (Master programme students), quota scheme students: letter of referral from the Ministry of Education and Science; fee-paying degree students: study contract, all the translated documents you will be expected to submit at BMSTU.",
+					"<img style='width:25px' src='https://png.icons8.com/doodle/50/000000/user-male.png'>  4 passport-size (3cm x 4cm) photos on a mat paper (as many as possible)",
+					"Contacts of your buddy",
+					"Contacts of the Faculty of International Educational Programme",
+					"Contact details for your embassy/consulate/diplomatic mission in Russia"
+				],
+				"title": "What to take with you",
+				"type": "list"
+			}
+		]
+	},
+	"after": {
+		"title": "Upon Arrival Checklist",
+		"content": [
+			{
+				"title": "Arrival",
+				"content": [
+					"Be sure to receive your migration card at the passport control",
+					"Get in touch with your buddy and confirm he/she is meeting you",
+					"Take the Aeroexpress to the city centre, meet your buddy",
+					"Take a ride on the Moscow metro and reach your accommodation"
+				],
+				"type": "list"
+			},
+			{
+				"title": "At the dormitory",
+				"content": [
+					"Check into the dormitory, receive your key",
+					"Submit copies of your passport, visa and migration card to the passport specialist within 2 working days after arrival",
+					"Sign your copy of the Tenancy Agreement",
+					"Read the Dormitory Internal Rules"
+				],
+				"type": "list"
+			},
+			{
+				"title": "At BMSTU",
+				"content": [
+					"Complete all necessary admission procedures, get enrolled",
+					"Know the location of BMSTU buildings",
+					"Pick up your registration at the Migration office",
+					"Apply for the multiple-entry visa at the Migration office"
+				],
+				"type": "list"
+			},
+			{
+				"title": "In the city",
+				"content": [
+					"Buy a SIM card for your phone",
+					"Open a bank account if necessary"
+				],
+				"type": "list"
+			}
+		]
+	},
+	"general": {
+		"title": "A few general tips",
+		"content": [
+			{
+				"content": [
+					"Bring enough cash for the first few days. Not all taxis take credit cards; card readers and ATMs may not always work when you need them.",
+					"Before the flight, charge your mobile devices and refill your mobile and Internet accounts in case urgent communication will be needed.",
+					"Russian electric outlets take round 2-pin Euro plugs with 220V current. Bring an adapter if needed.",
+					"If you take any prescription medication, be sure to bring enough of it for the entire duration of your trip, as some medications may be unavailable in Russia, as such or without a local doctor’s prescription.",
+					"Warm clothes and boots, gloves and scarves are always a must. Moscow autumns and winters are often cold and humid."
+				],
+				"title": "A few general tips",
+				"type": "list"
+			}
+		]
+	},
+	"visa": {
+		"title": "Visa",
+		"content": [
+			{
+				"title": "Single-entry visa",
+				"content": "The visa is initially given to you by a Russian embassy/consulate in your country of residence. The visa is valid for 90 days only. It lets you enter Russia only once.If you leave the country before getting a multiple-entry visa you will not be allowed to enter Russia until you receive another single-entry visa.",
+				"type": "text"
+			},
+			{
+				"title": "IMPORTANT!",
+				"content": "Be prepared to stay in Russia without leaving for the first 3 months after your arrival, until you receive your multiple-entry visa.",
+				"type": "warning"
+			},
+			{
+				"title": "Multiple-entry visa",
+				"content": "The visa replaces the single entry visa and is issued for the whole period of your studies. It allows you to leave and re-enter Russia as many times as necessary for the duration of your studies. Multiple-entry visa will be valid straight after the day your single- entry visa expired. Thus, if there is a necessity for you to leave Russia before your single-entry visa expires, you can return to Russia only via obtaining a new invitation and applying for a new single-entry visa in your country of residence. Apply for a multiple-entry visa no later than 3 weeks before the single- entry visa expires. If a student submits documents for the multiple-entry visa later than 3 weeks until the expiry of the current visa, the Migration office will not accept them.",
+				"type": "text"
+			},
+			{
+				"title": "IMPORTANT!",
+				"content": "HSE does not sponsor visas for family members or friends. If you intend to have guests visiting you in Russia, their visa and registration arrangements will have to be taken care of independently.",
+				"type": "warning"
+			},
+			{
+				"title": "Steps to apply for a multiple-entry visa",
+				"content": [
+					{
+						"content": [
+							"passport ID page (+ copy)",
+							"migration card (+ copy)",
+							"registration (+ copy)",
+							"1 photo 3x4 (against white background)",
+							"visa extension fee payment",
+							"certificate of enrollment (given by your programme coordinator)",
+							"copy of your contract (for contract students)",
+							"letter of referral from the Ministry of education and science (for quota degree students)",
+							"copy of enrollment order (exchange students)",
+							"visa application form"
+						],
+						"type": "list",
+						"title": "Prepare the following documents"
+					},
+					{
+						"title": "Submit the documents to the Migration office and leave your contacts for future reference.",
+						"content": [],
+						"type": "none"
+					},
+					{
+						"title": "Issuance of a multiple-entry visa usually takes 30-45 days.",
+						"content": [],
+						"type": "none"
+					},
+					{
+						"title": "Pick up your passport with the new multiple-entry visa at Migration Office Unit.",
+						"content": [],
+						"type": "none"
+					}
+				],
+				"type": "numbering"
+			},
+			{
+				"title": "Registration",
+				"content": "Every international passport holder must be registered within 7 working days after arrival to Russia. Every time you cross the Russian border you must be registered.",
+				"type": "text"
+			}
+		]
+	},
+	"migration": {
+		"title": "Migration card",
+		"content": [
+			{
+				"type": "text",
+				"content": "Keep the migration card that you receive at the passport control on your entrance to Russia. This document has to be presented at the passport control when you leave. If you lose the card, immediately address the Migration office for instructions on how to receive a new card. <img   width='100%' src='http://www.saint-petersburg.com/russian-visa/migration-card-example.jpg'>",
+				"title": ""
+			},
+			{
+				"type": "warning",
+				"content": "Every time you re-enter Russia you will be given a new migration card and each time you will have to re-apply for registration.",
+				"title": "REMINDER!"
+			},
+			{
+				"type":"text",
+				"content":"Keep your registration and your migration card with you at all times. Also, carry photocopies of these documents with you just in case. </br>You can request to get a copy of your passport authorized and stamped by the Migration Office Unit in order to carry it with you instead of the original. Keep the original passport in a safe place. Address the Head of the Migration Office Unit to authorize your copy.",
+				"title":""
+			}
+		]
+	},
+	"student": {
+		"title": "Student document",
+		"content": []
+	}
 }

@@ -6,8 +6,7 @@ const app = express()
 const rp = require('request-promise')
 // const http = require('http').Server(app)
 const jwt = require('jsonwebtoken');
-const passport = require('passport')
-const promise = require('promise')
+
 const morgan = require('morgan')
 //imported routes
 const test_routes = require('./routes/test-routes.js');
@@ -172,13 +171,13 @@ var login_post_handler = function (req, res) {
         headers: {}
     };
     rp(options).then((r)=>{
-        console.log(r)
+        // console.log(r)
         r.response.access_token['user_id'] = r.response.user_id
         set_session(req.session, 'access_token', r.response.access_token)    
         res.json({body: "Successfull", statusCode: 200})
 
     }).catch((error)=>{
-        console.log(error)
+        // console.log(error)
         res.json({body: "Error", statusCode: 400})
     })    
 }

@@ -5,7 +5,6 @@
 	"BIRTHDAY": "День рождения",
 	"BMSTU_STUDENT_PORTAL": "МГТУ им.Н.Э.Баумана - Студенческий портал",
 	"CHAIR": "Кафедра",
-	
 	"CHAT": "Чат",
 	"CHOOSE": "Выбрать",
 	"CONTACTS": "Контакт",
@@ -88,5 +87,16 @@
 	"CREATE_NEWS": "Создать новости",
 	"CLOSE": "Закрыть",
 	"BODT": "BODT",
-	"CHAIRS": "Кафедры"
+	"CHAIRS": "Кафедры",
+	"pre": {
+		"test": [
+			"1",
+			"2",
+			"3"
+		]
+	},
+	"after": {},
+	"general": {},
+	"visa": {},
+	"PRE_DEPARTURE_TIPS": "PRE_DEPARTURE_TIPS"
 }
