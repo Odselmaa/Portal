@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>
+        <%= __('BMSTU_STUDENT_PORTAL')%>
+    </title>
+    <!-- Bootstrap core CSS-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <link href="/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template-->
+    <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- Page level plugin CSS-->
+    <link href="/css/friend.css" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/css/sb-admin.css" rel="stylesheet">
+    <link href="/css/profile.css" rel="stylesheet">
+    <link href="/css/bootstrap-tagsinput.css" rel="stylesheet">
+
+</head>
+
+<body class="fixed-nav sticky-footer" id="page-top">
+    <% include navbar %>
+        <div class="content-wrapper">
+            <div class="container-fluid">
+                <div class="loader"></div>
+
+                <table class="table table-bordered" id="tableBuddy" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>
+                                <%= __('USER')%>
+                            </th>
+                            <th>
+                                <%= __('ARRIVAL_DATE')%>
+                            </th>
+                            <th>
+                                <%= __('PLACE')%>
+                            </th>
+                            <th>
+                                <%= __('CONFIRMED')%>
+                            </th>
+                            <th>
+                                <%= __('BUDDY')%>
+                            </th>
+                            <th>
+                                <%= __('COMMENT')%>
+                            </th>
+                            <th>
+                                <%= __('CREATED_WHEN')%>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tableBodyReport">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <script src="/vendor/jquery/jquery.min.js"></script>
+        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <script src="/js/sb-admin.min.js"></script>
+        <script src="/vendor/datatables/jquery.dataTables.js"></script>
+        <script src="/vendor/datatables/dataTables.bootstrap4.js"></script>
+        <script>
+            $(() => {
+                
+                $.get('/api/buddy', (r) => {
+                    console.log(r)
+                    if (r.statusCode == 200) {
+                        renderBuddy(r.response)
+                    }
+                    $(".loader").addClass('d-none')
+
+                })
+            })
+
+
+            function renderBuddy(data) {
+                $('#tableBuddy').DataTable({
+                    data: data,
+                    columns: [{
+                            data: 'user.fullname',
+                            render: function (data, type, row) {
+                                return `<a href="/user/${row.user.id}/<%=lang%>">${data}</a>`
+                            }
+                        },
+                        {
+                            data: 'arrival_date',
+                            render: function (data, type, row) {
+                                date = new Date(data * 1000);
+                                return Intl.DateTimeFormat('en-US').format(date)
+                            }
+                        },
+                        {
+                            data: 'place',
+                            render: function (data, type, row) {
+                                return data
+                            }
+                        },
+                        {
+                            data: 'confirmed',
+                            render: function (data, type, row) {
+                                return data? `<h6><span class="badge badge-success"><%=__('YES')%></span><h6>` : `<h6><span class="badge badge-secondary"><%=__('NO')%></span><h6>`
+                            }
+                        },
+                        {
+                            data: 'buddy.fullname',
+                            render: function (data, type, row) {
+                                return  row.buddy!=undefined? `<a href="/user/${row.buddy.id}/<%=lang%>">${data}</a>`:'N/A'
+                            }
+                        },
+                        {
+                            data: 'comment',
+                            render: function (data, type, row) {
+                                return  data
+                            }
+                        },
+                        {
+                            data: 'created_when',
+                            render: function (data, type, row) {
+                                date = new Date(data * 1000);
+                                return Intl.DateTimeFormat('en-US').format(date)
+                            }
+                        }
+                    ]
+
+                });
+            }
+        </script>
+</body>
+
+
+</html>

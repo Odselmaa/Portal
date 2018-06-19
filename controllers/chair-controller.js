@@ -30,11 +30,13 @@ module.exports = {
     },
     
     chair_api : function(req, res){
+        
         var lang = req.params.lang == undefined ? 'en' : req.params.lang
         var chair_id = req.params.chair_id;
         fields = ['_id', 'code', 'name', 'description'].join(',')
     
         if(chair_id!=undefined && chair_id!=0){
+
             var options = {
                 uri: `${urls.API_URL}chair/${chair_id}?fields=${fields}&lang=${lang}`,
                 method: 'GET',
@@ -51,6 +53,7 @@ module.exports = {
                     res.json(body)
                 }
             })
+
         }else{
             res.json({response:"Invalid department id", "statusCode":400})
         }

@@ -90,6 +90,12 @@
 	"BODT": "BODT",
 	"CHAIRS": "Chairs",
 	"REVIEW": "Review",
+	"PRE_DEPARTURE_TIPS": "Pre-departure checklist",
+	"AFTER_DEPARTURE_TIPS": "After arrival tips",
+	"GENERAL_TIPS": "General tips",
+	"VISA_REG_TIPS": "Visa & Registration",
+	"MIG_CARD_TIPS": "Migration card",
+	"STUD_DOC_TIPS": "Student document",
 	"pre": {
 		"title": "Pre-Departure Checklist",
 		"content": [
@@ -264,14 +270,49 @@
 				"title": "REMINDER!"
 			},
 			{
-				"type":"text",
-				"content":"Keep your registration and your migration card with you at all times. Also, carry photocopies of these documents with you just in case. </br>You can request to get a copy of your passport authorized and stamped by the Migration Office Unit in order to carry it with you instead of the original. Keep the original passport in a safe place. Address the Head of the Migration Office Unit to authorize your copy.",
-				"title":""
+				"type": "text",
+				"content": "Keep your registration and your migration card with you at all times. Also, carry photocopies of these documents with you just in case. </br>You can request to get a copy of your passport authorized and stamped by the Migration Office Unit in order to carry it with you instead of the original. Keep the original passport in a safe place. Address the Head of the Migration Office Unit to authorize your copy.",
+				"title": ""
 			}
 		]
 	},
 	"student": {
 		"title": "Student document",
-		"content": []
-	}
+		"content": [
+			{
+				"title": "Student ID card",
+				"type": "text",
+				"content": "Официальный документ, подтверждающий, что вы являетесь студентом BMSTU, подписанным проректором и заверенным печатью университета. Студенты, которые учатся на подготовительном курсе, получают другой документ для прохода в университет, а не студенческий билет. Официальные студенты получают свою студенческую карту от своего менеджера по программам после того, как они официально зарегистрированы. Обратите внимание, что для иностранных студентов может потребоваться 1-2 недели для поступления учебы."
+			},
+			{
+				"title": "",
+				"type": "text",
+				"content": "<div width='100%'><img width='60%' src='/images/student_card.jpg'></div> A student ID allows students to apply for a student social card (also known as transport card), which offers a significant discount on public transport in Moscow. A student ID offers discounts and sometimes even free admission into some museums, theatres, cinemas, clubs, exhibition centres, and zoos. The student ID also allows for seasonal discounted purchase of railway tickets. On special occasions, some shops and cafes also offer certain discounts to students."
+			},
+			{
+				"title": "Social card (transport card)",
+				"type": "text",
+				"content": "Student Social Card is used as a transport card and allows students to take public transport in Moscow (metro, buses, trams, trolleybuses) at a lower price."
+			},
+			{
+				"title": "",
+				"type": "text",
+				"content": "<b>Be aware that after you submit your social card application you will have to wait for at least 1 month until the card is issued.</b>"
+			},
+			{
+				"title": "",
+				"type": "text",
+				"content": "<div><img width='60%' src='/images/social_card.jpg'></div> The social card must be activated and then refilled every month, separately for the metro (at a metro cashier’s) and the ground public transport (in grey transport tickets kiosks)."
+			}
+		]
+	},
+	"USER": "User",
+	"ARRIVAL_DATE": "Arrival date",
+	"PLACE": "Place to meet",
+	"CONFIRMED": "Is confirmed",
+	"BUDDY": "Buddy",
+	"COMMENT": "Comment",
+	"CREATED_WHEN": "Created when",
+	"YES": "Yes",
+	"NO": "No"
 }

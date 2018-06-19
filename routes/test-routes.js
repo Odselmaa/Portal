@@ -21,7 +21,7 @@ var test_handler = function(req, res){
     var number = parseInt(req.query.limit!==undefined?req.query.limit:10)
     console.log(number)
     var options = {
-        uri: url.API_URL + 'user/5a63ac19b1cd8e29bf0c0c77?&fields=firstname,lastname,blocked,department,profile',
+        uri: url.API_URL + 'user/5a63ac19b1cd8e29bf0c0c77?&fields=firstname,lastname',
         headers: {
             "Authorization": "Bearer " + req.session.access_token.token
         },

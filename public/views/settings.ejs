@@ -296,11 +296,10 @@
         "<% for (var i=0, len=user.languages.length; i<len; i++) { %>"
         user_langs.push("<%= user.languages[i]['_id']%>");
         "<% } }%>"
-
-        "<% for (var j=user.news_tags.length, len1=user.news_tags.length; j>=0; j--) { %>"
-        
-        $("#inputTags").tagsinput('add', "<%=user.news_tags[j]%>")
-        "<% } %>"
+        "<% if(user.news_tags!=undefined){%>"
+            "<% for (var j=user.news_tags.length; j>=0; j--) { %>"
+                $("#inputTags").tagsinput('add', "<%=user.news_tags[j]%>")
+            "<% } }%>"
 
         $('#myTab a').on('click', function (e) {
             e.preventDefault()

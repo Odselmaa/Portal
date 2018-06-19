@@ -22,7 +22,6 @@
     <!-- Custom styles for this template-->
     <link href="/css/sb-admin.css" rel="stylesheet">
     <link href="/css/profile.css" rel="stylesheet">
-    <link href="/css/bootstrap-tagsinput.css" rel="stylesheet">
 
 </head>
 
@@ -30,51 +29,24 @@
     <% include navbar %>
         <div class="content-wrapper">
             <div class="container-fluid">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="/newsfeed">Newsfeed</a>
-                    </li>
-                    <li class="breadcrumb-item active" id="breadcrumbTitle"></li>
-                </ol>
-                <div id="news"></div>
+                <div class="loader d-none"></div>
+                <form class="form-inline">
+                        <div class="form-group">
+                          <label for="inputPassword6">Place</label>
+                          <input type="text" id="inputPassword6" class="form-control mx-sm-3" aria-describedby="passwordHelpInline">
+                          <small id="passwordHelpInline" class="text-muted">
+                            Must be 8-20 characters long.
+                          </small>
+                        </div>
+                      </form>
+           
             </div>
         </div>
-
         <script src="/vendor/jquery/jquery.min.js"></script>
         <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
         <script src="/js/sb-admin.min.js"></script>
-        <script src="/js/script.js"></script>
-        <script src="/js/bootstrap-tagsinput.js"></script>
 </body>
-<script>
-    $.get(`/api/news/<%=news_id%>`, (data) => {
-        
-        if (data.statusCode == 200) renderNews(data.response)
-        else alert("Something went wrong!")
 
-    })
-
-    function renderNews(news) {
-        var tags = ""
-        $("#breadcrumbTitle").text(news.title)
-        $.each(news.tags, (i, v) => {
-            tags += `<div class="chip-flat"><a href='#'>${v}</a></div>`
-        })
-        $("#news").html(
-            `<div class="card mb-4">
-            
-            <div class="card-body">
-                    <div class="card-title">
-                <a href="#"><h5 class="royal-blue">${news.title}</h5></a>
-            </div>
-                ${news.body}
-                <div class="mt-3" royal-blue> ${tags}</div>
-            </div>
-        </div>
-        `
-        )
-    }
-</script>
 
 </html>

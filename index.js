@@ -1,16 +1,12 @@
 const express = require("express")
 const body_parser = require("body-parser")
-const request = require('request');
 const path = require('path')
 const app = express()
 const rp = require('request-promise')
-// const http = require('http').Server(app)
 const jwt = require('jsonwebtoken');
-
 const morgan = require('morgan')
 //imported routes
 const test_routes = require('./routes/test-routes.js');
-
 const user_routes = require('./routes/user-routes.js');
 const department_routes = require('./routes/department-routes.js');
 const chair_routes = require('./routes/chair-routes.js');
@@ -23,6 +19,7 @@ const news_routes = require('./routes/news-routes.js');
 const chat_routes = require('./routes/chat-routes.js');
 const review_routes = require('./routes/review-routes.js');
 const tips_routes = require('./routes/tips-routes.js');
+const buddy_req_routes = require('./routes/buddy-request-routes.js');
 
 const connection = require('./routes/connection.js')
 
@@ -46,6 +43,7 @@ app.use('/', news_routes);
 app.use('/', chat_routes);
 app.use('/', review_routes);
 app.use('/', tips_routes);
+app.use('/', buddy_req_routes);
 
 app.use(connection.session)
 app.use(i18n.i18n.init);
@@ -75,21 +73,15 @@ const port = process.env.PORT || 8080;
 const server = app.listen(port, () => {
     console.log('Express server listening on port', port)
 });
-// server.setTimeout(5000000);
 
 var io = require('socket.io')(server)
-
-
 cache.start(function (err) {
     if (err) console.error(err);
 });
 
-
 app.get("/test_token", (req, res) => {
-    // async
     cache.instance().keys(function (err, mykeys) {
-        if (!err) {
-        }
+        if (!err) {}
     });
     res.send(req.session)
 })
@@ -111,7 +103,7 @@ var index_handler = function (req, res) {
 var connection_handler = (socket) => {
     socket.on("login", function (data) {
         set_socket(data.user_sender, socket.id)
-        console.log("user connected", data)
+        // console.log("user connected", data)
         io.emit('logged_in', {
             "user_id": data.user_sender
         })
@@ -121,7 +113,8 @@ var connection_handler = (socket) => {
         delete_socket(data.user_sender, socket.id)
     })
 }
-var structure_handler = (req, res)=>{
+
+var structure_handler = (req, res) => {
     var lang = req.params.language == undefined ? 'en' : req.params.language
     req.setLocale(lang);
     var current_user_id = req.session.access_token.user_id
@@ -134,6 +127,7 @@ var structure_handler = (req, res)=>{
         role: role
     })
 }
+
 var dashboard_handler = function (req, res) {
     var lang = req.params.language == undefined ? 'en' : req.params.language
     req.setLocale(lang);
@@ -157,9 +151,11 @@ var login_handler = function (req, res) {
         i18n: res
     })
 }
+
 var register_handler = function (req, res) {
     res.render('register')
 }
+
 var login_post_handler = function (req, res) {
     var payload = jwt.sign(req.body, 'f*ckyou');
     var options = {
@@ -170,16 +166,22 @@ var login_post_handler = function (req, res) {
         },
         headers: {}
     };
-    rp(options).then((r)=>{
+    rp(options).then((r) => {
         // console.log(r)
         r.response.access_token['user_id'] = r.response.user_id
-        set_session(req.session, 'access_token', r.response.access_token)    
-        res.json({body: "Successfull", statusCode: 200})
+        set_session(req.session, 'access_token', r.response.access_token)
+        res.json({
+            body: "Successfull",
+            statusCode: 200
+        })
 
-    }).catch((error)=>{
+    }).catch((error) => {
         // console.log(error)
-        res.json({body: "Error", statusCode: 400})
-    })    
+        res.json({
+            body: "Error",
+            statusCode: 400
+        })
+    })
 }
 
 var logout_handler = function (req, res) {
@@ -218,16 +220,17 @@ var register_post_handler = function (req, res) {
         }
     })
 }
+
 var msg_post_handler = function (req, res) {
     var session = req.session
     var body = req.body
 
     var user_sender = session.access_token.user_id
     var user_receiver = req.body.user_receiver
-    
+
     var user = session[user_sender]
     var access_token = session.access_token.token
-    
+
     body["user_sender"] = user_sender
     body["chat_title"] = user['firstname'] + " " + user['lastname']
 
@@ -248,6 +251,7 @@ var msg_post_handler = function (req, res) {
         res.sendStatus(200)
     }
 }
+
 var status = function (req, res) {
     var user_ids = req.query.user_ids
     var response = {}
@@ -342,13 +346,6 @@ function get_socket(user_receiver) {
     return user_receiver in connectedUsers ? connectedUsers[user_receiver] : []
 }
 
-// function get_role(req) {
-//     var current_user_id = req.session.access_token.user_id
-//     var user = req.session[current_user_id]
-//     var role_id = user.role['_id']
-//     return role_id
-// }
-
 
 app.get('/', m.logMiddleware, index_handler)
 app.get('/status', status)
@@ -363,6 +360,7 @@ app.post("/register", register_post_handler)
 app.post("/messages", m.logMiddleware, msg_post_handler)
 
 io.on('connection', connection_handler)
+
 process.on('uncaughtException', function (err) {
     console.log(err);
-}); 
+});
