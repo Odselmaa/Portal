@@ -26,7 +26,6 @@ var test_handler = function(req, res){
             "Authorization": "Bearer " + req.session.access_token.token
         },
         timeout: 1000 * 100
-
     }
 
     var promises = []

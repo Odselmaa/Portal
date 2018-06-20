@@ -14,8 +14,7 @@ router.get('/location/:language(en|ru)',  [m.logMiddleware, m.verifyMiddleware],
     res.render('location', {
         lang: lang,
         current_user_id: current_user_id,
-        i18n: res,
-        is_verified: is_verified
+        i18n: res
     })
 
 })
