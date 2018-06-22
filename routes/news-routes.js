@@ -19,7 +19,7 @@ router.get(['/news/:language(en|ru)'], (req, res) => {
     var lang = req.params.language == undefined ? 'en' : req.params.language
     req.setLocale(lang)
     res.render('news', {
-        lang: 'en',
+        lang: lang,
         current_user_id: current_user_id,
         i18n: res,
         role: req.session[current_user_id].role['_id']
@@ -34,7 +34,7 @@ router.get(['/news/:news_id/:language(en|ru)'], (req, res) => {
     var lang = req.params.language == undefined ? 'en' : req.params.language
     req.setLocale(lang)
     res.render('specific_news', {
-        lang: 'en',
+        lang: lang,
         current_user_id: current_user_id,
         i18n: res,
         news_id: news_id,
@@ -48,7 +48,7 @@ router.get(['/newsfeed/:language(en|ru)'], (req, res) => {
     var tags = req.session[current_user_id].news_tags
     req.setLocale(lang)
     res.render('newsfeed', {
-        lang: 'en',
+        lang: lang,
         current_user_id: current_user_id,
         i18n: res,
         news_tags: tags.join(),
@@ -61,7 +61,7 @@ router.get(['/create/news/:language(en|ru)'], (req, res) => {
     var lang = req.params.language == undefined ? 'en' : req.params.language
     req.setLocale(lang)
     res.render('create_news', {
-        lang: 'en',
+        lang: lang,
         current_user_id: current_user_id,
         i18n: res,
         role: req.session[current_user_id].role['_id']

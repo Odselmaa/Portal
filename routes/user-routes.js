@@ -83,7 +83,7 @@ var setting_handler = function (req, res) {
   var user = req.session[user_id]
   req.setLocale(lang);
   res.render("settings", {
-    lang: req.params.language,
+    lang: lang,
     current_user_id: user_id,
     user: user,
     i18n: res,
