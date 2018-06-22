@@ -49,13 +49,9 @@ app.use(connection.session)
 app.use(i18n.i18n.init);
 app.use(express.static(__dirname))
 app.use(body_parser.json())
-
 app.use(body_parser.urlencoded({
     extended: false
 }))
-
-
-
 
 app.use(express.static(__dirname + '/public'));
 app.use('/js', express.static(path.join(__dirname, 'public/js')));
@@ -75,6 +71,7 @@ const server = app.listen(port, () => {
 });
 
 var io = require('socket.io')(server)
+
 cache.start(function (err) {
     if (err) console.error(err);
 });
@@ -252,6 +249,10 @@ var msg_post_handler = function (req, res) {
     }
 }
 
+var change_lang_handler = function(req, res){
+
+}
+
 var status = function (req, res) {
     var user_ids = req.query.user_ids
     var response = {}
@@ -346,10 +347,9 @@ function get_socket(user_receiver) {
     return user_receiver in connectedUsers ? connectedUsers[user_receiver] : []
 }
 
-
-app.get('/', m.logMiddleware, index_handler)
+app.get(['/:language(en|ru)'], m.logMiddleware, index_handler)
 app.get('/status', status)
-app.get(["/dashboard", '/dashboard/:language(en|ru)'], m.logMiddleware, dashboard_handler)
+app.get(['/dashboard/:language(en|ru)'], m.logMiddleware, dashboard_handler)
 app.get("/structure/:language(en|ru)", m.logMiddleware, structure_handler)
 app.get(["/login", '/login/:language(en|ru)'], login_handler)
 app.get(["/register", '/register/:language(en|ru)/'], register_handler)
@@ -358,7 +358,7 @@ app.get("/logout", logout_handler)
 app.get("/register", register_handler)
 app.post("/register", register_post_handler)
 app.post("/messages", m.logMiddleware, msg_post_handler)
-
+app.get("/lang/:language(en|ru)", m.logMiddleware, change_lang_handler)
 io.on('connection', connection_handler)
 
 process.on('uncaughtException', function (err) {

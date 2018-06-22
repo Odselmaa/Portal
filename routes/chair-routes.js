@@ -24,6 +24,6 @@ var chair_handler = function(req, res){
 
 router.get('/api/chair/dep/:dep_id/:lang(en|ru)', m.logMiddleware,  c.chairs_api)
 router.get('/api/chair/:chair_id/:lang(en|ru)', m.logMiddleware,  c.chair_api)
-router.get(['/chair/:chair_id/:lang(en|ru)', '/chair/:chair_id'], m.logMiddleware,  chair_handler)
+router.get(['/chair/:chair_id/:lang(en|ru)'], m.logMiddleware,  chair_handler)
 
 module.exports = router;

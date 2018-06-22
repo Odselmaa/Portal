@@ -125,7 +125,7 @@ router.put('/r/:status', m.logMiddleware, (req, res) => {
 
 })
 
-router.get(['/report', '/report/:language(en|ru)'], m.logMiddleware, (req, res) => {
+router.get(['/report/:language(en|ru)'], m.logMiddleware, (req, res) => {
   var lang = req.params.language == undefined ? 'en' : req.params.language
     req.setLocale(lang);
     var current_user_id = req.session.access_token.user_id

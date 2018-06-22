@@ -60,7 +60,6 @@ var user_handler = function (req, res) {
 
     var friends = req.session[req.session.access_token.user_id].friends;
     var is_friend = is_in_friend(friends, user_id)
-    console.log(friends)
     var is_verified = user.verified_email != undefined
 
     req.setLocale(lang)
@@ -128,10 +127,10 @@ var check_confirm_handler = (req, res) => {
 router.get('/blocked', (req, res) => {
   res.render('blocked')
 })
-router.get(['/friend', '/friend/:language(en|ru)'], m.logMiddleware, friend_handler);
-router.get(['/settings', '/settings/:language(en|ru)'], m.logMiddleware, setting_handler)
-router.get(['/filter', '/filter/:language(en|ru)'], m.logMiddleware, filter_handler);
-router.get(['/user/:user_id', '/user/:user_id/:language(en|ru)'], m.logMiddleware, user_handler)
+router.get(['/friend/:language(en|ru)'], m.logMiddleware, friend_handler);
+router.get(['/settings/:language(en|ru)'], m.logMiddleware, setting_handler)
+router.get(['/filter/:language(en|ru)'], m.logMiddleware, filter_handler);
+router.get(['/user/:user_id/:language(en|ru)'], m.logMiddleware, user_handler)
 router.get('/verify/:token', m.logMiddleware, check_confirm_handler)
 
 //API Specific user profile page route.

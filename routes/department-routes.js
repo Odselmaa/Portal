@@ -22,9 +22,9 @@ var department_handler = function (req, res) {
 }
 
 
-router.get(['/department/:dep_id/:lang(en|ru)', '/department/:dep_id'], m.logMiddleware, department_handler)
+router.get(['/department/:dep_id/:lang(en|ru)'], m.logMiddleware, department_handler)
 router.get('/api/dep/:lang(en|ru)', m.logMiddleware, d.departments_api)
-router.get(['/api/dep/:dep_id/:lang(en|ru)', '/api/dep/:dep_id'], m.logMiddleware,d. spec_department_api)
+router.get(['/api/dep/:dep_id/:lang(en|ru)'], m.logMiddleware,d. spec_department_api)
 // router.get(['/api/chair/dep/:dep_id/:lang(en|ru)', '/api/chair/dep/:dep_id'], m.logMiddleware, chairs_api)
 
 module.exports = router;
