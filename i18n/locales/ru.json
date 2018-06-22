@@ -280,30 +280,31 @@
 			{
 				"title": "Student ID card",
 				"type": "text",
-				"content": "An official document certifying that you are an BMSTU student, signed by the Vice-rector and stamped with the official stamp of the University. Students who studies in preparatory course, get another document for entering the university, not student ID. The official students receive their student ID from their programme manager after they are officially enrolled. Note that it might take 1-2 weeks for international students to be fully enrolled."
+				"content": "Официальный документ, подтверждающий, что вы являетесь студентом BMSTU, подписанным проректором и заверенным печатью университета. Студенты, которые учатся на подготовительном курсе, получают другой документ для прохода в университет, а не студенческий билет. Официальные студенты получают свою студенческую карту от своего менеджера по программам после того, как они официально зарегистрированы. Обратите внимание, что для иностранных студентов может потребоваться 1-2 недели для поступления учебы."
 			},
 			{
 				"title": "",
 				"type": "text",
-				"content": "<div><img width='60%' src='/images/student_card.jpg'> </div>Студенческий билет позволяет студентам подать заявку на студенческую социальную карту (также известную как транспортная карта), которая предлагает значительную скидку на общественный транспорт в Москве. Студенческий билет предлагает скидки, а иногда и бесплатный вход в некоторые музеи, театры, кинотеатры, клубы, выставочные центры и зоопарки. Студенческий тикет также допускает сезонную скидку на покупку железнодорожных билетов. В особых случаях некоторые магазины и кафе также предлагают определенные скидки для студентов."
+				"content": "<div width='100%'><img width='60%' src='/images/student_card.jpg'></div> A student ID allows students to apply for a student social card (also known as transport card), which offers a significant discount on public transport in Moscow. A student ID offers discounts and sometimes even free admission into some museums, theatres, cinemas, clubs, exhibition centres, and zoos. The student ID also allows for seasonal discounted purchase of railway tickets. On special occasions, some shops and cafes also offer certain discounts to students."
 			},
 			{
 				"title": "Social card (transport card)",
 				"type": "text",
-				"content": "Социальная карта студента используется в качестве транспортной карты и позволяет студентам брать общественный транспорт в Москве (метро, автобусы, трамваи, троллейбусы) по более низкой цене."
+				"content": "Student Social Card is used as a transport card and allows students to take public transport in Moscow (metro, buses, trams, trolleybuses) at a lower price."
 			},
 			{
 				"title": "",
 				"type": "text",
-				"content": "<b>Имейте в виду, что после того, как вы отправите заявку на социальную карту, вам придется ждать не менее 1 месяца, пока карта не будет выпущена.</b>"
+				"content": "<b>Be aware that after you submit your social card application you will have to wait for at least 1 month until the card is issued.</b>"
 			},
 			{
 				"title": "",
 				"type": "text",
-				"content": "<div><img width='60%' src='/images/social_card.jpg'></div> Социальную карточку необходимо активировать, а затем пополнять каждый месяц отдельно для метро (в кассу метро) и наземного общественного транспорта (в киосках с серыми транспортными билетами)."
+				"content": "<div><img width='60%' src='/images/social_card.jpg'></div> The social card must be activated and then refilled every month, separately for the metro (at a metro cashier’s) and the ground public transport (in grey transport tickets kiosks)."
 			}
 		]
 	},
+
 	"USER": "Пользователь",
 	"ARRIVAL_DATE": "Дата прибытия",
 	"PLACE": "Место",
