@@ -14,7 +14,7 @@ router.use(body_parser.urlencoded({
 }))
 router.use(i18n.i18n.init)
 
-router.get(['/news/:language(en|ru)'], [m.logMiddleware, m.onlyAdminMiddleware], (req, res) => {
+router.get(['/news/:language(en|ru)'], [m.logMiddleware], (req, res) => {
     var current_user_id = req.session.access_token.user_id
     var lang = req.params.language == undefined ? 'en' : req.params.language     
     req.setLocale(lang)
