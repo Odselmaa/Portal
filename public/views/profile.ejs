@@ -255,7 +255,7 @@
                     if ('department' in info && info.department != undefined && ('code' in info.department) &&
                         info.role._id != 1)
                         $("#role").append(
-                            ` of <a href="/department/${info.department.code}">${info.department.code}</a>`
+                            ` of <a href="/department/${info.department._id}">${info.department.code}</a>`
                         )
 
 
