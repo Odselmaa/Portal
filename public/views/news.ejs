@@ -145,7 +145,7 @@
                     if(row["body"].length < 100)
                         return row["body"];
                     else 
-                        return `<a href='/news/${row['_id']}/<%=lang%>'>${row["body"].slice(0, 200)}...</a>`;
+                        return `${row["body"].slice(0, 200)}...`;
                 }
             }, {
                 targets: 0,
