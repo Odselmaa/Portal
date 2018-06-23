@@ -72,7 +72,7 @@
         // 
         $.post('/api/news', {payload: JSON.stringify(payload)}).done((data)=>{
             if(data.statusCode==201){
-                $("#snackbarCreate span").html(` <a href="/news/${data.response.news_id}">Show news</a>`)
+                $("#snackbarCreate span").html(` <a href="/news/${data.response.news_id}/<%=lang%>">Show news</a>`)
                 showSnackbar('snackbarCreate')
                 
             }else{
