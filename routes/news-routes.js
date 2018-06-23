@@ -86,6 +86,9 @@ router.post('/api/news', (req, res) => {
             delete_news_cache(key, ()=>{
                 res.json(body);
             })
+            delete_news_cache('/api/news?limit=6', ()=>{
+                res.json(body);
+            })
         }else
             res.json(body);
     })
@@ -138,8 +141,12 @@ router.put('/api/news/:news_id', (req, res) => {
         if (body1.statusCode == 200) {
             var key = '/api/news'
             delete_news_cache(key, ()=>{
-                res.json(body1);
+                res.json(body);
             })
+            delete_news_cache('/api/news?limit=6', ()=>{
+                res.json(body);
+            })
+            
         }else
             res.json(body1);
     })
@@ -172,6 +179,9 @@ router.get('/api/news/:news_id', (req, res) => {
         if (body.statusCode == 200) {
             var key = '/api/news'
             delete_news_cache(key, ()=>{
+                res.json(body);
+            })
+            delete_news_cache('/api/news?limit=6', ()=>{
                 res.json(body);
             })
         }else
