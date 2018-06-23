@@ -96,6 +96,8 @@
 	"VISA_REG_TIPS": "Visa & Registration",
 	"MIG_CARD_TIPS": "Migration card",
 	"STUD_DOC_TIPS": "Student document",
+	"PLEASE_VERIFY":"You're not a verified user, please verify your account ",
+	"HERE":"here",
 	"pre": {
 		"title": "Pre-Departure Checklist",
 		"content": [

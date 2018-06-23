@@ -62,10 +62,13 @@ module.exports = {
         var current_user_id = req.session.access_token.user_id
         var user = req.session[current_user_id]
         var is_verified = user.verified_email != undefined
+        var lang = req.params.language == undefined ? 'en' : req.params.language
+
         if(is_verified){
             next()
         }else{
-            res.render('error/401')
+            req.setLocale(lang)
+            res.render('error/401', {lang:lang, i18n: res})
         }
     }
 }

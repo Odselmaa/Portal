@@ -346,7 +346,9 @@ Array.prototype.remove = function () {
 function get_socket(user_receiver) {
     return user_receiver in connectedUsers ? connectedUsers[user_receiver] : []
 }
-
+app.get('/', (req, res)=>{
+    return res.redirect('/en')
+})
 app.get(['/:language(en|ru)'], m.logMiddleware, index_handler)
 app.get('/status', status)
 app.get(['/dashboard/:language(en|ru)'], m.logMiddleware, dashboard_handler)
