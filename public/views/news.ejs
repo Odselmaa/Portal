@@ -136,6 +136,7 @@
     $('#inputTag').keyup(handleInput)
 
     function setDataTable(data) {
+        console.log(data)
         $('#dataTableNews').DataTable({
             data: data,
             columnDefs: [{
@@ -144,12 +145,12 @@
                     if(row["body"].length < 100)
                         return row["body"];
                     else 
-                        return `${row["body"].slice(0, 200)}...`;
+                        return `<a href='/news/${row['_id']}/<%=lang%>'>${row["body"].slice(0, 200)}...</a>`;
                 }
             }, {
                 targets: 0,
                 render: function (data, type, row, meta) {
-                    return row["title"];
+                    return `<a href='/news/${row['_id']}/<%=lang%>'>${row["title"]}</a>`;
                 }
             }, {
                 targets: 3,
