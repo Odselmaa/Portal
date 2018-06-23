@@ -70,5 +70,14 @@ module.exports = {
             req.setLocale(lang)
             res.render('error/401', {lang:lang, i18n: res})
         }
+    },
+    onlyAdminMiddleware: function(req, res, next){
+        var current_user_id = req.session.access_token.user_id
+        var user = req.session[current_user_id]
+        if(user.role._id == 1)
+            next()
+        else
+            res.render('error/404', {lang:lang, i18n: res})
+
     }
 }

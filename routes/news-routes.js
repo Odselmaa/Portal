@@ -14,16 +14,15 @@ router.use(body_parser.urlencoded({
 }))
 router.use(i18n.i18n.init)
 
-router.get(['/news/:language(en|ru)'], (req, res) => {
+router.get(['/news/:language(en|ru)'], [m.logMiddleware, m.onlyAdminMiddleware], (req, res) => {
     var current_user_id = req.session.access_token.user_id
-    var lang = req.params.language == undefined ? 'en' : req.params.language
+    var lang = req.params.language == undefined ? 'en' : req.params.language     
     req.setLocale(lang)
     res.render('news', {
         lang: lang,
         current_user_id: current_user_id,
         i18n: res,
-        role: req.session[current_user_id].role['_id']
-
+        role: req.session[current_user_id].role['_id']  
     })
 })
 
