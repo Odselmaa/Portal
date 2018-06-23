@@ -129,7 +129,7 @@
                         l = r.authors[review.author].lastname
                         $("#listReviews").append(
                             ` <li class="list-group-item">
-                       <h6> <a href="/user/${review.author}">${f} ${l}</a></h6>
+                       <h6> <a href="/user/${review.author}/<%=lang%>">${f} ${l}</a></h6>
                         ${get_stars(review.stars)}<p>${review.comment}</p></li>`
                         )
                     })
