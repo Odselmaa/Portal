@@ -70,7 +70,7 @@
                         col = "#ulDepCol2"
 
                     $(col).append(
-                        `<li class="list-group-item "><a class="dark-gray" href="/department/${item._id}">${item.name}</a></li>`
+                        `<li class="list-group-item "><a class="dark-gray" href="/department/${item._id}/<%=lang%>">${item.name}</a></li>`
                     )
                     $("#ulDep").append(
                         `<li class="list-inline-item "><h4 class="p-3">${item.code.toUpperCase()}</h4></li>`
