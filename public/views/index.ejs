@@ -144,9 +144,9 @@
                             `<div class='col-sm-4'>
                                 <div class="card border-0">
                                     <div class="card-body">
-                                   <a class="dark-gray" href="/news/${news_list[index]._id}"><h5 class="card-title">${news_list[index].title} </h5></a>
+                                   <a class="dark-gray" href="/news/${news_list[index]._id}/<%=lang%>"><h5 class="card-title">${news_list[index].title} </h5></a>
  
-                                    <a class="dark-gray" href="/news/${news_list[index]._id}"><p class="card-text">${news_list[index].body.substring(0, 100)}...</p></a>
+                                    <a class="dark-gray" href="/news/${news_list[index]._id}/<%=lang%>"><p class="card-text">${news_list[index].body.substring(0, 100)}...</p></a>
                                     
                                     <div class="mt-1">${t}</div>
                                     </div>
