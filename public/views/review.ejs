@@ -48,11 +48,11 @@
                             <div class="form-group">
                                 <label for="selectDepartment">Chair</label>
                                 <select name="chair" class="form-control  custom-select" id="selectChair" required>
-                                <option selected value="">Choose...</option>
+                                <option selected value=""><%=__('CHOOSE')%></option>
                                 </select>
                             </div>
                             <div class="mt-2">
-                                Teachers
+                            <%=__('TEACHERS')%>
                                 <div id="rating-teachers" class="rating">
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
@@ -62,8 +62,8 @@
                                 </div>
                             </div>
                             <div class="mt-2">
-
-                                Course
+                                <%=__('COURSE')%>
+                                
                                 <div id="rating-course" class="rating">
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
@@ -74,8 +74,8 @@
                             </div>
 
                             <div class="mt-2">
-                                Facility
-                                <div id="rating-facility" class="rating">
+                            <%=__('FACILITY')%>
+                            <div id="rating-facility" class="rating">
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
@@ -85,7 +85,7 @@
                             </div>
 
                             <div class="mt-2">
-                                Communication
+                            <%=__('COMMUNICATION')%>
                                 <div id="rating-communication" class="rating">
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
@@ -99,7 +99,8 @@
 
 
                         <div id="department">
-                            Overal rating
+                            <%=__('OVERAL_RATING')%>
+
                             <div id="rating-overal" class="rating">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
@@ -109,11 +110,11 @@
                             </div>
                         </div>
                         <div class="form-group mt-3">
-                            <label for="exampleFormControlTextarea1">Comment</label>
+                            <label for="exampleFormControlTextarea1"><%=__('COMMENT')%> </label>
                             <textarea name="comment" class="form-control" id="exampleFormControlTextarea1" rows="5" type="text" value="" required></textarea>
                         </div>
    
-                        <a href="#" class="btn btn-outline-primary" id="btnSubmit">Submit</a>
+                        <a href="#" class="btn btn-outline-primary" id="btnSubmit"><%=__('SUBMIT')%></a>
                     </form>
                     <div class="d-none">
                         <form id="form_department">
@@ -271,6 +272,7 @@
     function inform_error(e) {
         
     }
+
 </script>
 
 </html>
