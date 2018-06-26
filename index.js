@@ -145,7 +145,8 @@ var login_handler = function (req, res) {
     var lang = req.params.language == undefined ? 'en' : req.params.language
     req.setLocale(lang)
     res.render('login', {
-        i18n: res
+        i18n: res,
+        lang: lang
     })
 }
 
