@@ -95,11 +95,11 @@ function review_handler(req, res){
 }
 
 router.get('/api/review/dep/:dep_id', review_dep_api)
-router.get('/api/review/department/report/:language(en|ru)', dep_report_api)
+router.get('/api/review/department/report/:language(en|ru|mn)', dep_report_api)
 
 router.get('/api/review/chair/:chair_id', review_chair_api)
 router.post('/api/review', review_api)
 
-router.get('/review/:language(en|ru)', review_handler)
+router.get('/review/:language(en|ru|mn)', review_handler)
 
 module.exports = router;

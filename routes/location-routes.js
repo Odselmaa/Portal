@@ -7,7 +7,7 @@ const m = require('../middleware.js')
 var router = connection.router
 router.use(i18n.i18n.init)
 
-router.get('/location/:language(en|ru)',  [m.logMiddleware, m.verifyMiddleware], (req, res) => {
+router.get('/location/:language(en|ru|mn)',  [m.logMiddleware, m.verifyMiddleware], (req, res) => {
     var lang = req.params.language == undefined ? 'en' : req.params.language
     var current_user_id = req.session.access_token.user_id
     req.setLocale(lang)

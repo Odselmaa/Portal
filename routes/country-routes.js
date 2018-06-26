@@ -5,7 +5,7 @@ var cache = require('./cache-provider.js')
 var router = connection.router
 const m = require('../middleware.js')
 
-router.get('/country/:language(en|ru)', m.logMiddleware, (request, res) => {
+router.get('/country/:language(en|ru|mn)', m.logMiddleware, (request, res) => {
     var lang = request.params.language == undefined ? 'en' : request.params.language
     var country_key = `country_${lang}`
     try{

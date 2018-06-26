@@ -14,7 +14,7 @@ router.use(body_parser.urlencoded({
 }))
 router.use(i18n.i18n.init)
 
-router.get(['/news/:language(en|ru)'], [m.logMiddleware], (req, res) => {
+router.get(['/news/:language(en|ru|mn)'], [m.logMiddleware], (req, res) => {
     var current_user_id = req.session.access_token.user_id
     var lang = req.params.language == undefined ? 'en' : req.params.language     
     var user = req.session[current_user_id]
@@ -38,7 +38,7 @@ router.get(['/news/:language(en|ru)'], [m.logMiddleware], (req, res) => {
 
 })
 
-router.get(['/news/:news_id/:language(en|ru)'], (req, res) => {
+router.get(['/news/:news_id/:language(en|ru|mn)'], (req, res) => {
     var news_id = req.params.news_id
 
     var current_user_id = req.session.access_token.user_id
@@ -53,7 +53,7 @@ router.get(['/news/:news_id/:language(en|ru)'], (req, res) => {
     })
 })
 
-router.get(['/newsfeed/:language(en|ru)'], (req, res) => {
+router.get(['/newsfeed/:language(en|ru|mn)'], (req, res) => {
     var current_user_id = req.session.access_token.user_id
     var lang = req.params.language == undefined ? 'en' : req.params.language
     var tags = req.session[current_user_id].news_tags
@@ -67,7 +67,7 @@ router.get(['/newsfeed/:language(en|ru)'], (req, res) => {
     })
 })
 
-router.get(['/create/news/:language(en|ru)'], (req, res) => {
+router.get(['/create/news/:language(en|ru|mn)'], (req, res) => {
     var current_user_id = req.session.access_token.user_id
     var lang = req.params.language == undefined ? 'en' : req.params.language
     req.setLocale(lang)

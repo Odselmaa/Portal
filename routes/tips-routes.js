@@ -11,7 +11,7 @@ router.use(body_parser.urlencoded({
 }))
 router.use(i18n.i18n.init)
 
-router.get(['/tips/:language(en|ru)'], (req, res) => {
+router.get(['/tips/:language(en|ru|mn)'], (req, res) => {
     var current_user_id = req.session.access_token.user_id
     var lang = req.params.language == undefined ? 'en' : req.params.language
     req.setLocale(lang)
@@ -23,7 +23,7 @@ router.get(['/tips/:language(en|ru)'], (req, res) => {
     })
 })
 
-router.get(['/tips/:type(pre|after|visa|general|migration|student)/:language(en|ru)'], (req, res) => {
+router.get(['/tips/:type(pre|after|visa|general|migration|student)/:language(en|ru|mn)'], (req, res) => {
     var type = req.params.type
     var lang = req.params.language == undefined ? 'en' : req.params.language
     req.setLocale(lang)

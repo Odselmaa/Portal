@@ -127,20 +127,20 @@ var check_confirm_handler = (req, res) => {
 router.get('/blocked', (req, res) => {
   res.render('blocked')
 })
-router.get(['/friend/:language(en|ru)'], m.logMiddleware, friend_handler);
-router.get(['/settings/:language(en|ru)'], m.logMiddleware, setting_handler)
-router.get(['/filter/:language(en|ru)'], m.logMiddleware, filter_handler);
-router.get(['/user/:user_id/:language(en|ru)'], m.logMiddleware, user_handler)
+router.get(['/friend/:language(en|ru|mn)'], m.logMiddleware, friend_handler);
+router.get(['/settings/:language(en|ru|mn)'], m.logMiddleware, setting_handler)
+router.get(['/filter/:language(en|ru|mn)'], m.logMiddleware, filter_handler);
+router.get(['/user/:user_id/:language(en|ru|mn)'], m.logMiddleware, user_handler)
 router.get('/verify/:token', m.logMiddleware, check_confirm_handler)
 
 //API Specific user profile page route.
-router.get(['/u/:user_id', '/u/:user_id/:language(en|ru)'], m.logMiddleware, u.user_api)
-router.get(['/u', '/u/:language(en|ru)'], m.logMiddleware, u.filter_users_api)
-router.get(['/allu', '/allu/:language(en|ru)'], m.logMiddleware, u.last_user_api)
+router.get(['/u/:user_id', '/u/:user_id/:language(en|ru|mn)'], m.logMiddleware, u.user_api)
+router.get(['/u', '/u/:language(en|ru|mn)'], m.logMiddleware, u.filter_users_api)
+router.get(['/allu', '/allu/:language(en|ru|mn)'], m.logMiddleware, u.last_user_api)
 router.post('/b/:user_id', m.logMiddleware, u.block_user_api)
 router.post('/f/:user_id2', m.logMiddleware, u.add_friend_api)
 router.delete('/f/:user_id2', m.logMiddleware, u.unfriend_api);
-router.get(['/f/:user_id', '/f/:user_id/:language(en|ru)'], m.logMiddleware, u.friends_api)
+router.get(['/f/:user_id', '/f/:user_id/:language(en|ru|mn)'], m.logMiddleware, u.friends_api)
 router.put('/upload', u.upload_api);
 router.post('/verify', m.logMiddleware, u.send_confirm_api)
 

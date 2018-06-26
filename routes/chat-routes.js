@@ -28,7 +28,7 @@ var chat_handler = function(req, res){
 }
 
 router.get('/conversations', c.conversations_api);
-router.get(["/chat", "/chat/:language(en|ru)"], chat_handler)
+router.get(["/chat", "/chat/:language(en|ru|mn)"], chat_handler)
 router.get("/messages", m.logMiddleware, c.msg_api)
 
 module.exports = router;

@@ -5,7 +5,7 @@ var cache = require('./cache-provider.js')
 var router = connection.router
 const m = require('../middleware.js')
 
-router.get('/gender/:language(en|ru)', m.logMiddleware, (req, res) => {
+router.get('/gender/:language(en|ru|mn)', m.logMiddleware, (req, res) => {
     var gender_key = `gender_${lang}`
     try {
         value = cache.instance().get(gender_key, true);

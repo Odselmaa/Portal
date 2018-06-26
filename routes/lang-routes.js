@@ -6,7 +6,7 @@ const m = require('../middleware.js')
 
 var router = connection.router
 
-router.get(['/languages/:language(en|ru)'], m.logMiddleware, (req, res) => {
+router.get(['/languages/:language(en|ru|mn)'], m.logMiddleware, (req, res) => {
     var lang = req.params.language == undefined ? 'en' : req.params.language
     var lang_key = `lang_${lang}`
     try {

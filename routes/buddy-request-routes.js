@@ -41,9 +41,9 @@ var buddy_create_handler = function(req, res){
 
 }
 
-router.get('/buddy/:lang(en|ru)', [m.logMiddleware, m.verifyMiddleware],  buddy_get_handler)
-router.get('/buddy/create/:lang(en|ru)',[m.logMiddleware, m.verifyMiddleware],  buddy_create_handler)
+router.get('/buddy/:lang(en|ru|mn)', [m.logMiddleware, m.verifyMiddleware],  buddy_get_handler)
+router.get('/buddy/create/:lang(en|ru|mn)',[m.logMiddleware, m.verifyMiddleware],  buddy_create_handler)
 router.get('/api/buddy', m.logMiddleware, c.buddies_api)
-// router.get(['/chair/:chair_id/:lang(en|ru)', '/chair/:chair_id'], m.logMiddleware,  chair_handler)
+// router.get(['/chair/:chair_id/:lang(en|ru|mn)', '/chair/:chair_id'], m.logMiddleware,  chair_handler)
 
 module.exports = router;
