@@ -76,7 +76,7 @@
         $('#response').html(`<div class="alert alert-success" role="alert">
                 ${response.body}
                 </div>`)
-        window.location.href = '/'
+        window.location.href = '/<%=lang%>'
       } else if (response.statusCode == 404) {
         $('#response').html(`<div class="alert alert-danger" role="alert">
           Email or password is wrong!
