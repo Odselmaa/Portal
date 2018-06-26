@@ -423,11 +423,11 @@ module.exports = {
         })
 
     },
-    get_profile: function(token, user_id) {
+    get_profile: function(token, user_id, lang) {
         var f = user_fields.concat(['blocked'])
     
         var options = {
-            uri: `${urls.API_URL}user/${user_id}?fields=${f.join(',')}`,
+            uri: `${urls.API_URL}user/${user_id}?fields=${f.join(',')}&lang=${lang}`,
             method: 'GET',
             json: {},
             headers: {

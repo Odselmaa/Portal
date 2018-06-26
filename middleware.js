@@ -31,7 +31,9 @@ module.exports = {
             } else {
 
                //get profile
-               u.get_profile(access_token.token, user_id)
+               var lang = req.params.language == undefined ? 'en' : req.params.language
+
+               u.get_profile(access_token.token, user_id, lang)
                .then((data)=>{
                 //    res.json(data)
                    if(data.statusCode==200){
