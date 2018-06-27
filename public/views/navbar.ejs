@@ -136,25 +136,33 @@
             </li>
 
 
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle mr-lg-2" id="alertsDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <% if(lang=='en'){ %>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle mr-lg-2" id="alertsDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <% if(lang=='en'){ %>
                     <img width="25px" src="https://png.icons8.com/color/80/000000/great-britain.png">
-                <%}else{%>
-                    <img width="25px" src="https://png.icons8.com/color/80/000000/russian-federation.png">
-                <%}%>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="alertsDropdown">
-                    <a class="dropdown-item lang" href="#" data-lang='en'>
-                    <img width="25px" src="https://png.icons8.com/color/80/000000/great-britain.png">
-                    <small>English</small>
+                    <% }else if(lang=='ru'){ %>
+                        <img width="25px" src="https://png.icons8.com/color/80/000000/russian-federation.png">
+                    <% }else if(lang=='mn'){ %>
+                        <img width="25px" src="https://png.icons8.com/color/80/000000/mongolia.png">
+
+                    <%}%>
                     </a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item lang" href="#" data-lang='ru'>
-                    <img width="25px" src="https://png.icons8.com/color/80/000000/russian-federation.png">
-                    <small>Russian</small>
-                    </a>
-                </div>
+                    <div class="dropdown-menu" aria-labelledby="alertsDropdown">
+                        <a class="dropdown-item lang" href="#" data-lang='en'>
+                            <img width="25px" src="https://png.icons8.com/color/80/000000/great-britain.png">
+                            <small>English</small>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item lang" href="#" data-lang='ru'>
+                            <img width="25px" src="https://png.icons8.com/color/80/000000/russian-federation.png">
+                            <small>Russian</small>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item lang" href="#" data-lang='ru'>
+                            <img width="25px" src="https://png.icons8.com/color/80/000000/mongolia.png">
+                            <small>Russian</small>
+                        </a>
+                    </div>
             </li>
 
            
