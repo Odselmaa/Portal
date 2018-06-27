@@ -317,6 +317,11 @@
 	"YES": "Yes",
 	"NO": "No",
 	"PLEASE_VERIFY":"You're not verified user, please verify confirm your account ",
-	"HERE":"here"
+	"HERE":"here",
+	"TEACHERS":"Teachers",
+	"COURSE":"Course",
+	"FACILITY":"Facility",
+	"COMMUNICATION":"Communication",
+	"OVERAL_RATING":"Overall rating"
 
 }

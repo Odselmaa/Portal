@@ -103,6 +103,13 @@
 	"VISA_REG_TIPS": "Виза & Бүртгэл",
 	"MIG_CARD_TIPS": "Шилжих хөдөлгөөний карт",
 	"STUD_DOC_TIPS": "Оюутны бичиг баримт",
+
+	"TEACHERS":"Багш",
+	"COURSE":"Курс",
+	"FACILITY":"Тоног төхөөрөмж, анги танхим",
+	"COMMUNICATION":"Харилцаа",
+	"OVERAL_RATING":"Ерөнхий үнэлгээ",
+
 	"pre": {
 		"title": "Ирэхээс өмнөх санамжууд",
 		"content": [{
