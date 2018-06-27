@@ -225,7 +225,7 @@
 
     function set_department(items) {
         $.each(items, (i, item) => {
-            $("#selectDepartment").append(`<option value="${item._id}">${item.code} | ${item.name}</option>`)
+            $("#selectDepartment").append(`<option value="${item._id}">${item.code.toUpperCase()} | ${item.name}</option>`)
         })
         
         // get_chair(items[0]._id)
@@ -245,7 +245,7 @@
         $("#selectChair").append( `<option value="">Choose ...</option>`);
         $.each(items, (i, item) => {
             $("#selectChair").append(
-                `<option value="${item._id}" class="title">${item.code} | ${item.name}</option>`)
+                `<option value="${item._id}" class="title">${item.code.toUpperCase()} | <span class="title">${item.name}</span></option>`)
         })
     }
 
