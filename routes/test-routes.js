@@ -10,7 +10,7 @@ function makeRequest(options) {
         request(options, function (error, response, body) {
             var endDate = moment();
             diff = endDate.diff(startDate) / 1000
-            console.log('Request took: ' + diff + " " + response);
+            console.log('Request took: ' + diff);
             resolve(diff)
         });
     })
