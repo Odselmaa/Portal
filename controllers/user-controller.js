@@ -412,6 +412,7 @@ module.exports = {
         var email = req.body.email
         v.send_email(url, email, (error, info, token) => {
             if (error) {
+                console.log(error)
                 res.status(400).json({
                     response: "Error",
                     statusCode: 400
