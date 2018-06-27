@@ -125,13 +125,13 @@
 				"content": [
 					"<img style='width:25px' src='https://png.icons8.com/doodle/50/000000/passport.png'> Хүчинтэй пасспорт (виз даруулсан байх)",
 					"Гар ачаандаа дараах хуулбар: паспортын дугаартай хуудас, паспортын визийн хуудас.",
-					"<img style='width:25px' src='https://png.icons8.com/doodle/50/000000/graduation-scroll.png'> Full-degree students only: legalized original diploma and transcript (Master programme students), quota scheme students: letter of referral from the Ministry of Education and Science; fee-paying degree students: study contract, all the translated documents you will be expected to submit at BMSTU.",
+					"<img style='width:25px' src='https://png.icons8.com/doodle/50/000000/graduation-scroll.png'> Бакалавр ба магистрын зэрэгтэй оюутнууд: эх хувь бүхий диплом (Магистарт элсэх оюутнууд), хуваарь авсан оюутнууд: Боловсрол Шинжлэх ухааны яамны хуваарь; хувиараа төлж буй оюутнууд: сургалтын гэрээ, сургуульт бүрдүүлэх бичиг баримтын орчуулга.",
 					"<img style='width:25px' src='https://png.icons8.com/doodle/50/000000/user-male.png'>  4 passport-size (3cm x 4cm) photos on a mat paper (as many as possible)",
-					"Contacts of your buddy",
-					"Contacts of the Faculty of International Educational Programme",
-					"Contact details for your embassy/consulate/diplomatic mission in Russia"
+					"Тосох найзтайгаа холбогдох хаяг",
+					"'Олон улсын боловсролын програм' салбартай холбогдох хаяг",
+					"ОХУ дахь элчин сайд, консулын газартай холбогдох хаяг"
 				],
-				"title": "What to take with you",
+				"title": "Юу авч явах вэ?",
 				"type": "list"
 			}
 		]
