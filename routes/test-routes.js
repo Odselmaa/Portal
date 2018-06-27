@@ -22,7 +22,7 @@ var test_handler = function(req, res){
     console.log(number)
     var startDate1 = moment();
     var options = {
-        uri: url.API_URL + 'user/5a63ac19b1cd8e29bf0c0c77',
+        uri: url.API_URL + 'user/5a63ac19b1cd8e29bf0c0c77?&fields=firstname,lastname',
         headers: {
             "Authorization": "Bearer " + req.session.access_token.token
         },
