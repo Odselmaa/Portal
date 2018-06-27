@@ -315,5 +315,8 @@
 	"COMMENT": "Comment",
 	"CREATED_WHEN": "Created when",
 	"YES": "Yes",
-	"NO": "No"
+	"NO": "No",
+	"PLEASE_VERIFY":"You're not verified user, please verify confirm your account ",
+	"HERE":"here"
+
 }
