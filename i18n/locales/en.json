@@ -96,6 +96,8 @@
 	"VISA_REG_TIPS": "Visa & Registration",
 	"MIG_CARD_TIPS": "Migration card",
 	"STUD_DOC_TIPS": "Student document",
+	"TYPE":"Type",
+
 	"pre": {
 		"title": "Pre-Departure Checklist",
 		"content": [

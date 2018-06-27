@@ -32,21 +32,21 @@
                 <div class="row" id="formReview">
                     <form class="col-sm-9" id="formRating">
                         <div class="form-group">
-                            <label for="selectType">Type</label>
+                            <label for="selectType"><%=__('TYPE')%></label>
                             <select name="type" class="form-control custom-select" id="selectType">
-                                <option value="department">Department</option>
-                                <option value="chair">Chair</option>
+                                <option value="department"><%=__('DEPARTMENT')%></option>
+                                <option value="chair"><%=__('CHAIR')%></option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="selectDepartment">Department</label>
+                            <label for="selectDepartment"><%=__('DEPARTMENT')%></label>
                             <select name="department" class="form-control custom-select" id="selectDepartment" required>
-                                <option selected value="">Choose...</option>
+                                <option selected value=""><%=__('CHOOSE')%></option>
                             </select>
                         </div>
                         <div id="chair" class="d-none">
                             <div class="form-group">
-                                <label for="selectDepartment">Chair</label>
+                                <label for="selectDepartment"><%=__('CHAIR')%></label>
                                 <select name="chair" class="form-control  custom-select" id="selectChair" required>
                                 <option selected value=""><%=__('CHOOSE')%></option>
                                 </select>
