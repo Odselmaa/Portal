@@ -43,7 +43,9 @@ module.exports = {
                             h.base64img(data.response.profile, `.${img_path}`)
                             data.response.profile = img_path
                         }
+                        
                         req.session[user_id] = data.response
+                        req.session.language = lang
                         req.session.save()
                         next()
                    }else{

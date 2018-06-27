@@ -118,8 +118,8 @@ module.exports = {
     user_api: function (req, res) {
         var user_id = req.params.user_id
         var lang = req.params.language == undefined ? 'en' : req.params.language
-
-        if (user_id == req.session.access_token.user_id) {
+        var current_user_id = req.session.access_token.user_id
+        if (user_id == current_user_id && req.session.language==lang) {
             response = req.session[user_id]
             delete response['access_token']
             res.json({
@@ -128,7 +128,7 @@ module.exports = {
             })
         } else {
             if (user_id != undefined) {
-                current_user = req.session[req.session.access_token.user_id]
+                current_user = req.session[current_user_id]
                 if (current_user.role._id == 1) 
                     var fields = user_fields.concat(["blocked"])
                 else
@@ -155,6 +155,12 @@ module.exports = {
                             h.base64img(body.response.profile, `.${img_path}`)
                             body.response.profile = img_path
                         }
+
+                        if(user_id == current_user_id){
+                            req.session[current_user_id] = body.response
+                            req.session.language = lang
+                        }
+
                         res.json(body)
                     } else {
                         res.json({
@@ -388,7 +394,7 @@ module.exports = {
                     })
             } else {
                 update_user(user, req, token, (r) => {
-                    console.log(r.body)
+                    // console.log(r.body)
 
                     res.json(r.body)
                 })
