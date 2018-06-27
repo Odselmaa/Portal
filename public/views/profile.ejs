@@ -53,10 +53,9 @@
                                 </h5>
                                 <div id="gender">
                                     <%= __('GENDER')%>: </div>
-                                <div id="birthday">
-                                    <%= __('BIRTHDAY')%>:</div>
-                                    <div id="country">
-                                        <%= __('COUNTRY')%>:</div>
+    
+
+                                <div id="country"><%= __('COUNTRY')%>:</div>
                                 </br>
 
                                 <!-- <h5>Activity</h5>
@@ -238,7 +237,7 @@
                         $("#bio").html(info.bio.trim())
                     
                     if('country' in info)
-                        $("#country").html(info.country.name)
+                        $("#country").append(info.country.name)
 
 
                     var languages = info.languages
