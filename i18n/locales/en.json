@@ -326,5 +326,8 @@
     "VISA_REG_TIPS": "Visa & Registration",
     "WARDROBE": "Wardrobe",
     "WRITE_YOUR_MSG": "Write your messages",
-    "YES": "Yes"
+	"YES": "Yes",
+	"ENGLISH":"English",
+	"RUSSIAN":"Russian",
+	"MONGOLIAN":"Mongolian"
 }

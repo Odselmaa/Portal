@@ -322,5 +322,8 @@
     "VISA_REG_TIPS": "Виза & Бүртгэл",
     "WARDROBE": "Өлгүүр",
     "WRITE_YOUR_MSG": "Мессеж бичих",
-    "YES": "Тийм"
+	"YES": "Тийм",
+	"ENGLISH":"Англи",
+	"RUSSIAN":"Орос",
+	"MONGOLIAN":"Монгол"
 }
